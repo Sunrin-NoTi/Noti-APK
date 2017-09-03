@@ -7,38 +7,65 @@ import android.support.design.widget.NavigationView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_menu.*
+import android.R.id.button2
+import android.app.Fragment
+import android.os.Build
+import android.support.annotation.RequiresApi
 
 
 class MenuActivity : AppCompatActivity() {
 
+
+    fun switch_Fragment(num : Int){
+
+        var fragmentTransaction = fragmentManager.beginTransaction()
+
+        bottom_navigation.menu.getItem(0).setEnabled(true)
+        bottom_navigation.menu.getItem(1).setEnabled(true)
+        bottom_navigation.menu.getItem(2).setEnabled(true)
+        bottom_navigation.menu.getItem(num).setEnabled(false)
+        fragmentTransaction =getFragmentManager().beginTransaction()
+        fragmentTransaction.addToBackStack(null)
+        when (num){
+            0 -> {
+                fragmentTransaction.replace(R.id.fragment_menu, HomeFragment())
+            }
+            1 -> {
+                fragmentTransaction.replace(R.id.fragment_menu, CalenderFragment())
+            }
+            2 -> {
+                fragmentTransaction.replace(R.id.fragment_menu, LunchFragment())
+            }
+        }
+        fragmentTransaction.commit()
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
 
-        var navigation_num : Int = 0
+
+
 
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.action_home -> {
-                    navigation_num = 0
-                    bottom_navigation.menu.getItem(0).setEnabled(false)
-                    bottom_navigation.menu.getItem(1).setEnabled(true)
-                    bottom_navigation.menu.getItem(2).setEnabled(true)
-
+                    switch_Fragment(0)
                 }
                 R.id.action_calender -> {
-                    navigation_num = 1
-                    bottom_navigation.menu.getItem(0).setEnabled(true)
-                    bottom_navigation.menu.getItem(1).setEnabled(false)
-                    bottom_navigation.menu.getItem(2).setEnabled(true)
+                    switch_Fragment(1)
                 }
                 R.id.action_lunch -> {
-                    navigation_num = 1
-                    bottom_navigation.menu.getItem(0).setEnabled(true)
-                    bottom_navigation.menu.getItem(1).setEnabled(true)
-                    bottom_navigation.menu.getItem(2).setEnabled(false)
+                    switch_Fragment(2)
                 }
             }
+
+
+
+
+
             true
         }
 
@@ -46,7 +73,7 @@ class MenuActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         Toast.makeText(this,"뒤로가기로 종료 불가",Toast.LENGTH_SHORT).show()
-        super.onBackPressed()
+        finish()
     }
 
 }
