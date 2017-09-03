@@ -38,6 +38,8 @@
             android:paddingRight="18dp"
             android:hint="Email"
             android:textSize="15sp"
+            android:textColor="#fff"
+            android:inputType="textEmailAddress"
             />
 
         <EditText
@@ -52,6 +54,7 @@
             android:paddingRight="18dp"
             android:hint="Password"
             android:textSize="15sp"
+            android:textColor="#fff"
             />
 
         <EditText
@@ -80,6 +83,7 @@
             android:paddingRight="18dp"
             android:hint="학교"
             android:textSize="15sp"
+            android:textColor="#fff"
             />
 
         <LinearLayout
@@ -100,6 +104,8 @@
                 android:hint="학년"
                 android:textColorHint="#fff"
                 android:textSize="15sp"
+                android:textColor="#fff"
+                android:inputType="number"
                 />
 
             <EditText
@@ -113,6 +119,8 @@
                 android:textColorHint="#fff"
                 android:hint="반"
                 android:textSize="15sp"
+                android:textColor="#fff"
+                android:inputType="number"
                 />
 
         </LinearLayout>

@@ -5,16 +5,16 @@
         android:id="@+id/action_home"
         android:enabled="false"
         android:state_pressed="true"
-        android:icon="@drawable/ic_lock_black_24dp"
+        android:icon="@drawable/ic_home_24dp"
         android:title="Home" />
     <item
         android:id="@+id/action_calender"
         android:enabled="true"
-        android:icon="@drawable/ic_person_add_black_24dp"
+        android:icon="@drawable/ic_date_range_24dp"
         android:title="Calender" />
     <item
         android:id="@+id/action_lunch"
         android:enabled="true"
-        android:icon="@drawable/ic_check_black_24dp"
+        android:icon="@drawable/ic_room_service_24dp"
         android:title="Lunch"/>
 </menu>
