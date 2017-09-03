@@ -45,8 +45,7 @@ class MenuActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
-
-
+        switch_Fragment(0)
 
 
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
@@ -61,11 +60,6 @@ class MenuActivity : AppCompatActivity() {
                     switch_Fragment(2)
                 }
             }
-
-
-
-
-
             true
         }
 
