@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        Toast.makeText(this,"뒤로가기로 종료 불가",Toast.LENGTH_SHORT).show()
         super.onBackPressed()
     }
 

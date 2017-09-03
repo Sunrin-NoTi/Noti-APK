@@ -24,7 +24,9 @@ class MenuActivity : AppCompatActivity() {
         bottom_navigation.menu.getItem(1).setEnabled(true)
         bottom_navigation.menu.getItem(2).setEnabled(true)
         bottom_navigation.menu.getItem(num).setEnabled(false)
+
         fragmentTransaction =getFragmentManager().beginTransaction()
+
         fragmentTransaction.addToBackStack(null)
         when (num){
             0 -> {
@@ -66,7 +68,6 @@ class MenuActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        Toast.makeText(this,"뒤로가기로 종료 불가",Toast.LENGTH_SHORT).show()
         finish()
     }
 
