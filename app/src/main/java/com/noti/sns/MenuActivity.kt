@@ -11,6 +11,8 @@ import android.R.id.button2
 import android.app.Fragment
 import android.os.Build
 import android.support.annotation.RequiresApi
+import android.view.Window
+import android.view.WindowManager
 
 
 class MenuActivity : AppCompatActivity() {
