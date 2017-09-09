@@ -45,6 +45,7 @@ class RegisterActivity : AppCompatActivity() {
             register_confirm.isEnabled = false
 
             imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
+            pinEdit1.requestFocus()
 
         }
 
