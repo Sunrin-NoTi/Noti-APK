@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
+    android:id="@+id/sign_up_back"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
+    android:gravity="center"
+    android:orientation="vertical"
     android:background="@drawable/register_gradient">
 
 
     <LinearLayout
+        android:id="@+id/sign_up_box"
         android:layout_width="248dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:gravity="center"
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
         android:orientation="vertical">
 
 
@@ -27,6 +31,7 @@
             android:gravity="center"/>
 
         <EditText
+            android:id="@+id/reg_email"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="40dp"
@@ -43,6 +48,7 @@
             />
 
         <EditText
+            android:id="@+id/reg_password"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="13dp"
@@ -55,9 +61,11 @@
             android:hint="Password"
             android:textSize="15sp"
             android:textColor="#fff"
+            android:inputType="textPassword"
             />
 
         <EditText
+            android:id="@+id/reg_name"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="13dp"
@@ -65,6 +73,7 @@
             android:layout_width="228dp"
             android:layout_height="50dp"
             android:textColorHint="#fff"
+            android:textColor="#fff"
             android:paddingLeft="18dp"
             android:paddingRight="18dp"
             android:hint="이름"
@@ -72,6 +81,7 @@
             />
 
         <EditText
+            android:id="@+id/reg_school"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="13dp"
@@ -95,6 +105,7 @@
             >
 
             <EditText
+                android:id="@+id/reg_grade"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/input_design"
                 android:layout_width="100dp"
@@ -106,9 +117,11 @@
                 android:textSize="15sp"
                 android:textColor="#fff"
                 android:inputType="number"
+
                 />
 
             <EditText
+                android:id="@+id/reg_class"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="5dp"
                 android:background="@drawable/input_design"
@@ -141,8 +154,113 @@
 
     </LinearLayout>
 
+    <LinearLayout
+
+        android:id="@+id/pin_popup"
+        android:layout_marginTop="50dp"
+        android:visibility="invisible"
+        android:layout_width="300dp"
+        android:layout_height="250dp"
+        android:layout_centerHorizontal="true"
+        android:elevation="10dp"
+        android:orientation="vertical"
+        android:background="@drawable/pin_box"
+        >
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Code"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="선생님께서 보내주신 PIN을 입력하세요"
+            android:textColor="#95989A"
+            android:textSize="15sp"/>
+
+        <LinearLayout
+            android:layout_marginTop="23dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/pinEdit1"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:digits="1234567890"
+                android:gravity="center"
+                android:inputType="numberSigned"
+                android:maxLength="1">
+
+                <requestFocus />
+
+            </EditText>
+            <EditText
+                android:id="@+id/pinEdit2"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:gravity="center"
+                android:digits="1234567890"
+                android:inputType="numberSigned"
+                android:maxLength="1"
+                android:nextFocusUp="@id/pinEdit1">
+
+
+            </EditText>
+            <EditText
+                android:id="@+id/pinEdit3"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:digits="1234567890"
+                android:gravity="center"
+                android:inputType="numberSigned"
+                android:maxLength="1"
+                android:nextFocusUp="@id/pinEdit2">
+
+
+            </EditText>
+            <EditText
+                android:id="@+id/pinEdit4"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:digits="1234567890"
+                android:gravity="center"
+                android:inputType="numberSigned"
+                android:maxLength="1"
+                android:nextFocusUp="@id/pinEdit3">
+
+
+            </EditText>
 
 
 
+        </LinearLayout>
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/pin_btn"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:layout_width="200dp"
+            android:gravity="center"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_pin"
+            android:text="확인"
+            android:textColor="#fff"
+            />
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Remastering.iml" filepath="$PROJECT_DIR$/Remastering.iml" />
       <module fileurl="file://$PROJECT_DIR$/SNS.iml" filepath="$PROJECT_DIR$/SNS.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

@@ -5,6 +5,7 @@ import android.os.Build
 import android.view.MotionEvent
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 
 
 class Btn_press : Activity(){
@@ -59,6 +60,24 @@ class Btn_press : Activity(){
                         R.id.passwd_btn ->
                             btn.setImageResource(R.drawable.ic_lock_black_24dp)
                     }
+
+                }
+            }
+        }
+        return false
+    }
+
+    fun pinBTN(e : MotionEvent,btn : TextView): Boolean {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            when (e.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    btn.setBackgroundResource(R.drawable.btn_pin_pressed)
+
+                }
+                MotionEvent.ACTION_UP -> {
+                    btn.setBackgroundResource(R.drawable.btn_pin)
+
 
                 }
             }
