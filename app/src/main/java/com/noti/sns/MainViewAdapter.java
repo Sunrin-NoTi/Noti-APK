@@ -56,19 +56,14 @@ public class MainViewAdapter extends RecyclerView.Adapter<MainViewAdapter.Holder
 
         holder.insideText.setText(list.get(itemposition).inside);
 
-        switch (list.get(itemposition).bar_color){
-            case 0:
-                holder.bar_noti.setBackgroundColor(Color.rgb(255,85,85));
-                break;
-            case 1:
-                holder.bar_noti.setBackgroundColor(Color.rgb(253, 216, 53));
-                break;
-            case 2:
-                holder.bar_noti.setBackgroundColor(Color.rgb(54, 175, 255));
-                break;
-        }
+        if(Integer.parseInt(list.get(itemposition).subtitle.split("-")[1])<=10 && Integer.parseInt(list.get(itemposition).subtitle.split("-")[1])>=0)
+            holder.bar_noti.setBackgroundColor(Color.rgb(255,85,85));
+        else if(Integer.parseInt(list.get(itemposition).subtitle.split("-")[1])<=20 && Integer.parseInt(list.get(itemposition).subtitle.split("-")[1])>10)
+            holder.bar_noti.setBackgroundColor(Color.rgb(253, 216, 53));
+        else
+            holder.bar_noti.setBackgroundColor(Color.rgb(54, 175, 255));
 
-        holder.btn_see_more.setOnTouchListener((v, event)->{
+        holder.icon.setOnTouchListener((v, event)->{
             if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN){
                 mStartDragListener.onStartDrag(holder);
             }
@@ -104,7 +99,7 @@ public class MainViewAdapter extends RecyclerView.Adapter<MainViewAdapter.Holder
             btn_pin = (TextView) view.findViewById(R.id.cd_pin);
             btn_see_more = (TextView) view.findViewById(R.id.cd_see_more);
             bar_noti = (LinearLayout) view.findViewById(R.id.cd_bar);
-            icon = (ImageView) view.findViewById(R.id.cardicon);
+            icon = (ImageView) view.findViewById(R.id.cd_icon);
         }
     }
 }

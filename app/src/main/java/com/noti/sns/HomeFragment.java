@@ -31,7 +31,7 @@ public class HomeFragment extends Fragment implements MainViewAdapter.OnStartDra
     private RecyclerView recyclerView;
     private MainViewAdapter adapter;
 
-    ArrayList<card_main> contacts = new ArrayList<card_main>();
+    ArrayList<card_main> contacts;
 
     @Nullable
     @Override
@@ -40,15 +40,8 @@ public class HomeFragment extends Fragment implements MainViewAdapter.OnStartDra
         pref = getActivity().getSharedPreferences("save", 0);
         edit = pref.edit();
         recyclerView = rootView.findViewById(R.id.recyclerView);
+        contacts = HomeCardList.get_Home_List();
         adapter = new MainViewAdapter(getActivity(), contacts, this);
-
-        contacts.add(new card_main("a","b","c",1));
-        contacts.add(new card_main("a","b","c",2));
-        contacts.add(new card_main("a","b","c",3));
-        contacts.add(new card_main("a","b","c",3));
-
-
-
         HomeItemTouchHelperCallback mCallback = new HomeItemTouchHelperCallback(adapter);
         mItemTouchHelper = new ItemTouchHelper(mCallback);
         mItemTouchHelper.attachToRecyclerView(recyclerView);
@@ -63,7 +56,7 @@ public class HomeFragment extends Fragment implements MainViewAdapter.OnStartDra
 
     @Override
     public void onPause() {
-
+        HomeCardList.put_Home_List(contacts);
         super.onPause();
     }
 

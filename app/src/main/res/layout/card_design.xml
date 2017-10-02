@@ -87,14 +87,15 @@
         </LinearLayout>
         <LinearLayout
             android:gravity="center"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
             android:layout_gravity="right"
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
-                android:id="@+id/cardicon"
+                android:id="@+id/cd_icon"
+                android:src="@drawable/ic_drag_handle_black_24dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>

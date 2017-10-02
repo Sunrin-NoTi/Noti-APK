@@ -10,6 +10,7 @@ class LunchFragment : Fragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        HomeCardList.remove_all()
         return inflater!!.inflate(R.layout.frg_menu_lunch,container,false)
     }
 
