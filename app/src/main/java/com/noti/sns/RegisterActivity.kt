@@ -1,20 +1,16 @@
 package com.noti.sns
 
 import android.content.Context
-import android.content.Intent
 import android.os.Build
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_register.*
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.inputmethod.InputMethodManager.HIDE_IMPLICIT_ONLY
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.view.inputmethod.InputMethodManager
+import kotlinx.android.synthetic.main.activity_register.*
 
 
 class RegisterActivity : AppCompatActivity() {
@@ -50,7 +46,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         register_confirm.setOnTouchListener({ view, motionEvent ->
-            Btn_press().bigBTN(motionEvent,register_confirm)
+            Btn_press.bigBTN(motionEvent,register_confirm)
         })
 
         pin_btn.setOnClickListener{
@@ -58,7 +54,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         pin_btn.setOnTouchListener({ view, motionEvent ->
-            Btn_press().pinBTN(motionEvent,pin_btn)
+            Btn_press.pinBTN(motionEvent,pin_btn)
         })
 
 

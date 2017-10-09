@@ -41,4 +41,6 @@ dependencies {
     compile 'com.android.support:cardview-v7:26.1.0'
     compile 'com.jakewharton:butterknife:8.7.0'
     annotationProcessor 'com.jakewharton:butterknife:8.7.0'
+    compile 'com.github.sundeepk:compact-calendar-view:2.0.2.2'
+    implementation files('/Users/ngdb/Documents/2017_서울시앱공모전/Remastering/school-api-3.0.3.jar')
 }

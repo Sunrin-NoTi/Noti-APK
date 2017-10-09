@@ -1,19 +1,10 @@
 package com.noti.sns
 
-import android.content.Intent
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
-import android.app.Fragment
-import android.support.design.widget.NavigationView
-import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_menu.*
-import android.R.id.button2
 import android.os.Build
+import android.os.Bundle
 import android.support.annotation.RequiresApi
-import android.view.Window
-import android.view.WindowManager
-import java.util.ArrayList
+import android.support.v7.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_menu.*
 
 
 class MenuActivity : AppCompatActivity(){
@@ -22,14 +13,12 @@ class MenuActivity : AppCompatActivity(){
 
     fun switch_Fragment(num : Int){
 
-        var fragmentTransaction = fragmentManager.beginTransaction()
-
         bottom_navigation.menu.getItem(0).setEnabled(true)
         bottom_navigation.menu.getItem(1).setEnabled(true)
         bottom_navigation.menu.getItem(2).setEnabled(true)
         bottom_navigation.menu.getItem(num).setEnabled(false)
 
-        fragmentTransaction =getFragmentManager().beginTransaction()
+        var fragmentTransaction =getFragmentManager().beginTransaction()
 
         fragmentTransaction.addToBackStack(null)
         when (num){
