@@ -1,10 +1,10 @@
 package com.noti.sns;
 
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,13 +21,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import static com.noti.sns.HomeFragment.pref;
-import static com.noti.sns.MainActivity.schedule_ForCalender;
 
 public class CalenderFragment extends Fragment {
 
-
+    public ArrayList<List<SchoolSchedule>> schedule_ForCalender;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
@@ -39,7 +39,7 @@ public class CalenderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        final View rootView = inflater.inflate(R.layout.frg_menu_calender, container, false);
+        final View rootView = inflater.inflate(R.layout.frg_menu_calender_withcollaspe, container, false);
         final CompactCalendarView compactCalendarView = rootView.findViewById(R.id.compactcalendar_view);
         TextView cal_month = rootView.findViewById(R.id.cal_month);
         compactCalendarView.setUseThreeLetterAbbreviation(true);
@@ -48,15 +48,16 @@ public class CalenderFragment extends Fragment {
 
         contacts_t = new ArrayList<>();
         Date today = new Date();
+        schedule_ForCalender = new ArrayList<>();
 
-        contacts_t = make_contact(today.getYear(),today.getMonth(),today.getDate());
+        schedule_ForCalender = save_School.get_Hac();
 
+        if (schedule_ForCalender.size() != 0){
+            contacts_t = make_contact(today.getYear(),today.getMonth(),today.getDate());
+        }
 
         recyclerView_t = (RecyclerView) rootView.findViewById(R.id.recyclerView_t);
         recyclerView_t.setHasFixedSize(true);
-
-
-
 
         adapter_t = new TimeLineViewAdapter(getActivity(), contacts_t);
         recyclerView_t.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -129,7 +130,7 @@ public class CalenderFragment extends Fragment {
             }
             else if(new Date().getYear()+1==year){
                 if (pref.getInt("eventm" + i, 0)<=2&&(pref.getInt("eventm" + i, 0) > month+1 || (pref.getInt("eventm" + i, 0) == month+1 && pref.getInt("eventd" + i, 0) >= dayOfMonth-1))) {
-                    contacts_t.add(new timeline_main(year + 1901 + "년 " + pref.getInt("eventm" + i, 0) + "월 " + (pref.getInt("eventd" + i, 0)+1) + "일", schedule_ForCalender.get(pref.getInt("eventm" + i, 0)-1).get(pref.getInt("eventd" + i, 0)).schedule));
+                    contacts_t.add(new timeline_main(year + 1900 + "년 " + pref.getInt("eventm" + i, 0) + "월 " + (pref.getInt("eventd" + i, 0)+1) + "일", schedule_ForCalender.get(pref.getInt("eventm" + i, 0)-1).get(pref.getInt("eventd" + i, 0)).schedule));
                 }
             }
 

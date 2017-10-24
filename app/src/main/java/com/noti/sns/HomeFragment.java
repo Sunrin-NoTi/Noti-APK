@@ -1,11 +1,11 @@
 package com.noti.sns;
 
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -23,7 +23,6 @@ public class HomeFragment extends Fragment implements MainViewAdapter.OnStartDra
     public static SharedPreferences pref;
     public static SharedPreferences.Editor edit;
     public static ItemTouchHelper mItemTouchHelper;
-
 
     public static HomeFragment newInstance() {
         // Required empty public constructor

@@ -6,14 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by ngdb on 2017. 10. 9..
- */
 
 public class TimeLineViewAdapter extends RecyclerView.Adapter<TimeLineViewAdapter.Holder> {
 
@@ -35,8 +33,33 @@ public class TimeLineViewAdapter extends RecyclerView.Adapter<TimeLineViewAdapte
     @Override
     public void onBindViewHolder(final Holder holder, final int position) {
     //여기에 세부설정
+
+
         holder.titleText_t.setText(list.get(position).title);
         holder.subTitleText_t.setText(list.get(position).subtitle);
+        if (position==0) {
+
+            holder.up_Line.setVisibility(View.INVISIBLE);
+            holder.down_Line.setVisibility(View.VISIBLE);
+            holder.circle_t.setBackgroundResource(R.drawable.ic_panorama_fish_eye_black_24dp);
+        }
+        else if(position==1) {
+            holder.up_Line.setVisibility(View.VISIBLE);
+            holder.down_Line.setVisibility(View.VISIBLE);
+            holder.circle_t.setBackgroundResource(R.drawable.ic_adjust_black_24dp);
+        }
+        else {
+            holder.up_Line.setVisibility(View.VISIBLE);
+            holder.down_Line.setVisibility(View.VISIBLE);
+            holder.circle_t.setBackgroundResource(R.drawable.ic_brightness_30dp);
+        }
+        if (position==list.size()-1) {
+            holder.up_Line.setVisibility(View.VISIBLE);
+            if (position == 0) {
+                holder.up_Line.setVisibility(View.INVISIBLE);
+            }
+            holder.down_Line.setVisibility(View.INVISIBLE);
+        }
 
     }
 
@@ -49,12 +72,19 @@ public class TimeLineViewAdapter extends RecyclerView.Adapter<TimeLineViewAdapte
         public TextView titleText_t;
         public TextView subTitleText_t;
         public ImageView circle_t;
+        public View up_Line;
+        public View down_Line;
+        public RelativeLayout view_t;
+
 
         public Holder(View view){
             super(view);
             titleText_t = (TextView) view.findViewById(R.id.td_title);
             subTitleText_t = (TextView) view.findViewById(R.id.td_subtitle);
             circle_t = (ImageView) view.findViewById(R.id.td_circle);
+            up_Line = (View) view.findViewById(R.id.td_upline);
+            down_Line = (View) view.findViewById(R.id.td_downline);
+            view_t = (RelativeLayout) view.findViewById(R.id.td_view);
         }
     }
 }

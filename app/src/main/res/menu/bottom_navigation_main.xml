@@ -16,5 +16,5 @@
         android:id="@+id/action_lunch"
         android:enabled="true"
         android:icon="@drawable/ic_room_service_24dp"
-        android:title="Lunch"/>
+        android:title="Meal"/>
 </menu>

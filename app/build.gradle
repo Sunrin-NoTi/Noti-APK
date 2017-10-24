@@ -6,7 +6,7 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.noti.sns"
         minSdkVersion 14
@@ -42,5 +42,5 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.7.0'
     annotationProcessor 'com.jakewharton:butterknife:8.7.0'
     compile 'com.github.sundeepk:compact-calendar-view:2.0.2.2'
-    implementation files('/Users/ngdb/Documents/2017_서울시앱공모전/Remastering/school-api-3.0.3.jar')
+    compile 'com.android.support:design:26.1.0'
 }
