@@ -53,7 +53,7 @@ public class Btn_press extends Activity {
             switch (e.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     btn.setBackgroundResource(R.drawable.btn_design);
-                    btn.setElevation(5F);
+                    btn.setElevation(0F);
                     switch (btn.getId()) {
                         case R.id.btnAlam:
                             btn.setImageResource(R.drawable.ic_add_black_24dp);
@@ -63,7 +63,7 @@ public class Btn_press extends Activity {
                 case MotionEvent.ACTION_UP:
 
                     btn.setBackgroundResource(R.drawable.btn_design_pressed);
-                    btn.setElevation(0F);
+                    btn.setElevation(5F);
                     switch (btn.getId()) {
 
                         case R.id.btnAlam:
