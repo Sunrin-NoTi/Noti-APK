@@ -40,8 +40,6 @@ public class HomeFragment extends Fragment implements MainViewAdapter.OnStartDra
         recyclerView = rootView.findViewById(R.id.recyclerView);
         contacts = HomeCardList.get_Home_List();
 
-        MealAlamList.remove_all();
-
         adapter = new MainViewAdapter(getActivity(), contacts, this);
         HomeItemTouchHelperCallback mCallback = new HomeItemTouchHelperCallback(adapter);
         mItemTouchHelper = new ItemTouchHelper(mCallback);

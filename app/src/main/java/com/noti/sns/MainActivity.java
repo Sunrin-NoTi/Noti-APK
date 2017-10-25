@@ -26,7 +26,8 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-
+        pref = this.getSharedPreferences("save", 0);
+        edit = pref.edit();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window w = getWindow();
             w.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
@@ -34,6 +35,29 @@ public class MainActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
+        School api = new School(School.Type.HIGH, School.Region.SEOUL, "B100000658");
+        Date today = new Date();
+        new Thread(){
+            @Override
+            public void run() {
+                if(pref.getInt("mealMonth",0) != today.getMonth()+1){
+
+                    try {
+                        Log.e("12", api.getMonthlyMenu(today.getYear()+1900,today.getMonth()+1).get(today.getDate()-1).lunch);
+                        save_School.put_meal_month(api.getMonthlyMenu(today.getYear()+1900,today.getMonth()+1),today.getMonth()+1);
+
+
+                    } catch (SchoolException e) {
+                        e.printStackTrace();
+                    }
+
+                    edit.putInt("mealMonth",today.getMonth()+1);
+                    edit.commit();
+                }
+            }
+        }.start();
+
+
 
         Intent intent_login = new Intent(this, MenuActivity.class);
         Intent intent_register = new Intent(this, RegisterActivity.class);
@@ -50,10 +74,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         login_btn.setOnTouchListener((view, motionEvent) -> Btn_press.bigBTN(motionEvent, login_btn));
-        pref = this.getSharedPreferences("save", 0);
-        edit = pref.edit();
 
-        Date today = new Date();
+
+
         ArrayList<List<SchoolSchedule>> schedule_ForCalender = new ArrayList();
         final Boolean[] check_down = {true};
 

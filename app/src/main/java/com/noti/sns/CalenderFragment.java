@@ -38,7 +38,7 @@ public class CalenderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        MealAlamList.remove_all();
         final View rootView = inflater.inflate(R.layout.frg_menu_calender_withcollaspe, container, false);
         final CompactCalendarView compactCalendarView = rootView.findViewById(R.id.compactcalendar_view);
         TextView cal_month = rootView.findViewById(R.id.cal_month);
