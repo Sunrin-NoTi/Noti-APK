@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static com.noti.sns.HomeFragment.edit;
-import static com.noti.sns.HomeFragment.pref;
+import static com.noti.sns.MainActivity.edit;
+import static com.noti.sns.MainActivity.pref;
 
 public class save_School {
     public static ArrayList<List<SchoolSchedule>> get_Hac(){

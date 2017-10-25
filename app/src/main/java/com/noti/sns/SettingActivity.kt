@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
-import com.noti.sns.HomeFragment.edit
+import com.noti.sns.MainActivity.edit
 import kotlinx.android.synthetic.main.activity_setting.*
 import java.util.*
 import kotlin.collections.ArrayList

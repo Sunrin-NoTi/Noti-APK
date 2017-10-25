@@ -2,7 +2,6 @@ package com.noti.sns;
 
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,8 +19,7 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment implements MainViewAdapter.OnStartDragListener {
 
-    public static SharedPreferences pref;
-    public static SharedPreferences.Editor edit;
+
     public static ItemTouchHelper mItemTouchHelper;
 
     public static HomeFragment newInstance() {
@@ -38,8 +36,7 @@ public class HomeFragment extends Fragment implements MainViewAdapter.OnStartDra
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.frg_nemu_home, container, false);
-        pref = getActivity().getSharedPreferences("save", 0);
-        edit = pref.edit();
+
         recyclerView = rootView.findViewById(R.id.recyclerView);
         contacts = HomeCardList.get_Home_List();
 

@@ -23,7 +23,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.noti.sns.HomeFragment.pref;
+import static com.noti.sns.MainActivity.pref;
 
 public class CalenderFragment extends Fragment {
 

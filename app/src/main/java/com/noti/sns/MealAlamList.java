@@ -2,8 +2,8 @@ package com.noti.sns;
 
 import java.util.ArrayList;
 
-import static com.noti.sns.HomeFragment.edit;
-import static com.noti.sns.HomeFragment.pref;
+import static com.noti.sns.MainActivity.edit;
+import static com.noti.sns.MainActivity.pref;
 
 public class MealAlamList {
 

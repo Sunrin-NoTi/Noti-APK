@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -101,8 +100,6 @@ public class LunchFragment extends Fragment {
         add_btn.setOnTouchListener((view, motionEvent) -> Btn_press.addBTN(motionEvent, add_btn));
 
         ok.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("ResourceType")
-            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
                 if (popup_on) {
@@ -121,10 +118,19 @@ public class LunchFragment extends Fragment {
                         default:
                     }
                     Log.e("1", mealw[0]);
-                    Log.e(mealw[0],timePicker.getHour()+":"+timePicker.getMinute());
-                    MealAlamList.add(mealw[0],timePicker.getHour(),timePicker.getMinute());
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        MealAlamList.add(mealw[0],timePicker.getHour(),timePicker.getMinute());
+                    }
+                    else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1){
+                        MealAlamList.add(mealw[0],timePicker.getCurrentHour(),timePicker.getCurrentMinute());
+                    }
                     popup.setVisibility(View.GONE);
                     popup_on = false;
+
+
+
+
                     add_btn.setEnabled(true);
                     tabHost1.getTabWidget().getChildTabViewAt(0).setEnabled(true);
                     tabHost1.getTabWidget().getChildTabViewAt(1).setEnabled(true);
@@ -134,19 +140,16 @@ public class LunchFragment extends Fragment {
 
             }
         });
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (popup_on) {
-                    popup.setVisibility(View.GONE);
-                    popup_on = false;
-                    add_btn.setEnabled(true);
-                    tabHost1.getTabWidget().getChildTabViewAt(0).setEnabled(true);
-                    tabHost1.getTabWidget().getChildTabViewAt(1).setEnabled(true);
-                    tabHost1.getTabWidget().getChildTabViewAt(2).setEnabled(true);
-                }
-
+        cancel.setOnClickListener(view -> {
+            if (popup_on) {
+                popup.setVisibility(View.GONE);
+                popup_on = false;
+                add_btn.setEnabled(true);
+                tabHost1.getTabWidget().getChildTabViewAt(0).setEnabled(true);
+                tabHost1.getTabWidget().getChildTabViewAt(1).setEnabled(true);
+                tabHost1.getTabWidget().getChildTabViewAt(2).setEnabled(true);
             }
+
         });
 
         final RadioGroup rg = (RadioGroup) rootView.findViewById(R.id.select_meal_time);
