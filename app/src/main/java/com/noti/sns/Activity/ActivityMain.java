@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
 public class ActivityMain extends AppCompatActivity {
 
     //세어드 프리퍼런스 전역변수로 설정

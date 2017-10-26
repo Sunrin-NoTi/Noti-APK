@@ -22,7 +22,6 @@ public class ActivityMenu extends AppCompatActivity {
     RelativeLayout popup;//급식 프래그먼트의 팝업 객체
     ImageView add_btn;//급식 프래그먼트의 추가버튼 객체
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         //기본 선언

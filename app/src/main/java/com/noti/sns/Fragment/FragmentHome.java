@@ -1,6 +1,5 @@
 package com.noti.sns.Fragment;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,9 +21,7 @@ import com.noti.sns.ViewAdapter.ViewHomeItemTouchHelper;
 
 import java.util.ArrayList;
 
-
 public class FragmentHome extends Fragment implements ViewAdapterHome.OnStartDragListener {
-
 
     public static ItemTouchHelper mItemTouchHelper;
     RecyclerView recyclerView;

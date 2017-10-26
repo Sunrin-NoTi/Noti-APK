@@ -10,7 +10,6 @@ import com.noti.sns.R
 import com.noti.sns.Utility.UBtnPress
 import kotlinx.android.synthetic.main.activity_register.*
 
-
 class ActivityRegister : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

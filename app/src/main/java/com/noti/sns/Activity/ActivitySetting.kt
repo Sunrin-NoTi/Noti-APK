@@ -34,6 +34,7 @@ class ActivitySetting : AppCompatActivity() {
         //동기화 버튼 클릭
         setting_GetSchool.setOnClickListener {
             check_down = false//다운로드 시작
+            var feb_Days: Int
             Toast.makeText(this, "학사일정을 불러옵니다.", Toast.LENGTH_SHORT).show()//토스트로 다운로드 알림
             //다운로드
             Thread {
@@ -73,7 +74,7 @@ class ActivitySetting : AppCompatActivity() {
                         }
                     }
 
-                    var feb_Days: Int
+
                     if (checkYunYear(today.year + 1901))
                         feb_Days = 28
                     else
@@ -90,10 +91,10 @@ class ActivitySetting : AppCompatActivity() {
                     edit.commit()
                     UListsave.SaveSchool.push_Hac(school_Schedule)
                     Log.e("e", "불러와짐")
-
+                    Toast.makeText(this, "다운로드가 완료되었습니다.", Toast.LENGTH_SHORT).show()
                     check_down = true
                 } catch (e: SchoolException) {
-
+                    Toast.makeText(this, "다운로드 오류입니다. 다시 시도해주세요", Toast.LENGTH_SHORT).show()
                 }
             }.start()
         }

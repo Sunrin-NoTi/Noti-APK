@@ -1,6 +1,5 @@
 package com.noti.sns.Fragment;
 
-
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
