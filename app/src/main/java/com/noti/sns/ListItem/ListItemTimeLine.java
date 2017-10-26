@@ -1,5 +1,4 @@
-package com.noti.sns;
-
+package com.noti.sns.ListItem;
 
 public class ListItemTimeLine {
     public String title;

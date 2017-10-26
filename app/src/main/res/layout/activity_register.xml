@@ -151,7 +151,7 @@
         android:layout_height="match_parent"
         android:background="#bb000000"
         android:elevation="8dp"
-        android:visibility="invisible"
+        android:visibility="gone"
 
         >
 
@@ -170,7 +170,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:text="Your Code"
+                android:text="Room Name"
                 android:textSize="20sp" />
 
             <TextView
@@ -178,71 +178,27 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:text="선생님께서 보내주신 PIN을 입력하세요"
+                android:text="방 이름을 입력하세요"
                 android:textColor="#95989A"
                 android:textSize="15sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="23dp"
                 android:gravity="center">
 
                 <EditText
-                    android:id="@+id/pinEdit1"
-                    android:layout_width="40dp"
+                    android:id="@+id/roomNameEdit"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
-                    android:digits="1234567890"
                     android:gravity="center"
-                    android:inputType="numberSigned"
-                    android:maxLength="1">
-
-                    <requestFocus />
+                    android:inputType="text">
 
                 </EditText>
 
-                <EditText
-                    android:id="@+id/pinEdit2"
-                    android:layout_width="40dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:digits="1234567890"
-                    android:gravity="center"
-                    android:inputType="numberSigned"
-                    android:maxLength="1"
-                    android:nextFocusUp="@id/pinEdit1">
-
-
-                </EditText>
-
-                <EditText
-                    android:id="@+id/pinEdit3"
-                    android:layout_width="40dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:digits="1234567890"
-                    android:gravity="center"
-                    android:inputType="numberSigned"
-                    android:maxLength="1"
-                    android:nextFocusUp="@id/pinEdit2">
-
-
-                </EditText>
-
-                <EditText
-                    android:id="@+id/pinEdit4"
-                    android:layout_width="40dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:digits="1234567890"
-                    android:gravity="center"
-                    android:inputType="numberSigned"
-                    android:maxLength="1"
-                    android:nextFocusUp="@id/pinEdit3">
-
-
-                </EditText>
 
 
             </LinearLayout>

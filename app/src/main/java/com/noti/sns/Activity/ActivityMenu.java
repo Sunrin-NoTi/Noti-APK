@@ -1,4 +1,4 @@
-package com.noti.sns;
+package com.noti.sns.Activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +8,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TabHost;
+
+import com.noti.sns.Fragment.FragmentCalender;
+import com.noti.sns.Fragment.FragmentHome;
+import com.noti.sns.Fragment.FragmentLunch;
+import com.noti.sns.R;
 
 public class ActivityMenu extends AppCompatActivity {
 

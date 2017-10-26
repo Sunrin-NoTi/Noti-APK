@@ -1,4 +1,4 @@
-package com.noti.sns;
+package com.noti.sns.ListItem;
 
 public class ListItemHomeCard {
     public String title;

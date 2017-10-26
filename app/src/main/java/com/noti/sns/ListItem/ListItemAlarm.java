@@ -1,4 +1,4 @@
-package com.noti.sns;
+package com.noti.sns.ListItem;
 
 public class ListItemAlarm {
     public String wmeal;

@@ -1,4 +1,4 @@
-package com.noti.sns;
+package com.noti.sns.ViewAdapter;
 
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;
@@ -14,6 +14,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.noti.sns.ListItem.ListItemHomeCard;
+import com.noti.sns.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,7 +43,7 @@ public class ViewAdapterHome extends RecyclerView.Adapter<ViewAdapterHome.Holder
 
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_design, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_card, parent, false);
         Holder holder = new Holder(view);
         return holder;
     }

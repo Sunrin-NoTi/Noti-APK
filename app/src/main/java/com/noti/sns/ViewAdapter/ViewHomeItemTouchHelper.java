@@ -1,4 +1,4 @@
-package com.noti.sns;
+package com.noti.sns.ViewAdapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;

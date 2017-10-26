@@ -1,10 +1,12 @@
-package com.noti.sns;
+package com.noti.sns.Utility;
 
 import android.app.Activity;
 import android.os.Build;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.noti.sns.R;
 
 public class UBtnPress extends Activity {
     public static Boolean bigBTN(MotionEvent e, ImageView btn) {

@@ -1,11 +1,17 @@
-package com.noti.sns;
+package com.noti.sns.Utility;
+
+import com.noti.sns.ListItem.ListItemAlarm;
+import com.noti.sns.ListItem.ListItemHomeCard;
+import com.noti.sns.SchoolParsing.School;
+import com.noti.sns.SchoolParsing.SchoolMenu;
+import com.noti.sns.SchoolParsing.SchoolSchedule;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static com.noti.sns.ActivityMain.edit;
-import static com.noti.sns.ActivityMain.pref;
+import static com.noti.sns.Activity.ActivityMain.edit;
+import static com.noti.sns.Activity.ActivityMain.pref;
 
 
 public class UListsave {
@@ -114,7 +120,7 @@ public class UListsave {
             line = new ArrayList();
 
             int feb_Days = 28;
-            if(checkYunYear(new Date().getYear()+1901))
+            if(UDateChange.checkYunYear(new Date().getYear()+1901))
                 feb_Days = 29;
             for(int j = 0;j<feb_Days;j++){
                 line.add(new SchoolSchedule(pref.getString("event_s"+1+"/"+j,"")));
@@ -178,7 +184,7 @@ public class UListsave {
                 edit.putString("event_s"+0+"/"+j,p0.get(0).get(j).schedule);
             }
             int feb_Days = 28;
-            if(checkYunYear(new Date().getYear()+1901))
+            if(UDateChange.checkYunYear(new Date().getYear()+1901))
                 feb_Days = 29;
             for(int j = 0;j<feb_Days;j++){
                 edit.putString("event_s"+1+"/"+j,p0.get(1).get(j).schedule);
@@ -186,7 +192,7 @@ public class UListsave {
             edit.commit();
         }
 
-        public static void put_meal_month(List<SchoolMenu> p0,int p1){
+        public static void put_meal_month(List<SchoolMenu> p0, int p1){
             int days = 28;
             switch (p1){
                 case 3:
@@ -204,7 +210,7 @@ public class UListsave {
                     days = 30;
                     break;
             }
-            if(checkYunYear(new Date().getYear()+1901))
+            if(UDateChange.checkYunYear(new Date().getYear()+1901))
                 days = 29;
             for(int j = 0;j<days;j++){
                 edit.putString("meal_b"+p1+"/"+j,p0.get(j).breakfast);
@@ -236,7 +242,7 @@ public class UListsave {
                     break;
             }
             List<SchoolMenu> rt = new ArrayList();
-            if (checkYunYear(new Date().getYear() + 1901))
+            if (UDateChange.checkYunYear(new Date().getYear() + 1901))
                 days = 29;
             for (int j = 0; j < days; j++) {
 
@@ -251,12 +257,6 @@ public class UListsave {
 
         }
 
-        public static boolean checkYunYear(int p0) {
-            if (((p0%4)==0 && !((p0%100) ==0)) || (p0%400==0)){
-                return true;
-            }
-            return false;
-        }
 
     }
 

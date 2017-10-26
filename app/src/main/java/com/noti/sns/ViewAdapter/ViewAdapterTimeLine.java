@@ -1,4 +1,4 @@
-package com.noti.sns;
+package com.noti.sns.ViewAdapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.noti.sns.ListItem.ListItemTimeLine;
+import com.noti.sns.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +28,7 @@ public class ViewAdapterTimeLine extends RecyclerView.Adapter<ViewAdapterTimeLin
 
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.timeline_design, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_timeline, parent, false);
         Holder holder = new Holder(view);
         return holder;
     }

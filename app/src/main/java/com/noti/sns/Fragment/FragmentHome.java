@@ -1,4 +1,4 @@
-package com.noti.sns;
+package com.noti.sns.Fragment;
 
 
 import android.content.Intent;
@@ -8,11 +8,17 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.noti.sns.Activity.ActivitySetting;
+import com.noti.sns.ListItem.ListItemHomeCard;
+import com.noti.sns.R;
+import com.noti.sns.Utility.UListsave;
+import com.noti.sns.ViewAdapter.ViewAdapterHome;
+import com.noti.sns.ViewAdapter.ViewHomeItemTouchHelper;
 
 import java.util.ArrayList;
 
@@ -21,45 +27,28 @@ public class FragmentHome extends Fragment implements ViewAdapterHome.OnStartDra
 
 
     public static ItemTouchHelper mItemTouchHelper;
-
-    public static FragmentHome newInstance() {
-        // Required empty public constructor
-        FragmentHome fragment = new FragmentHome();
-        return fragment;
-    }
-    private RecyclerView recyclerView;
-    private ViewAdapterHome adapter;
-
+    RecyclerView recyclerView;
+    ViewAdapterHome adapter;
     ArrayList<ListItemHomeCard> contacts;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.frg_nemu_home, container, false);
-
+        Intent intent_settitng = new Intent(getActivity(), ActivitySetting.class);
         recyclerView = rootView.findViewById(R.id.recyclerView);
         contacts = UListsave.HomeCardList.get_Home_List();
-
         adapter = new ViewAdapterHome(getActivity(), contacts, this);
         ViewHomeItemTouchHelper mCallback = new ViewHomeItemTouchHelper(adapter);
         mItemTouchHelper = new ItemTouchHelper(mCallback);
         mItemTouchHelper.attachToRecyclerView(recyclerView);
-
         recyclerView.setHasFixedSize(true);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
-        Log.e("Frag", "MainFragment");
 
-        Intent intent_settitng = new Intent(getActivity(), ActivitySetting.class);
-
-        ImageView goToSetting_Home = (ImageView) rootView.findViewById(R.id.goToSetting_Home);
-        goToSetting_Home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(intent_settitng);
-            }
-        });
+        ImageView goToSetting_Home = rootView.findViewById(R.id.goToSetting_Home);
+        goToSetting_Home.setOnClickListener(view -> startActivity(intent_settitng));
 
         return rootView;
     }

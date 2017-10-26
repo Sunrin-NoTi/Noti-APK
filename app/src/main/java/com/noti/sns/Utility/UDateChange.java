@@ -1,4 +1,4 @@
-package com.noti.sns;
+package com.noti.sns.Utility;
 
 public class UDateChange {
     public static String intToStirng_Month(int p0){
@@ -44,4 +44,10 @@ public class UDateChange {
         return scroll_month;
     }
 
+    public static Boolean checkYunYear(int p0){
+        if (((p0 % 4==0) && !(p0 % 100==0)) || (p0 % 400==0)) {
+            return true;
+        }
+        return false;
+    }
 }

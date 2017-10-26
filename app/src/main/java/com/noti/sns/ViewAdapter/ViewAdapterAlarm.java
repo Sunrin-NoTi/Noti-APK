@@ -1,4 +1,4 @@
-package com.noti.sns;
+package com.noti.sns.ViewAdapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.noti.sns.Fragment.FragmentLunch;
+import com.noti.sns.ListItem.ListItemAlarm;
+import com.noti.sns.R;
+import com.noti.sns.Utility.UListsave;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +31,7 @@ public class ViewAdapterAlarm extends RecyclerView.Adapter<ViewAdapterAlarm.Hold
 
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.alam_design, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_alarm, parent, false);
         Holder holder = new Holder(view);
         return holder;
     }

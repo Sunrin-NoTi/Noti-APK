@@ -1,4 +1,4 @@
-package com.noti.sns;
+package com.noti.sns.Activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -13,6 +13,13 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.noti.sns.R;
+import com.noti.sns.SchoolParsing.School;
+import com.noti.sns.SchoolParsing.SchoolException;
+import com.noti.sns.SchoolParsing.SchoolSchedule;
+import com.noti.sns.Utility.UBtnPress;
+import com.noti.sns.Utility.UListsave;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +30,7 @@ public class ActivityMain extends AppCompatActivity {
     //세어드 프리퍼런스 전역변수로 설정
     public static SharedPreferences pref;
     public static SharedPreferences.Editor edit;
+    public static School api;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -31,15 +39,17 @@ public class ActivityMain extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
 
+        final Boolean[] check_down = {false, false};//초기 다운로드 밑 급식 1월 다운로드 체크
+        final Boolean[] check_downfail = {false, false};//초기 다운로드 실패 확인
+        String school_code = "B100000658";//선린으로 기본값
+
         //세어드 프리퍼런스 초기화
         pref = this.getSharedPreferences("save", 0);
         edit = pref.edit();
 
-        String school_code = "B100000658";//선린으로 기본값
-        School api = new School(School.Type.HIGH, School.Region.SEOUL, school_code);//학교 객체 생성
+        api = new School(School.Type.HIGH, School.Region.SEOUL, school_code);//학교 객체 생성
         Date today = new Date();//지금 시간 받기
-        final Boolean[] check_down = {false, false};//초기 다운로드 밑 급식 1월 다운로드 체크
-        final Boolean[] check_downfail = {false, false};//초기 다운로드 실패 확인
+
 
         Intent intent_login = new Intent(this, ActivityMenu.class);//메뉴 액티비티 인텐트
         Intent intent_register = new Intent(this, ActivityRegister.class);//회원가입 액티비티 인텐트

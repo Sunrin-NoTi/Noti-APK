@@ -1,4 +1,4 @@
-package com.noti.sns;
+package com.noti.sns.SchoolParsing;
 
 import java.io.BufferedReader;
 import java.io.IOException;
