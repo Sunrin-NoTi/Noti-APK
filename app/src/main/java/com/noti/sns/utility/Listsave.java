@@ -1,20 +1,20 @@
-package com.noti.sns.Utility;
+package com.noti.sns.utility;
 
-import com.noti.sns.ListItem.ListItemAlarm;
-import com.noti.sns.ListItem.ListItemHomeCard;
-import com.noti.sns.SchoolParsing.School;
-import com.noti.sns.SchoolParsing.SchoolMenu;
-import com.noti.sns.SchoolParsing.SchoolSchedule;
+import com.noti.sns.listitem.AlarmListItem;
+import com.noti.sns.listitem.HomeCardListItem;
+import com.noti.sns.schoolparsing.School;
+import com.noti.sns.schoolparsing.SchoolMenu;
+import com.noti.sns.schoolparsing.SchoolSchedule;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static com.noti.sns.Activity.ActivityMain.edit;
-import static com.noti.sns.Activity.ActivityMain.pref;
+import static com.noti.sns.activity.MainActivity.edit;
+import static com.noti.sns.activity.MainActivity.pref;
 
 
-public class UListsave {
+public class Listsave {
 
     public static class MealAlamList {
 
@@ -36,20 +36,20 @@ public class UListsave {
         }
 
         public static void remove_all(){
-            ArrayList<ListItemAlarm> list = new ArrayList<>();
+            ArrayList<AlarmListItem> list = new ArrayList<>();
             put_Alam_List(list);
         }
 
-        public static ArrayList<ListItemAlarm> get_Alam_List(){
-            ArrayList<ListItemAlarm> retun = new ArrayList<>();
+        public static ArrayList<AlarmListItem> get_Alam_List(){
+            ArrayList<AlarmListItem> retun = new ArrayList<>();
             int add_num = pref.getInt("Alam_List_num",0);
             for(int i = 0;i<add_num;i++) {
-                retun.add(new ListItemAlarm(pref.getString("Alam_List_title" + i, ""), pref.getInt("Alam_List_hour" + i, 0), pref.getInt("Alam_List_minute" + i, 0)));
+                retun.add(new AlarmListItem(pref.getString("Alam_List_title" + i, ""), pref.getInt("Alam_List_hour" + i, 0), pref.getInt("Alam_List_minute" + i, 0)));
             }
             return retun;
         }
 
-        public static void put_Alam_List(ArrayList<ListItemAlarm> p0){
+        public static void put_Alam_List(ArrayList<AlarmListItem> p0){
             edit.putInt("Alam_List_num",p0.size());
             for(int i = 0;i<p0.size();i++) {
                 remove(i);
@@ -81,20 +81,20 @@ public class UListsave {
         }
 
         public static void remove_all(){
-            ArrayList<ListItemHomeCard> list = new ArrayList<>();
+            ArrayList<HomeCardListItem> list = new ArrayList<>();
             put_Home_List(list);
         }
 
-        public static ArrayList<ListItemHomeCard> get_Home_List(){
-            ArrayList<ListItemHomeCard> retun = new ArrayList<>();
+        public static ArrayList<HomeCardListItem> get_Home_List(){
+            ArrayList<HomeCardListItem> retun = new ArrayList<>();
             int add_num = pref.getInt("Home_List_num",0);
             for(int i = 0;i<add_num;i++) {
-                retun.add(new ListItemHomeCard(pref.getString("Home_List_title" + i, ""), pref.getString("Home_List_subtitle" + i, ""), pref.getString("Home_List_inside" + i, "")));
+                retun.add(new HomeCardListItem(pref.getString("Home_List_title" + i, ""), pref.getString("Home_List_subtitle" + i, ""), pref.getString("Home_List_inside" + i, "")));
             }
             return retun;
         }
 
-        public static void put_Home_List(ArrayList<ListItemHomeCard> p0){
+        public static void put_Home_List(ArrayList<HomeCardListItem> p0){
             edit.putInt("Home_List_num",p0.size());
             for(int i = 0;i<p0.size();i++) {
                 remove(i);
@@ -120,7 +120,7 @@ public class UListsave {
             line = new ArrayList();
 
             int feb_Days = 28;
-            if(UDateChange.checkYunYear(new Date().getYear()+1901))
+            if(DateChange.checkYunYear(new Date().getYear()+1901))
                 feb_Days = 29;
             for(int j = 0;j<feb_Days;j++){
                 line.add(new SchoolSchedule(pref.getString("event_s"+1+"/"+j,"")));
@@ -184,7 +184,7 @@ public class UListsave {
                 edit.putString("event_s"+0+"/"+j,p0.get(0).get(j).schedule);
             }
             int feb_Days = 28;
-            if(UDateChange.checkYunYear(new Date().getYear()+1901))
+            if(DateChange.checkYunYear(new Date().getYear()+1901))
                 feb_Days = 29;
             for(int j = 0;j<feb_Days;j++){
                 edit.putString("event_s"+1+"/"+j,p0.get(1).get(j).schedule);
@@ -210,7 +210,7 @@ public class UListsave {
                     days = 30;
                     break;
             }
-            if(UDateChange.checkYunYear(new Date().getYear()+1901))
+            if(DateChange.checkYunYear(new Date().getYear()+1901))
                 days = 29;
             for(int j = 0;j<days;j++){
                 edit.putString("meal_b"+p1+"/"+j,p0.get(j).breakfast);
@@ -242,7 +242,7 @@ public class UListsave {
                     break;
             }
             List<SchoolMenu> rt = new ArrayList();
-            if (UDateChange.checkYunYear(new Date().getYear() + 1901))
+            if (DateChange.checkYunYear(new Date().getYear() + 1901))
                 days = 29;
             for (int j = 0; j < days; j++) {
 

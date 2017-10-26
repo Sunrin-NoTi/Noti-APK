@@ -1,4 +1,4 @@
-package com.noti.sns.ViewAdapter;
+package com.noti.sns.viewadapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,21 +10,21 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.noti.sns.Fragment.FragmentLunch;
-import com.noti.sns.ListItem.ListItemAlarm;
+import com.noti.sns.fragment.LunchFragment;
+import com.noti.sns.listitem.AlarmListItem;
 import com.noti.sns.R;
-import com.noti.sns.Utility.UListsave;
+import com.noti.sns.utility.Listsave;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ViewAdapterAlarm extends RecyclerView.Adapter<ViewAdapterAlarm.Holder> {
+public class AlarmViewAdapter extends RecyclerView.Adapter<AlarmViewAdapter.Holder> {
 
     private Context context;
-    private List<ListItemAlarm> list = new ArrayList<>();
+    private List<AlarmListItem> list = new ArrayList<>();
 
-    public ViewAdapterAlarm(Context context, List<ListItemAlarm> list) {
+    public AlarmViewAdapter(Context context, List<AlarmListItem> list) {
         this.context = context;
         this.list = list;
     }
@@ -49,8 +49,8 @@ public class ViewAdapterAlarm extends RecyclerView.Adapter<ViewAdapterAlarm.Hold
             @Override
             public void onClick(View view) {
                 list.remove(position);
-                UListsave.MealAlamList.put_Alam_List((ArrayList<ListItemAlarm>) list);
-                FragmentLunch.refresh();
+                Listsave.MealAlamList.put_Alam_List((ArrayList<AlarmListItem>) list);
+                LunchFragment.refresh();
             }
         });
 

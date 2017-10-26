@@ -1,4 +1,4 @@
-package com.noti.sns.SchoolParsing;
+package com.noti.sns.schoolparsing;
 
 import java.util.ArrayList;
 import java.util.List;

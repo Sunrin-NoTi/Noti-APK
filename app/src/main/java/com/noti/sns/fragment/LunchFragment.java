@@ -1,4 +1,4 @@
-package com.noti.sns.Fragment;
+package com.noti.sns.fragment;
 
 import android.content.Context;
 import android.os.Build;
@@ -18,25 +18,25 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.noti.sns.ListItem.ListItemAlarm;
+import com.noti.sns.listitem.AlarmListItem;
 import com.noti.sns.R;
-import com.noti.sns.SchoolParsing.SchoolMenu;
-import com.noti.sns.Utility.UBtnPress;
-import com.noti.sns.Utility.UListsave;
-import com.noti.sns.ViewAdapter.ViewAdapterAlarm;
+import com.noti.sns.schoolparsing.SchoolMenu;
+import com.noti.sns.utility.BtnPress;
+import com.noti.sns.utility.Listsave;
+import com.noti.sns.viewadapter.AlarmViewAdapter;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static com.noti.sns.Activity.ActivityMenu.popup_on_alarm;
+import static com.noti.sns.activity.MenuActivity.popup_on_alarm;
 
-public class FragmentLunch extends Fragment {
+public class LunchFragment extends Fragment {
 
-    public static ArrayList<ListItemAlarm> contacts;
+    public static ArrayList<AlarmListItem> contacts;
     public static Context context;
     static RecyclerView recyclerView;
-    ViewAdapterAlarm adapter;
+    AlarmViewAdapter adapter;
     View rootView;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -61,7 +61,7 @@ public class FragmentLunch extends Fragment {
 
         popup.setVisibility(View.VISIBLE);
         popup.setVisibility(View.GONE);
-        List<SchoolMenu> ex = UListsave.SaveSchool.get_meal_month(today.getMonth() + 1);
+        List<SchoolMenu> ex = Listsave.SaveSchool.get_meal_month(today.getMonth() + 1);
 
         TextView c1_d = rootView.findViewById(R.id.c1_d);
         TextView c1_i = rootView.findViewById(R.id.c1_i);
@@ -95,8 +95,8 @@ public class FragmentLunch extends Fragment {
 
 
         recyclerView = rootView.findViewById(R.id.recyclerView_m);
-        contacts = UListsave.MealAlamList.get_Alam_List();
-        adapter = new ViewAdapterAlarm(getActivity(), contacts);
+        contacts = Listsave.MealAlamList.get_Alam_List();
+        adapter = new AlarmViewAdapter(getActivity(), contacts);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
@@ -115,7 +115,7 @@ public class FragmentLunch extends Fragment {
                 radioGroup.check(R.id.rad2);
             }
         });
-        add_btn.setOnTouchListener((view, motionEvent) -> UBtnPress.addBTN(motionEvent, add_btn));
+        add_btn.setOnTouchListener((view, motionEvent) -> BtnPress.addBTN(motionEvent, add_btn));
 
         ok.setOnClickListener(view -> {
             if (popup_on_alarm) {
@@ -138,7 +138,7 @@ public class FragmentLunch extends Fragment {
                             break;
                         default:
                     }
-                    UListsave.MealAlamList.add(mealw[0], timePicker.getHour(), timePicker.getMinute());
+                    Listsave.MealAlamList.add(mealw[0], timePicker.getHour(), timePicker.getMinute());
 
                 } else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) {
                     switch (radioGroup.getCheckedRadioButtonId() % 3) {
@@ -154,7 +154,7 @@ public class FragmentLunch extends Fragment {
                             break;
                         default:
                     }
-                    UListsave.MealAlamList.add(mealw[0], timePicker.getCurrentHour(), timePicker.getCurrentMinute());
+                    Listsave.MealAlamList.add(mealw[0], timePicker.getCurrentHour(), timePicker.getCurrentMinute());
 
                 }
                 popup.setVisibility(View.GONE);
@@ -192,17 +192,17 @@ public class FragmentLunch extends Fragment {
     }
 
     public static void refresh() {
-        ViewAdapterAlarm adapter;
-        ArrayList<ListItemAlarm> contacts;
-        contacts = UListsave.MealAlamList.get_Alam_List();
-        adapter = new ViewAdapterAlarm(context, contacts);
+        AlarmViewAdapter adapter;
+        ArrayList<AlarmListItem> contacts;
+        contacts = Listsave.MealAlamList.get_Alam_List();
+        adapter = new AlarmViewAdapter(context, contacts);
         recyclerView.setAdapter(adapter);
     }
 
     @Override
     public void onPause() {
-        contacts = UListsave.MealAlamList.get_Alam_List();
-        UListsave.MealAlamList.put_Alam_List(contacts);
+        contacts = Listsave.MealAlamList.get_Alam_List();
+        Listsave.MealAlamList.put_Alam_List(contacts);
         super.onPause();
     }
 

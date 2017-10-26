@@ -1,22 +1,22 @@
-package com.noti.sns.Activity
+package com.noti.sns.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
-import com.noti.sns.Activity.ActivityMain.api
-import com.noti.sns.Activity.ActivityMain.edit
 import com.noti.sns.R
-import com.noti.sns.SchoolParsing.SchoolException
-import com.noti.sns.SchoolParsing.SchoolSchedule
-import com.noti.sns.Utility.UDateChange.checkYunYear
-import com.noti.sns.Utility.UListsave
+import com.noti.sns.activity.MainActivity.api
+import com.noti.sns.activity.MainActivity.edit
+import com.noti.sns.schoolparsing.SchoolException
+import com.noti.sns.schoolparsing.SchoolSchedule
+import com.noti.sns.utility.DateChange.checkYunYear
+import com.noti.sns.utility.Listsave
 import kotlinx.android.synthetic.main.activity_setting.*
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class ActivitySetting : AppCompatActivity() {
+class SettingActivity : AppCompatActivity() {
 
     var check_down: Boolean = false
     var check_downfail: Boolean = false
@@ -89,7 +89,7 @@ class ActivitySetting : AppCompatActivity() {
                     }
                     edit.putInt("scnum", c)
                     edit.commit()
-                    UListsave.SaveSchool.push_Hac(school_Schedule)
+                    Listsave.SaveSchool.push_Hac(school_Schedule)
                     Log.e("e", "불러와짐")
                     Toast.makeText(this, "다운로드가 완료되었습니다.", Toast.LENGTH_SHORT).show()
                     check_down = true

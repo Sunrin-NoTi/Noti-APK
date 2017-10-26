@@ -1,4 +1,4 @@
-package com.noti.sns.ViewAdapter;
+package com.noti.sns.viewadapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,19 +9,19 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.noti.sns.ListItem.ListItemTimeLine;
+import com.noti.sns.listitem.TimeLineListItem;
 import com.noti.sns.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ViewAdapterTimeLine extends RecyclerView.Adapter<ViewAdapterTimeLine.Holder> {
+public class TimeLineViewAdapter extends RecyclerView.Adapter<TimeLineViewAdapter.Holder> {
 
     private Context context;
-    private List<ListItemTimeLine> list = new ArrayList<>();
+    private List<TimeLineListItem> list = new ArrayList<>();
 
-    public ViewAdapterTimeLine(Context context, List<ListItemTimeLine> list) {
+    public TimeLineViewAdapter(Context context, List<TimeLineListItem> list) {
         this.context = context;
         this.list = list;
     }

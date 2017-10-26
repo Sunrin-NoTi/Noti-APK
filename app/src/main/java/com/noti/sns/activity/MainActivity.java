@@ -1,4 +1,4 @@
-package com.noti.sns.Activity;
+package com.noti.sns.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -14,17 +14,17 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.noti.sns.R;
-import com.noti.sns.SchoolParsing.School;
-import com.noti.sns.SchoolParsing.SchoolException;
-import com.noti.sns.SchoolParsing.SchoolSchedule;
-import com.noti.sns.Utility.UBtnPress;
-import com.noti.sns.Utility.UListsave;
+import com.noti.sns.schoolparsing.School;
+import com.noti.sns.schoolparsing.SchoolException;
+import com.noti.sns.schoolparsing.SchoolSchedule;
+import com.noti.sns.utility.BtnPress;
+import com.noti.sns.utility.Listsave;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ActivityMain extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     //세어드 프리퍼런스 전역변수로 설정
     public static SharedPreferences pref;
@@ -50,8 +50,8 @@ public class ActivityMain extends AppCompatActivity {
         Date today = new Date();//지금 시간 받기
 
 
-        Intent intent_login = new Intent(this, ActivityMenu.class);//메뉴 액티비티 인텐트
-        Intent intent_register = new Intent(this, ActivityRegister.class);//회원가입 액티비티 인텐트
+        Intent intent_login = new Intent(this, MenuActivity.class);//메뉴 액티비티 인텐트
+        Intent intent_register = new Intent(this, RegisterActivity.class);//회원가입 액티비티 인텐트
 
         ImageView login_btn = findViewById(R.id.login_btn);//로그인 버튼 객체
         ImageView register_btn = findViewById(R.id.register_btn);//회원가입 버튼 객체
@@ -69,13 +69,13 @@ public class ActivityMain extends AppCompatActivity {
         //그달 급식이 다운로드 되어있는가?
         if (pref.getInt("mealMonth", 0) != today.getMonth() + 1) {
             //다운로드 안되있음
-            Toast.makeText(ActivityMain.this, "급식을 다운로드 받습니다(매달 1일).", Toast.LENGTH_SHORT).show();//다운로드를 토스트로 알림
+            Toast.makeText(MainActivity.this, "급식을 다운로드 받습니다(매달 1일).", Toast.LENGTH_SHORT).show();//다운로드를 토스트로 알림
             //파싱을 활용한 다운로드
             new Thread() {
                 @Override
                 public void run() {
                     try {
-                        UListsave.SaveSchool.put_meal_month(api.getMonthlyMenu(today.getYear() + 1900, today.getMonth() + 1), today.getMonth() + 1);//교육청 파싱하여 급식 불러옴
+                        Listsave.SaveSchool.put_meal_month(api.getMonthlyMenu(today.getYear() + 1900, today.getMonth() + 1), today.getMonth() + 1);//교육청 파싱하여 급식 불러옴
                         //다운받아진 달 저장
                         edit.putInt("mealMonth", today.getMonth() + 1);
                         edit.commit();
@@ -169,7 +169,7 @@ public class ActivityMain extends AppCompatActivity {
                         edit.putInt("scnum", event_num);
                         edit.commit();
 
-                        UListsave.SaveSchool.push_Hac(schedule_ForCalender);//학사일정 객체를 저장
+                        Listsave.SaveSchool.push_Hac(schedule_ForCalender);//학사일정 객체를 저장
 
                         //초기 다운로드 완료
                         edit.putBoolean("first", false);
@@ -203,16 +203,16 @@ public class ActivityMain extends AppCompatActivity {
                 //아직 다운로드를 받지 않은 경우
                 Toast.makeText(this, "초기 다운로드 중입니다!", Toast.LENGTH_SHORT).show();
         });
-        login_btn.setOnTouchListener((view, motionEvent) -> UBtnPress.bigBTN(motionEvent, login_btn));//버튼 눌리는 처리
+        login_btn.setOnTouchListener((view, motionEvent) -> BtnPress.bigBTN(motionEvent, login_btn));//버튼 눌리는 처리
 
         //회원가입 인텐트 실행
         register_btn.setOnClickListener(view -> {
             startActivity(intent_register);
         });
-        register_btn.setOnTouchListener((view, motionEvent) -> UBtnPress.smallBTN(motionEvent, register_btn));//버튼 눌리는 처리
+        register_btn.setOnTouchListener((view, motionEvent) -> BtnPress.smallBTN(motionEvent, register_btn));//버튼 눌리는 처리
 
         //비밀번호 찾기 인텐트 실행
         passwd_btn.setOnClickListener(view -> Log.e("미구현", "ㅇㄹㅇ"));
-        passwd_btn.setOnTouchListener((view, motionEvent) -> UBtnPress.smallBTN(motionEvent, passwd_btn));//버튼 눌리는 처리
+        passwd_btn.setOnTouchListener((view, motionEvent) -> BtnPress.smallBTN(motionEvent, passwd_btn));//버튼 눌리는 처리
     }
 }

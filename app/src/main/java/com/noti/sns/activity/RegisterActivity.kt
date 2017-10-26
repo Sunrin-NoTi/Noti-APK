@@ -1,4 +1,4 @@
-package com.noti.sns.Activity
+package com.noti.sns.activity
 
 import android.os.Build
 import android.os.Bundle
@@ -7,10 +7,10 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import com.noti.sns.R
-import com.noti.sns.Utility.UBtnPress
+import com.noti.sns.utility.BtnPress
 import kotlinx.android.synthetic.main.activity_register.*
 
-class ActivityRegister : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //초기선언
@@ -39,7 +39,7 @@ class ActivityRegister : AppCompatActivity() {
 
         //버튼 클릭 애니메이션
         register_confirm.setOnTouchListener({ view, motionEvent ->
-            UBtnPress.bigBTN(motionEvent, register_confirm)
+            BtnPress.bigBTN(motionEvent, register_confirm)
         })
 
         //방 이름 확인 누를때
@@ -49,7 +49,7 @@ class ActivityRegister : AppCompatActivity() {
 
         //버튼 클릭 애니메이션
         pin_btn.setOnTouchListener({ view, motionEvent ->
-            UBtnPress.pinBTN(motionEvent, pin_btn)
+            BtnPress.pinBTN(motionEvent, pin_btn)
         })
 
 

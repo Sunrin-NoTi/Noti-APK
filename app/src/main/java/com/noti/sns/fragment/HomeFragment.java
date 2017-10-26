@@ -1,4 +1,4 @@
-package com.noti.sns.Fragment;
+package com.noti.sns.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,32 +12,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.noti.sns.Activity.ActivitySetting;
-import com.noti.sns.ListItem.ListItemHomeCard;
+import com.noti.sns.activity.SettingActivity;
+import com.noti.sns.listitem.HomeCardListItem;
 import com.noti.sns.R;
-import com.noti.sns.Utility.UListsave;
-import com.noti.sns.ViewAdapter.ViewAdapterHome;
-import com.noti.sns.ViewAdapter.ViewHomeItemTouchHelper;
+import com.noti.sns.utility.Listsave;
+import com.noti.sns.viewadapter.HomeViewAdapter;
+import com.noti.sns.viewadapter.HomeItemTouchHelperView;
 
 import java.util.ArrayList;
 
-public class FragmentHome extends Fragment implements ViewAdapterHome.OnStartDragListener {
+public class HomeFragment extends Fragment implements HomeViewAdapter.OnStartDragListener {
 
     public static ItemTouchHelper mItemTouchHelper;
     RecyclerView recyclerView;
-    ViewAdapterHome adapter;
-    ArrayList<ListItemHomeCard> contacts;
+    HomeViewAdapter adapter;
+    ArrayList<HomeCardListItem> contacts;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.frg_nemu_home, container, false);
-        Intent intent_settitng = new Intent(getActivity(), ActivitySetting.class);
+        Intent intent_settitng = new Intent(getActivity(), SettingActivity.class);
         recyclerView = rootView.findViewById(R.id.recyclerView);
-        contacts = UListsave.HomeCardList.get_Home_List();
-        adapter = new ViewAdapterHome(getActivity(), contacts, this);
-        ViewHomeItemTouchHelper mCallback = new ViewHomeItemTouchHelper(adapter);
+        contacts = Listsave.HomeCardList.get_Home_List();
+        adapter = new HomeViewAdapter(getActivity(), contacts, this);
+        HomeItemTouchHelperView mCallback = new HomeItemTouchHelperView(adapter);
         mItemTouchHelper = new ItemTouchHelper(mCallback);
         mItemTouchHelper.attachToRecyclerView(recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -52,7 +52,7 @@ public class FragmentHome extends Fragment implements ViewAdapterHome.OnStartDra
 
     @Override
     public void onPause() {
-        UListsave.HomeCardList.put_Home_List(contacts);
+        Listsave.HomeCardList.put_Home_List(contacts);
         super.onPause();
     }
 
@@ -63,7 +63,7 @@ public class FragmentHome extends Fragment implements ViewAdapterHome.OnStartDra
     }
 
     @Override
-    public void onStartDrag(ViewAdapterHome.Holder holder) {
+    public void onStartDrag(HomeViewAdapter.Holder holder) {
         mItemTouchHelper.startDrag(holder);
     }
 }

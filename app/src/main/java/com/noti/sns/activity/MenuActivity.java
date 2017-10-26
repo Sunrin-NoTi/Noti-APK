@@ -1,4 +1,4 @@
-package com.noti.sns.Activity;
+package com.noti.sns.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,12 +9,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TabHost;
 
-import com.noti.sns.Fragment.FragmentCalender;
-import com.noti.sns.Fragment.FragmentHome;
-import com.noti.sns.Fragment.FragmentLunch;
+import com.noti.sns.fragment.CalenderFragment;
+import com.noti.sns.fragment.HomeFragment;
+import com.noti.sns.fragment.LunchFragment;
 import com.noti.sns.R;
 
-public class ActivityMenu extends AppCompatActivity {
+public class MenuActivity extends AppCompatActivity {
 
     public static boolean popup_on_alarm;//알람 설정용 팝업 관리
     BottomNavigationView bottomNavigationMenu;//바텀 네비게이션 객체
@@ -69,19 +69,19 @@ public class ActivityMenu extends AppCompatActivity {
             case 0:
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_menu, new FragmentHome())
+                        .replace(R.id.fragment_menu, new HomeFragment())
                         .commit();
                 break;
             case 1:
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_menu, new FragmentCalender())
+                        .replace(R.id.fragment_menu, new CalenderFragment())
                         .commit();
                 break;
             case 2:
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_menu, new FragmentLunch())
+                        .replace(R.id.fragment_menu, new LunchFragment())
                         .commit();
                 break;
         }

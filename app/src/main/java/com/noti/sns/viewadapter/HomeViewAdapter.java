@@ -1,4 +1,4 @@
-package com.noti.sns.ViewAdapter;
+package com.noti.sns.viewadapter;
 
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;
@@ -15,26 +15,26 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.noti.sns.ListItem.ListItemHomeCard;
+import com.noti.sns.listitem.HomeCardListItem;
 import com.noti.sns.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ViewAdapterHome extends RecyclerView.Adapter<ViewAdapterHome.Holder> implements ViewHomeItemTouchHelper.OnItemMoveListener {
+public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.Holder> implements HomeItemTouchHelperView.OnItemMoveListener {
 
     public static NotificationManager notimanager;
     public static NotificationCompat.Builder builder;
     private Context context;
-    private List<ListItemHomeCard> list = new ArrayList<>();
+    private List<HomeCardListItem> list = new ArrayList<>();
     public OnStartDragListener mStartDragListener;
 
     public interface OnStartDragListener{
         void onStartDrag(Holder holder);
     }
 
-    public ViewAdapterHome(Context context, List<ListItemHomeCard> list, OnStartDragListener startDragListener) {
+    public HomeViewAdapter(Context context, List<HomeCardListItem> list, OnStartDragListener startDragListener) {
         mStartDragListener = startDragListener;
         this.context = context;
         this.list = list;

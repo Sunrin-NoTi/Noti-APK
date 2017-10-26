@@ -1,4 +1,4 @@
-package com.noti.sns.Utility;
+package com.noti.sns.utility;
 
 import android.app.Activity;
 import android.os.Build;
@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.noti.sns.R;
 
-public class UBtnPress extends Activity {
+public class BtnPress extends Activity {
     public static Boolean bigBTN(MotionEvent e, ImageView btn) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
