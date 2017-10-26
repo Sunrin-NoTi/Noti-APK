@@ -24,9 +24,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static com.noti.sns.MenuActivity.popup_on;
+import static com.noti.sns.ActivityMenu.popup_on_alarm;
 
-public class LunchFragment extends Fragment {
+public class FragmentLunch extends Fragment {
 
     private static RecyclerView recyclerView;
     public static Context context;
@@ -34,9 +34,9 @@ public class LunchFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    private AlamViewAdapter adapter;
+    private ViewAdapterAlarm adapter;
 
-    public static ArrayList<Alam_main> contacts;
+    public static ArrayList<ListItemAlarm> contacts;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -51,12 +51,12 @@ public class LunchFragment extends Fragment {
         RadioGroup radioGroup = (RadioGroup) rootView.findViewById(R.id.select_meal_time);
         TimePicker timePicker = (TimePicker) rootView.findViewById(R.id.timepicker);
         Date today = new Date();
-        popup_on = false;
+        popup_on_alarm = false;
         context = getActivity();
 
         popup.setVisibility(View.VISIBLE);
         popup.setVisibility(View.GONE);
-        List<SchoolMenu> ex = save_School.get_meal_month(today.getMonth()+1);
+        List<SchoolMenu> ex = UListsave.SaveSchool.get_meal_month(today.getMonth()+1);
 
         TextView c1_d = (TextView) rootView.findViewById(R.id.c1_d);
         TextView c1_i = (TextView) rootView.findViewById(R.id.c1_i);
@@ -90,8 +90,8 @@ public class LunchFragment extends Fragment {
 
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView_m);
-        contacts = MealAlamList.get_Alam_List();
-        adapter = new AlamViewAdapter(getActivity(), contacts);
+        contacts = UListsave.MealAlamList.get_Alam_List();
+        adapter = new ViewAdapterAlarm(getActivity(), contacts);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
@@ -103,8 +103,8 @@ public class LunchFragment extends Fragment {
         add_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!popup_on) {
-                    popup_on = true;
+                if (!popup_on_alarm) {
+                    popup_on_alarm = true;
                     popup.setVisibility(View.VISIBLE);
                     add_btn.setEnabled(false);
                     tabHost1.getTabWidget().getChildTabViewAt(0).setEnabled(false);
@@ -114,13 +114,13 @@ public class LunchFragment extends Fragment {
                 }
             }
         });
-        add_btn.setOnTouchListener((view, motionEvent) -> Btn_press.addBTN(motionEvent, add_btn));
+        add_btn.setOnTouchListener((view, motionEvent) -> UBtnPress.addBTN(motionEvent, add_btn));
 
         ok.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceType")
             @Override
             public void onClick(View view) {
-                if (popup_on) {
+                if (popup_on_alarm) {
                     mealw[0] = "";
                     Log.e("12", String.valueOf(radioGroup.getCheckedRadioButtonId()%3));
 
@@ -140,7 +140,7 @@ public class LunchFragment extends Fragment {
                                 break;
                             default:
                         }
-                        MealAlamList.add(mealw[0],timePicker.getHour(),timePicker.getMinute());
+                        UListsave.MealAlamList.add(mealw[0],timePicker.getHour(),timePicker.getMinute());
 
                     }
                     else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1){
@@ -157,11 +157,11 @@ public class LunchFragment extends Fragment {
                                 break;
                             default:
                         }
-                        MealAlamList.add(mealw[0],timePicker.getCurrentHour(),timePicker.getCurrentMinute());
+                        UListsave.MealAlamList.add(mealw[0],timePicker.getCurrentHour(),timePicker.getCurrentMinute());
 
                     }
                     popup.setVisibility(View.GONE);
-                    popup_on = false;
+                    popup_on_alarm = false;
 
                     add_btn.setEnabled(true);
                     tabHost1.getTabWidget().getChildTabViewAt(0).setEnabled(true);
@@ -178,9 +178,9 @@ public class LunchFragment extends Fragment {
 
 
         cancel.setOnClickListener(view -> {
-            if (popup_on) {
+            if (popup_on_alarm) {
                 popup.setVisibility(View.GONE);
-                popup_on = false;
+                popup_on_alarm = false;
                 add_btn.setEnabled(true);
                 tabHost1.getTabWidget().getChildTabViewAt(0).setEnabled(true);
                 tabHost1.getTabWidget().getChildTabViewAt(1).setEnabled(true);
@@ -199,16 +199,16 @@ public class LunchFragment extends Fragment {
     }
 
     public static void refresh(){
-        AlamViewAdapter adapter;
-        ArrayList<Alam_main> contacts;
-        contacts = MealAlamList.get_Alam_List();
-        adapter = new AlamViewAdapter(context, contacts);
+        ViewAdapterAlarm adapter;
+        ArrayList<ListItemAlarm> contacts;
+        contacts = UListsave.MealAlamList.get_Alam_List();
+        adapter = new ViewAdapterAlarm(context, contacts);
         recyclerView.setAdapter(adapter);
     }
     @Override
     public void onPause() {
-        contacts = MealAlamList.get_Alam_List();
-        MealAlamList.put_Alam_List(contacts);
+        contacts = UListsave.MealAlamList.get_Alam_List();
+        UListsave.MealAlamList.put_Alam_List(contacts);
         super.onPause();
     }
 

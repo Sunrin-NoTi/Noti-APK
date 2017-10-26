@@ -3,14 +3,14 @@ package com.noti.sns;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
-public class HomeItemTouchHelperCallback extends ItemTouchHelper.Callback {
+public class ViewHomeItemTouchHelper extends ItemTouchHelper.Callback {
 
     public interface OnItemMoveListener {
         void onItemMove(int fromPosition, int toPosition);
     }
     private final OnItemMoveListener mItemMoveListener;
 
-    public HomeItemTouchHelperCallback(OnItemMoveListener listener) {
+    public ViewHomeItemTouchHelper(OnItemMoveListener listener) {
         mItemMoveListener = listener;
     }
 

@@ -1,6 +1,6 @@
 package com.noti.sns;
 
-public class Date_change {
+public class UDateChange {
     public static String intToStirng_Month(int p0){
         String scroll_month = "";
         switch (p0){

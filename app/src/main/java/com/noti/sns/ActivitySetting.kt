@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
-import com.noti.sns.MainActivity.edit
+import com.noti.sns.ActivityMain.edit
 import kotlinx.android.synthetic.main.activity_setting.*
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class SettingActivity : AppCompatActivity() {
+class ActivitySetting : AppCompatActivity() {
     var check_down : Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,7 +76,7 @@ class SettingActivity : AppCompatActivity() {
                     }
                     edit.putInt("scnum", c)
                     edit.commit()
-                    save_School.push_Hac(schedule_ForCalender)
+                    UListsave.SaveSchool.push_Hac(schedule_ForCalender)
                     Log.e("e", "불러와짐")
 
                 check_down = true

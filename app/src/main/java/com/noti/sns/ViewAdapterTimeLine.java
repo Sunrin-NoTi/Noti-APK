@@ -13,12 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class TimeLineViewAdapter extends RecyclerView.Adapter<TimeLineViewAdapter.Holder> {
+public class ViewAdapterTimeLine extends RecyclerView.Adapter<ViewAdapterTimeLine.Holder> {
 
     private Context context;
-    private List<timeline_main> list = new ArrayList<>();
+    private List<ListItemTimeLine> list = new ArrayList<>();
 
-    public TimeLineViewAdapter(Context context, List<timeline_main> list) {
+    public ViewAdapterTimeLine(Context context, List<ListItemTimeLine> list) {
         this.context = context;
         this.list = list;
     }

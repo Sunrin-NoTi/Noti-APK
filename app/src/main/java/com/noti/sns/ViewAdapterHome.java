@@ -19,19 +19,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MainViewAdapter extends RecyclerView.Adapter<MainViewAdapter.Holder> implements HomeItemTouchHelperCallback.OnItemMoveListener {
+public class ViewAdapterHome extends RecyclerView.Adapter<ViewAdapterHome.Holder> implements ViewHomeItemTouchHelper.OnItemMoveListener {
 
     public static NotificationManager notimanager;
     public static NotificationCompat.Builder builder;
     private Context context;
-    private List<card_main> list = new ArrayList<>();
+    private List<ListItemHomeCard> list = new ArrayList<>();
     public OnStartDragListener mStartDragListener;
 
     public interface OnStartDragListener{
         void onStartDrag(Holder holder);
     }
 
-    public MainViewAdapter(Context context, List<card_main> list,OnStartDragListener startDragListener) {
+    public ViewAdapterHome(Context context, List<ListItemHomeCard> list, OnStartDragListener startDragListener) {
         mStartDragListener = startDragListener;
         this.context = context;
         this.list = list;

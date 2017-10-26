@@ -13,7 +13,7 @@ import android.view.inputmethod.InputMethodManager
 import kotlinx.android.synthetic.main.activity_register.*
 
 
-class RegisterActivity : AppCompatActivity() {
+class ActivityRegister : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -46,7 +46,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         register_confirm.setOnTouchListener({ view, motionEvent ->
-            Btn_press.bigBTN(motionEvent,register_confirm)
+            UBtnPress.bigBTN(motionEvent,register_confirm)
         })
 
         pin_btn.setOnClickListener{
@@ -54,7 +54,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         pin_btn.setOnTouchListener({ view, motionEvent ->
-            Btn_press.pinBTN(motionEvent,pin_btn)
+            UBtnPress.pinBTN(motionEvent,pin_btn)
         })
 
 

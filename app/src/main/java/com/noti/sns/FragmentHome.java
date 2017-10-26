@@ -17,20 +17,20 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 
 
-public class HomeFragment extends Fragment implements MainViewAdapter.OnStartDragListener {
+public class FragmentHome extends Fragment implements ViewAdapterHome.OnStartDragListener {
 
 
     public static ItemTouchHelper mItemTouchHelper;
 
-    public static HomeFragment newInstance() {
+    public static FragmentHome newInstance() {
         // Required empty public constructor
-        HomeFragment fragment = new HomeFragment();
+        FragmentHome fragment = new FragmentHome();
         return fragment;
     }
     private RecyclerView recyclerView;
-    private MainViewAdapter adapter;
+    private ViewAdapterHome adapter;
 
-    ArrayList<card_main> contacts;
+    ArrayList<ListItemHomeCard> contacts;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,10 +38,10 @@ public class HomeFragment extends Fragment implements MainViewAdapter.OnStartDra
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.frg_nemu_home, container, false);
 
         recyclerView = rootView.findViewById(R.id.recyclerView);
-        contacts = HomeCardList.get_Home_List();
+        contacts = UListsave.HomeCardList.get_Home_List();
 
-        adapter = new MainViewAdapter(getActivity(), contacts, this);
-        HomeItemTouchHelperCallback mCallback = new HomeItemTouchHelperCallback(adapter);
+        adapter = new ViewAdapterHome(getActivity(), contacts, this);
+        ViewHomeItemTouchHelper mCallback = new ViewHomeItemTouchHelper(adapter);
         mItemTouchHelper = new ItemTouchHelper(mCallback);
         mItemTouchHelper.attachToRecyclerView(recyclerView);
 
@@ -51,7 +51,7 @@ public class HomeFragment extends Fragment implements MainViewAdapter.OnStartDra
         recyclerView.setAdapter(adapter);
         Log.e("Frag", "MainFragment");
 
-        Intent intent_settitng = new Intent(getActivity(),SettingActivity.class);
+        Intent intent_settitng = new Intent(getActivity(), ActivitySetting.class);
 
         ImageView goToSetting_Home = (ImageView) rootView.findViewById(R.id.goToSetting_Home);
         goToSetting_Home.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +66,7 @@ public class HomeFragment extends Fragment implements MainViewAdapter.OnStartDra
 
     @Override
     public void onPause() {
-        HomeCardList.put_Home_List(contacts);
+        UListsave.HomeCardList.put_Home_List(contacts);
         super.onPause();
     }
 
@@ -77,7 +77,7 @@ public class HomeFragment extends Fragment implements MainViewAdapter.OnStartDra
     }
 
     @Override
-    public void onStartDrag(MainViewAdapter.Holder holder) {
+    public void onStartDrag(ViewAdapterHome.Holder holder) {
         mItemTouchHelper.startDrag(holder);
     }
 }

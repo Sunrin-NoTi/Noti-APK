@@ -6,7 +6,7 @@ import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class Btn_press extends Activity {
+public class UBtnPress extends Activity {
     public static Boolean bigBTN(MotionEvent e, ImageView btn) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 

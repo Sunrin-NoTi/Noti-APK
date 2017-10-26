@@ -23,34 +23,34 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.noti.sns.MainActivity.pref;
+import static com.noti.sns.ActivityMain.pref;
 
-public class CalenderFragment extends Fragment {
+public class FragmentCalender extends Fragment {
 
     public ArrayList<List<SchoolSchedule>> schedule_ForCalender;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
     private RecyclerView recyclerView_t;
-    private TimeLineViewAdapter adapter_t;
-    ArrayList<timeline_main> contacts_t;
+    private ViewAdapterTimeLine adapter_t;
+    ArrayList<ListItemTimeLine> contacts_t;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        MealAlamList.remove_all();
+        UListsave.MealAlamList.remove_all();
         final View rootView = inflater.inflate(R.layout.frg_menu_calender_withcollaspe, container, false);
         final CompactCalendarView compactCalendarView = rootView.findViewById(R.id.compactcalendar_view);
         TextView cal_month = rootView.findViewById(R.id.cal_month);
         compactCalendarView.setUseThreeLetterAbbreviation(true);
         compactCalendarView.setFirstDayOfWeek(Calendar.SUNDAY);
-        cal_month.setText(Date_change.intToStirng_Month(new Date(System.currentTimeMillis()).getMonth()));
+        cal_month.setText(UDateChange.intToStirng_Month(new Date(System.currentTimeMillis()).getMonth()));
 
         contacts_t = new ArrayList<>();
         Date today = new Date();
         schedule_ForCalender = new ArrayList<>();
 
-        schedule_ForCalender = save_School.get_Hac();
+        schedule_ForCalender = UListsave.SaveSchool.get_Hac();
 
         if (schedule_ForCalender.size() != 0){
             contacts_t = make_contact(today.getYear(),today.getMonth(),today.getDate());
@@ -59,7 +59,7 @@ public class CalenderFragment extends Fragment {
         recyclerView_t = (RecyclerView) rootView.findViewById(R.id.recyclerView_t);
         recyclerView_t.setHasFixedSize(true);
 
-        adapter_t = new TimeLineViewAdapter(getActivity(), contacts_t);
+        adapter_t = new ViewAdapterTimeLine(getActivity(), contacts_t);
         recyclerView_t.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView_t.setAdapter(adapter_t);
 
@@ -72,14 +72,14 @@ public class CalenderFragment extends Fragment {
                 contacts_t = new ArrayList<>();
                 contacts_t = make_contact(dateClicked.getYear(),dateClicked.getMonth(),dateClicked.getDate());
 
-                adapter_t = new TimeLineViewAdapter(getActivity(), contacts_t);
+                adapter_t = new ViewAdapterTimeLine(getActivity(), contacts_t);
                 recyclerView_t.setLayoutManager(new LinearLayoutManager(getActivity()));
                 recyclerView_t.setAdapter(adapter_t);
             }
 
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
-                cal_month.setText(Date_change.intToStirng_Month(firstDayOfNewMonth.getMonth()));
+                cal_month.setText(UDateChange.intToStirng_Month(firstDayOfNewMonth.getMonth()));
 
             }
         });
@@ -98,7 +98,7 @@ public class CalenderFragment extends Fragment {
             }
         }
 
-        Intent intent_settitng = new Intent(getActivity(),SettingActivity.class);
+        Intent intent_settitng = new Intent(getActivity(), ActivitySetting.class);
 
         ImageView goToSetting_Home = (ImageView) rootView.findViewById(R.id.goToSetting_Calender);
         goToSetting_Home.setOnClickListener(new View.OnClickListener() {
@@ -110,10 +110,10 @@ public class CalenderFragment extends Fragment {
         return rootView;
 
     }
-    ArrayList<timeline_main> make_contact(int year,int month,int dayOfMonth){
-        ArrayList<timeline_main> contacts_t = new ArrayList<>();
+    ArrayList<ListItemTimeLine> make_contact(int year, int month, int dayOfMonth){
+        ArrayList<ListItemTimeLine> contacts_t = new ArrayList<>();
         if(schedule_ForCalender.get(month).get(dayOfMonth-1).schedule.equals("")||((month>=2&&year!=new Date().getYear())||(month<2&&year!=new Date().getYear()+1)))
-            contacts_t.add(new timeline_main(year+1900+"년 "+(month+1)+"월 "+dayOfMonth+"일","이 날은 학사일정이 없습니다."));
+            contacts_t.add(new ListItemTimeLine(year+1900+"년 "+(month+1)+"월 "+dayOfMonth+"일","이 날은 학사일정이 없습니다."));
         if(year<new Date().getYear()){
             year = new Date().getYear();
             month = 0;
@@ -122,15 +122,15 @@ public class CalenderFragment extends Fragment {
         for(int i=0;i<pref.getInt("scnum",0)+1;i++){
             if (new Date().getYear()==year) {
                 if (pref.getInt("eventm"+i,0)>2&&(pref.getInt("eventm" + i, 0) > month+1 || (pref.getInt("eventm" + i, 0) == month+1 && pref.getInt("eventd" + i, 0) >= dayOfMonth-1))) {
-                    contacts_t.add(new timeline_main(year + 1900 + "년 " + pref.getInt("eventm" + i, 0) + "월 " + (pref.getInt("eventd" + i, 0)+1) + "일", schedule_ForCalender.get(pref.getInt("eventm" + i, 0)-1).get(pref.getInt("eventd" + i, 0)).schedule));
+                    contacts_t.add(new ListItemTimeLine(year + 1900 + "년 " + pref.getInt("eventm" + i, 0) + "월 " + (pref.getInt("eventd" + i, 0)+1) + "일", schedule_ForCalender.get(pref.getInt("eventm" + i, 0)-1).get(pref.getInt("eventd" + i, 0)).schedule));
                 }
                 else if (pref.getInt("eventm" + i, 0) !=0&&pref.getInt("eventm" + i, 0) <= 2) {
-                    contacts_t.add(new timeline_main(year + 1901 + "년 " + pref.getInt("eventm" + i, 0) + "월 " + (pref.getInt("eventd" + i, 0)+1) + "일", schedule_ForCalender.get(pref.getInt("eventm" + i, 0)-1).get(pref.getInt("eventd" + i, 0)).schedule));
+                    contacts_t.add(new ListItemTimeLine(year + 1901 + "년 " + pref.getInt("eventm" + i, 0) + "월 " + (pref.getInt("eventd" + i, 0)+1) + "일", schedule_ForCalender.get(pref.getInt("eventm" + i, 0)-1).get(pref.getInt("eventd" + i, 0)).schedule));
                 }
             }
             else if(new Date().getYear()+1==year){
                 if (pref.getInt("eventm" + i, 0)<=2&&(pref.getInt("eventm" + i, 0) > month+1 || (pref.getInt("eventm" + i, 0) == month+1 && pref.getInt("eventd" + i, 0) >= dayOfMonth-1))) {
-                    contacts_t.add(new timeline_main(year + 1900 + "년 " + pref.getInt("eventm" + i, 0) + "월 " + (pref.getInt("eventd" + i, 0)+1) + "일", schedule_ForCalender.get(pref.getInt("eventm" + i, 0)-1).get(pref.getInt("eventd" + i, 0)).schedule));
+                    contacts_t.add(new ListItemTimeLine(year + 1900 + "년 " + pref.getInt("eventm" + i, 0) + "월 " + (pref.getInt("eventd" + i, 0)+1) + "일", schedule_ForCalender.get(pref.getInt("eventm" + i, 0)-1).get(pref.getInt("eventd" + i, 0)).schedule));
                 }
             }
 

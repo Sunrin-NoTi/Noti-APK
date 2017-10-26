@@ -14,12 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class AlamViewAdapter extends RecyclerView.Adapter<AlamViewAdapter.Holder> {
+public class ViewAdapterAlarm extends RecyclerView.Adapter<ViewAdapterAlarm.Holder> {
 
     private Context context;
-    private List<Alam_main> list = new ArrayList<>();
+    private List<ListItemAlarm> list = new ArrayList<>();
 
-    public AlamViewAdapter(Context context, List<Alam_main> list) {
+    public ViewAdapterAlarm(Context context, List<ListItemAlarm> list) {
         this.context = context;
         this.list = list;
     }
@@ -44,8 +44,8 @@ public class AlamViewAdapter extends RecyclerView.Adapter<AlamViewAdapter.Holder
             @Override
             public void onClick(View view) {
                 list.remove(position);
-                MealAlamList.put_Alam_List((ArrayList<Alam_main>) list);
-                LunchFragment.refresh();
+                UListsave.MealAlamList.put_Alam_List((ArrayList<ListItemAlarm>) list);
+                FragmentLunch.refresh();
             }
         });
 
