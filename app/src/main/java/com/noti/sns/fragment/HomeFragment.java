@@ -1,6 +1,5 @@
 package com.noti.sns.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,23 +12,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.noti.sns.R;
 import com.noti.sns.activity.SettingActivity;
 import com.noti.sns.listitem.HomeCardListItem;
-import com.noti.sns.R;
 import com.noti.sns.utility.Listsave;
-import com.noti.sns.viewadapter.HomeViewAdapter;
 import com.noti.sns.viewadapter.HomeItemTouchHelperView;
+import com.noti.sns.viewadapter.HomeViewAdapter;
 
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment implements HomeViewAdapter.OnStartDragListener {
 
     public static ItemTouchHelper mItemTouchHelper;
-    static RecyclerView recyclerView;
-    static HomeViewAdapter adapter;
-    static Context context;
-    static ArrayList<HomeCardListItem> contacts;
-    static HomeFragment homeFragment;
+    RecyclerView recyclerView;
+    HomeViewAdapter adapter;
+    ArrayList<HomeCardListItem> contacts;
 
     @Nullable
     @Override
@@ -46,9 +43,6 @@ public class HomeFragment extends Fragment implements HomeViewAdapter.OnStartDra
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
-        homeFragment = this;
-
-        context = getActivity();
 
         ImageView goToSetting_Home = rootView.findViewById(R.id.goToSetting_Home);
         goToSetting_Home.setOnClickListener(view -> startActivity(intent_settitng));
@@ -56,10 +50,6 @@ public class HomeFragment extends Fragment implements HomeViewAdapter.OnStartDra
         return rootView;
     }
 
-    public static void refresh(){
-        adapter = new HomeViewAdapter(context, contacts, homeFragment);
-        recyclerView.setAdapter(adapter);
-    }
     @Override
     public void onPause() {
         Listsave.HomeCardList.put_Home_List(contacts);

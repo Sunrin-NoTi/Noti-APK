@@ -49,6 +49,8 @@ public class CalenderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Date today = new Date();//오늘 날짜
+        Listsave.HomeCardList.add("민나 스테이지에","2017.11.06","아이마스");
+        Listsave.HomeCardList.add("젠카이노","2017.11.16","러브라이브");
 
         rootView = inflater.inflate(R.layout.frg_menu_calender, container, false);//루트뷰 초기화
         cal_month = rootView.findViewById(R.id.cal_month);//월 텍스트뷰 초기화
