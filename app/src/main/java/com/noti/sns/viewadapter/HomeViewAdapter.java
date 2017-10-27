@@ -3,10 +3,13 @@ package com.noti.sns.viewadapter;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.noti.sns.R;
+import com.noti.sns.activity.MainActivity;
 import com.noti.sns.listitem.HomeCardListItem;
 import com.noti.sns.utility.Listsave;
 
@@ -76,12 +80,17 @@ public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.Holder
             return false;
         });
 
+
+        Intent go_main = new Intent(context, MainActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, go_main, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
 
         holder.btn_pin.setOnClickListener(view -> {
+            Log.e("adfa","asdfasdfads");
             builder.setContentTitle(list.get(itemposition).title)
                     .setContentText(list.get(itemposition).subtitle+"까지")
                     .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentIntent(contentIntent)
                     .setAutoCancel(true)
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setOngoing(true);

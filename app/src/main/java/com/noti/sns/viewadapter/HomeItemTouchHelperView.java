@@ -33,6 +33,5 @@ public class HomeItemTouchHelperView extends ItemTouchHelper.Callback {
     }
 
 
-
 }
 
