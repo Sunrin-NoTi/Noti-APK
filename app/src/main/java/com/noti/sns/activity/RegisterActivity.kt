@@ -38,7 +38,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         //버튼 클릭 애니메이션
-        register_confirm.setOnTouchListener({ view, motionEvent ->
+        register_confirm.setOnTouchListener({ _, motionEvent ->
             BtnPress.bigBTN(motionEvent, register_confirm)
         })
 
@@ -48,7 +48,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         //버튼 클릭 애니메이션
-        pin_btn.setOnTouchListener({ view, motionEvent ->
+        pin_btn.setOnTouchListener({ _, motionEvent ->
             BtnPress.pinBTN(motionEvent, pin_btn)
         })
 

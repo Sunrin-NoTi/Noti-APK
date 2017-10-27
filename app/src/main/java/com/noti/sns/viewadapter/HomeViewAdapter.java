@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import com.noti.sns.R;
 import com.noti.sns.activity.MainActivity;
 import com.noti.sns.listitem.HomeCardListItem;
+import com.noti.sns.utility.Dday;
 import com.noti.sns.utility.Listsave;
 
 import java.util.ArrayList;
@@ -59,25 +61,49 @@ public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.Holder
         // 각 위치에 문자열 세팅
         int itemposition = position;
         Date today = new Date();
+        boolean[] seemore_Check = new boolean[list.size()];
+
+        for (int i =0;i<list.size();i++)
+            seemore_Check[i] = false;
+
+
+        String short_inside = list.get(itemposition).inside.length()<=12?list.get(itemposition).inside:list.get(itemposition).inside.substring(0,12)+"...";
+        if(list.get(itemposition).inside.length()<=12)
+            holder.btn_see_more.setText("");
+
+        int dday = Dday.caldate(Integer.parseInt(list.get(itemposition).subtitle.substring(0,4)),Integer.parseInt(list.get(itemposition).subtitle.substring(5,7)),Integer.parseInt(list.get(itemposition).subtitle.substring(8,10)));
 
         holder.titleText.setText(list.get(itemposition).title);
 
-        holder.subTitleText.setText(list.get(itemposition).subtitle);
+        holder.subTitleText.setText("D"+dday);
 
-        holder.insideText.setText(list.get(itemposition).inside);
+        holder.insideText.setText(short_inside);
 
-//        if (Integer.parseInt(list.get(itemposition).subtitle.split("-")[1]) <= 10 && Integer.parseInt(list.get(itemposition).subtitle.split("-")[1]) >= 0)
-//            holder.bar_noti.setBackgroundColor(Color.rgb(255, 85, 85));
-//        else if (Integer.parseInt(list.get(itemposition).subtitle.split("-")[1]) <= 20 && Integer.parseInt(list.get(itemposition).subtitle.split("-")[1]) > 10)
-//            holder.bar_noti.setBackgroundColor(Color.rgb(253, 216, 53));
-//        else
-//            holder.bar_noti.setBackgroundColor(Color.rgb(54, 175, 255));
+        if (dday >= -10 && dday <= 0)
+            holder.bar_noti.setBackgroundColor(Color.rgb(255, 85, 85));
+        else if (dday >= -20 && dday < -10)
+            holder.bar_noti.setBackgroundColor(Color.rgb(253, 216, 53));
+        else
+            holder.bar_noti.setBackgroundColor(Color.rgb(54, 175, 255));
 
         holder.icon.setOnTouchListener((v, event) -> {
             if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
                 mStartDragListener.onStartDrag(holder);
             }
             return false;
+        });
+
+        holder.btn_see_more.setOnClickListener(view -> {
+            if(seemore_Check[itemposition]){
+                holder.btn_see_more.setText("See More");
+                seemore_Check[itemposition] = false;
+                holder.insideText.setText(short_inside);
+            }
+            else{
+                holder.btn_see_more.setText("Hide");
+                seemore_Check[itemposition] = true;
+                holder.insideText.setText(list.get(itemposition).inside);
+            }
         });
 
 
@@ -98,7 +124,6 @@ public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.Holder
             NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             nm.notify(position, builder.build());
         });
-
 
     }
 

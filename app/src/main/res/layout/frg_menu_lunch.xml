@@ -20,6 +20,7 @@
 
             <TextView
                 android:layout_width="wrap_content"
+                android:fontFamily="@font/roboto_light"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:text="Meal"
@@ -44,12 +45,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:elevation="5dp"
-                android:orientation="vertical"> <!-- TabWidget의 id값이 반드시 "tabs"로 지정되어야 함. -->
+                android:orientation="vertical">
 
                 <FrameLayout
                     android:id="@android:id/tabcontent"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"> <!-- 첫 번째 페이지. content1 -->
+                    android:layout_height="wrap_content">
                     <LinearLayout
                         android:id="@+id/content1"
                         android:layout_width="match_parent"
@@ -61,6 +62,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="#95989A"
                             android:gravity="center_horizontal"
+                            android:fontFamily="@font/roboto_light"
                             android:text="오늘의 조식"
                             android:textSize="20dp" />
 
@@ -69,6 +71,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="#95989A"
+                            android:fontFamily="@font/roboto_light"
                             android:layout_marginTop="9dp"
                             android:gravity="center_horizontal"
                             android:text="1월 1일"
@@ -79,6 +82,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="#95989A"
+                            android:fontFamily="@font/roboto_light"
                             android:layout_marginBottom="9dp"
                             android:layout_marginTop="9dp"
                             android:gravity="center_horizontal"
@@ -96,6 +100,7 @@
                             android:layout_width="match_parent"
                             android:textColor="#95989A"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_light"
                             android:gravity="center_horizontal"
                             android:text="오늘의 중식"
                             android:textSize="20dp" />
@@ -104,6 +109,7 @@
                             android:id="@+id/c2_d"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_light"
                             android:textColor="#95989A"
                             android:layout_marginTop="9dp"
                             android:gravity="center_horizontal"
@@ -115,6 +121,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="#95989A"
+                            android:fontFamily="@font/roboto_light"
                             android:layout_marginBottom="9dp"
                             android:layout_marginTop="9dp"
                             android:gravity="center_horizontal"
@@ -133,6 +140,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="#95989A"
                             android:gravity="center_horizontal"
+                            android:fontFamily="@font/roboto_light"
                             android:text="오늘의 석식"
                             android:textSize="20dp" />
 
@@ -143,6 +151,7 @@
                             android:layout_marginTop="9dp"
                             android:textColor="#95989A"
                             android:gravity="center_horizontal"
+                            android:fontFamily="@font/roboto_light"
                             android:text="1월 1일"
                             android:textSize="18sp" />
 
@@ -152,6 +161,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="9dp"
                             android:layout_marginTop="9dp"
+                            android:fontFamily="@font/roboto_light"
                             android:textColor="#95989A"
                             android:gravity="center_horizontal"
                             android:text="1\n1\n1\n1\n1"
@@ -163,6 +173,7 @@
                     android:id="@android:id/tabs"
                     android:layout_width="match_parent"
                     android:textColor="#95989A"
+                    android:fontFamily="@font/roboto_light"
                     android:layout_height="wrap_content"
                     android:elevation="5dp" />
             </LinearLayout>
@@ -177,6 +188,7 @@
         android:layout_height="70dp"
         android:layout_below="@id/linear_l"
         android:background="#f5f5f5"
+        android:fontFamily="@font/roboto_light"
         android:gravity="center"
         android:text="급식 알림"
         android:textColor="#95989A"
@@ -210,7 +222,7 @@
         android:layout_height="match_parent"
         android:elevation="10dp"
         android:gravity="center"
-        android:visibility="invisible">
+        android:visibility="visible">
 
 
         <LinearLayout
@@ -224,6 +236,7 @@
 
             <TimePicker
                 android:id="@+id/timepicker"
+                android:fontFamily="@font/roboto_light"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
@@ -243,6 +256,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/roboto_light"
                     android:buttonTint="@color/noti"
                     android:text="조식"
                     android:textColor="@color/noti" />
@@ -253,6 +267,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:buttonTint="@color/noti"
+                    android:fontFamily="@font/roboto_light"
                     android:text="중식"
                     android:checked="true"
                     android:textColor="@color/noti" />
@@ -264,6 +279,7 @@
                     android:layout_marginLeft="10dp"
                     android:buttonTint="@color/noti"
                     android:text="석식"
+                    android:fontFamily="@font/roboto_light"
                     android:textColor="@color/noti" />
             </RadioGroup>
 
@@ -281,6 +297,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginBottom="20dp"
+                    android:fontFamily="@font/roboto_light"
                     android:layout_marginRight="20dp"
                     android:layout_toLeftOf="@+id/timepick_ok"
                     android:text="CANCEL"
@@ -293,6 +310,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:fontFamily="@font/roboto_light"
                     android:layout_marginRight="20dp"
                     android:text="OK"
                     android:textColor="@color/noti"

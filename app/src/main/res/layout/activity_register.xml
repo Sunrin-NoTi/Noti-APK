@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:fontFamily="sans-serif-light"
+            android:fontFamily="@font/roboto_light"
             android:gravity="center"
             android:text="Sign Up"
             android:textColor="#fff"
@@ -36,6 +36,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="40dp"
             android:background="@drawable/input_design"
+            android:fontFamily="@font/roboto_light"
             android:hint="Email"
             android:inputType="textEmailAddress"
             android:paddingLeft="18dp"
@@ -52,6 +53,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="13dp"
             android:background="@drawable/input_design"
+            android:fontFamily="@font/roboto_light"
             android:hint="Password"
             android:inputType="textPassword"
             android:paddingLeft="18dp"
@@ -68,6 +70,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="13dp"
             android:background="@drawable/input_design"
+            android:fontFamily="@font/roboto_light"
             android:hint="이름"
             android:paddingLeft="18dp"
             android:paddingRight="18dp"
@@ -83,6 +86,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="13dp"
             android:background="@drawable/input_design"
+            android:fontFamily="@font/roboto_light"
             android:hint="학교"
             android:paddingLeft="18dp"
             android:paddingRight="18dp"
@@ -103,6 +107,7 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/input_design"
+                android:fontFamily="@font/roboto_light"
                 android:hint="학년"
                 android:inputType="number"
                 android:paddingLeft="18dp"
@@ -120,6 +125,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/input_design"
+                android:fontFamily="@font/roboto_light"
                 android:hint="반"
                 android:inputType="number"
                 android:paddingLeft="18dp"
@@ -170,6 +176,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
+                android:fontFamily="@font/roboto_light"
                 android:text="Room Name"
                 android:textSize="20sp" />
 
@@ -178,6 +185,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
+                android:fontFamily="@font/roboto_light"
                 android:text="방 이름을 입력하세요"
                 android:textColor="#95989A"
                 android:textSize="15sp" />
@@ -194,11 +202,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
+                    android:fontFamily="@font/roboto_light"
                     android:gravity="center"
                     android:inputType="text">
 
                 </EditText>
-
 
 
             </LinearLayout>
@@ -210,6 +218,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/btn_pin"
+                android:fontFamily="@font/roboto_light"
                 android:gravity="center"
                 android:text="확인"
                 android:textColor="#fff" />
