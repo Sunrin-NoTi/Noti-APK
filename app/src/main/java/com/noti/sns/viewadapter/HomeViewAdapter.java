@@ -2,15 +2,16 @@ package com.noti.sns.viewadapter;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.MotionEventCompat;
-import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -106,13 +107,21 @@ public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.Holder
             }
         });
 
-
+        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Intent go_main = new Intent(context, MainActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0, go_main, PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel("my_notification_channel", "My Notifications", NotificationManager.IMPORTANCE_DEFAULT);
+
+            notificationChannel.setDescription("Channel description");
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.RED);
+            nm.createNotificationChannel(notificationChannel);
+        }
 
         holder.btn_pin.setOnClickListener(view -> {
-            Log.e("adfa","asdfasdfads");
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context,"my_notification_channel");
             builder.setContentTitle(list.get(itemposition).title)
                     .setContentText(list.get(itemposition).subtitle+"까지")
                     .setSmallIcon(R.mipmap.ic_launcher)
@@ -120,9 +129,8 @@ public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.Holder
                     .setAutoCancel(true)
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setOngoing(true);
-
-            NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             nm.notify(position, builder.build());
+
         });
 
     }
