@@ -1,12 +1,16 @@
 package com.noti.sns.viewadapter;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,26 +19,28 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.noti.sns.listitem.HomeCardListItem;
 import com.noti.sns.R;
+import com.noti.sns.activity.MainActivity;
+import com.noti.sns.listitem.HomeCardListItem;
+import com.noti.sns.utility.Listsave;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+import java.util.Date;
 
 public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.Holder> implements HomeItemTouchHelperView.OnItemMoveListener {
 
     public static NotificationManager notimanager;
     public static NotificationCompat.Builder builder;
     private Context context;
-    private List<HomeCardListItem> list = new ArrayList<>();
+    private ArrayList<HomeCardListItem> list = new ArrayList<>();
     public OnStartDragListener mStartDragListener;
 
-    public interface OnStartDragListener{
+    public interface OnStartDragListener {
         void onStartDrag(Holder holder);
     }
 
-    public HomeViewAdapter(Context context, List<HomeCardListItem> list, OnStartDragListener startDragListener) {
+    public HomeViewAdapter(Context context, ArrayList<HomeCardListItem> list, OnStartDragListener startDragListener) {
         mStartDragListener = startDragListener;
         this.context = context;
         this.list = list;
@@ -53,25 +59,45 @@ public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.Holder
     public void onBindViewHolder(final Holder holder, final int position) {
         // 각 위치에 문자열 세팅
         int itemposition = position;
+        Date today = new Date();
         holder.titleText.setText(list.get(itemposition).title);
 
         holder.subTitleText.setText(list.get(itemposition).subtitle);
 
         holder.insideText.setText(list.get(itemposition).inside);
 
-        if(Integer.parseInt(list.get(itemposition).subtitle.split("-")[1])<=10 && Integer.parseInt(list.get(itemposition).subtitle.split("-")[1])>=0)
-            holder.bar_noti.setBackgroundColor(Color.rgb(255,85,85));
-        else if(Integer.parseInt(list.get(itemposition).subtitle.split("-")[1])<=20 && Integer.parseInt(list.get(itemposition).subtitle.split("-")[1])>10)
+        if (Integer.parseInt(list.get(itemposition).subtitle.split("-")[1]) <= 10 && Integer.parseInt(list.get(itemposition).subtitle.split("-")[1]) >= 0)
+            holder.bar_noti.setBackgroundColor(Color.rgb(255, 85, 85));
+        else if (Integer.parseInt(list.get(itemposition).subtitle.split("-")[1]) <= 20 && Integer.parseInt(list.get(itemposition).subtitle.split("-")[1]) > 10)
             holder.bar_noti.setBackgroundColor(Color.rgb(253, 216, 53));
         else
             holder.bar_noti.setBackgroundColor(Color.rgb(54, 175, 255));
 
-        holder.icon.setOnTouchListener((v, event)->{
-            if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN){
+        holder.icon.setOnTouchListener((v, event) -> {
+            if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
                 mStartDragListener.onStartDrag(holder);
             }
             return false;
         });
+
+
+        Intent go_main = new Intent(context, MainActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, go_main, PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+
+        holder.btn_pin.setOnClickListener(view -> {
+            builder.setContentTitle(list.get(itemposition).title)
+                    .setContentText(list.get(itemposition).bythis+"까지")
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentIntent(contentIntent)
+                    .setAutoCancel(false)
+                    .setWhen(System.currentTimeMillis())
+                    .setDefaults(Notification.DEFAULT_ALL);
+            NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            nm.notify(position, builder.build());
+        });
+
+
     }
 
     @Override
@@ -83,9 +109,10 @@ public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.Holder
     public void onItemMove(int fromPosition, int toPosition) {
         Collections.swap(list, fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
+        list = Listsave.HomeCardList.get_Home_List();
     }
 
-    public class Holder extends RecyclerView.ViewHolder{
+    public class Holder extends RecyclerView.ViewHolder {
         public TextView titleText;
         public TextView subTitleText;
         public TextView insideText;
@@ -94,15 +121,15 @@ public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.Holder
         public LinearLayout bar_noti;
         public ImageView icon;
 
-        public Holder(View view){
+        public Holder(View view) {
             super(view);
-            titleText = (TextView) view.findViewById(R.id.cd_title);
-            subTitleText = (TextView) view.findViewById(R.id.cd_subtitle);
-            insideText = (TextView) view.findViewById(R.id.cd_inside);
-            btn_pin = (TextView) view.findViewById(R.id.cd_pin);
-            btn_see_more = (TextView) view.findViewById(R.id.cd_see_more);
-            bar_noti = (LinearLayout) view.findViewById(R.id.cd_bar);
-            icon = (ImageView) view.findViewById(R.id.cd_icon);
+            titleText = view.findViewById(R.id.cd_title);
+            subTitleText = view.findViewById(R.id.cd_subtitle);
+            insideText = view.findViewById(R.id.cd_inside);
+            btn_pin = view.findViewById(R.id.cd_pin);
+            btn_see_more = view.findViewById(R.id.cd_see_more);
+            bar_noti = view.findViewById(R.id.cd_bar);
+            icon = view.findViewById(R.id.cd_icon);
         }
     }
 }
