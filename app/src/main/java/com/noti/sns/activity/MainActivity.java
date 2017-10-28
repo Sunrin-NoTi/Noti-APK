@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -19,6 +20,7 @@ import com.noti.sns.schoolparsing.SchoolException;
 import com.noti.sns.schoolparsing.SchoolSchedule;
 import com.noti.sns.utility.BtnPress;
 import com.noti.sns.utility.Listsave;
+import com.noti.sns.utility.Util;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 	public static SharedPreferences pref;
 	public static SharedPreferences.Editor edit;
 	public static School api;
+	public static Util u;
 
 	@SuppressLint("ClickableViewAccessibility")
 	@Override
@@ -68,15 +71,12 @@ public class MainActivity extends AppCompatActivity {
 
 		//그달 급식이 다운로드 되어있는가?
 		if (pref.getInt("mealMonth", 0) != today.getMonth() + 1) {
-			//다운로드 안되있음
 			Toast.makeText(MainActivity.this, "급식을 다운로드 받습니다(매달 1일).", Toast.LENGTH_SHORT).show();//다운로드를 토스트로 알림
-			//파싱을 활용한 다운로드
 			new Thread() {
 				@Override
 				public void run() {
 					try {
 						Listsave.SaveSchool.put_meal_month(api.getMonthlyMenu(today.getYear() + 1900, today.getMonth() + 1), today.getMonth() + 1);//교육청 파싱하여 급식 불러옴
-						//다운받아진 달 저장
 						edit.putInt("mealMonth", today.getMonth() + 1);
 						edit.apply();
 						//다운로드 확인
@@ -101,118 +101,46 @@ public class MainActivity extends AppCompatActivity {
 			new Thread() {
 				@Override
 				public void run() {
-					try {
-						//3월 ~ 내년 2월까지의 학사일정을 받아옴
-						for (int i = 1; i <= 12; i++)
-							schedule_ForCalender.add(api.getMonthlySchedule(today.getYear() + 1900, i));
-
-						int event_num = 0;//총 일정의 갯수를 구하는 객체
-						int feb_Days = 27;//내년 2월의 날짜 수
-						int next_year = today.getYear() + 1901;//내년의 년도
-
-						//31일인 달 리스트
-						ArrayList<Integer> m_31 = new ArrayList<>();
-						m_31.add(3);
-						m_31.add(5);
-						m_31.add(7);
-						m_31.add(8);
-						m_31.add(10);
-						m_31.add(12);
-
-						//30일인 달 리스트
-						ArrayList<Integer> m_30 = new ArrayList<>();
-						m_30.add(4);
-						m_30.add(6);
-						m_30.add(9);
-						m_30.add(11);
-
-						//내년이 윤년인가?
-						if (((next_year % 4 == 0) && !(next_year % 100 == 0)) || (next_year % 400 == 0))
-							feb_Days = 28;
-
-						//받아온 학사일정을 나눠 캘린더 이벤트로 저장
-						for (int i = 3; i <= 12; i++) {
-							if (m_31.contains(i))
-								for (int j = 0; j <= 30; j++) {
-									if (!schedule_ForCalender.get(i - 1).get(j).schedule.equals("")) {
-										edit.putInt("eventm" + event_num, i);
-										edit.putInt("eventd" + event_num, j);
-										event_num++;
-									}
-								}
-							if (m_30.contains(i))
-								for (int j = 0; j <= 29; j++) {
-									if (!schedule_ForCalender.get(i - 1).get(j).schedule.equals("")) {
-										edit.putInt("eventm" + event_num, i);
-										edit.putInt("eventd" + event_num, j);
-										event_num++;
-									}
-								}
+						if (u.getSchedule(today, edit, schedule_ForCalender)) {
+							check_down[1] = true;
+							//초기 다운로드 완료
+							edit.putBoolean("first", false);
+							edit.commit();
 						}
-						//내년 1월 처리
-						for (int j = 0; j <= 30; j++) {
-							if (!schedule_ForCalender.get(0).get(j).schedule.equals("")) {
-								edit.putInt("eventm" + event_num, 1);
-								edit.putInt("eventd" + event_num, j);
-								event_num++;
-							}
-						}
-						//내년 2월 처리
-						for (int j = 0; j <= feb_Days; j++) {
-							if (!schedule_ForCalender.get(1).get(j).schedule.equals("")) {
-								edit.putInt("eventm" + event_num, 2);
-								edit.putInt("eventd" + event_num, j);
-								event_num++;
-							}
-						}
-						//학사일정 갯수 저장
-						edit.putInt("scnum", event_num);
-						edit.commit();
-
-						Listsave.SaveSchool.push_Hac(schedule_ForCalender);//학사일정 객체를 저장
-
-						//초기 다운로드 완료
-						edit.putBoolean("first", false);
-						edit.commit();
-						check_down[1] = true;
-					} catch (SchoolException e) {
-						//초기 다운로드 실패
-						check_downfail[1] = true;
-						e.printStackTrace();
-					}
+						else
+							check_downfail[1] = true;
 				}
 			}.start();
-		} else {
-			//전에 킨적이 있음
-			check_down[1] = true;
+			} else{
+				//전에 킨적이 있음
+				check_down[1] = true;
+			}
+
+			//메뉴 인텐트 실행
+			login_btn.setOnClickListener(view -> {
+
+				if (check_downfail[0] || check_downfail[1])
+
+					//다운로드에 오류가 있는 경우
+					Toast.makeText(this, "다운로드를 실패했습니다. 앱을 재시작해주세요", Toast.LENGTH_SHORT).show();
+				else if (check_down[0] && check_down[1]) {
+
+					//다운로드가 모두 완료된 경우 or 미리 받아져있는 경우
+					startActivity(intent_login);
+					finish();
+				} else
+					//아직 다운로드를 받지 않은 경우
+					Toast.makeText(this, "초기 다운로드 중입니다!", Toast.LENGTH_SHORT).show();
+			});
+			View.OnTouchListener btnPress =(view, motionEvent) -> BtnPress.bigBTN(motionEvent, login_btn); //버튼 눌리는 처리
+			login_btn.setOnTouchListener(btnPress);
+
+			//회원가입 인텐트 실행
+			register_btn.setOnClickListener(view -> startActivity(intent_register));
+			register_btn.setOnTouchListener(btnPress);
+
+			//비밀번호 찾기 인텐트 실행
+			passwd_btn.setOnClickListener(view -> Log.e("미구현", "ㅇㄹㅇ"));
+			passwd_btn.setOnTouchListener(btnPress);
 		}
-
-		//메뉴 인텐트 실행
-		login_btn.setOnClickListener(view -> {
-
-			if (check_downfail[0] || check_downfail[1])
-
-				//다운로드에 오류가 있는 경우
-				Toast.makeText(this, "다운로드를 실패했습니다. 앱을 재시작해주세요", Toast.LENGTH_SHORT).show();
-			else if (check_down[0] && check_down[1]) {
-
-				//다운로드가 모두 완료된 경우 or 미리 받아져있는 경우
-				startActivity(intent_login);
-				finish();
-			} else
-				//아직 다운로드를 받지 않은 경우
-				Toast.makeText(this, "초기 다운로드 중입니다!", Toast.LENGTH_SHORT).show();
-		});
-		login_btn.setOnTouchListener((view, motionEvent) -> BtnPress.bigBTN(motionEvent, login_btn));//버튼 눌리는 처리
-
-		//회원가입 인텐트 실행
-		register_btn.setOnClickListener(view -> {
-			startActivity(intent_register);
-		});
-		register_btn.setOnTouchListener((view, motionEvent) -> BtnPress.smallBTN(motionEvent, register_btn));//버튼 눌리는 처리
-
-		//비밀번호 찾기 인텐트 실행
-		passwd_btn.setOnClickListener(view -> Log.e("미구현", "ㅇㄹㅇ"));
-		passwd_btn.setOnTouchListener((view, motionEvent) -> BtnPress.smallBTN(motionEvent, passwd_btn));//버튼 눌리는 처리
 	}
-}
