@@ -118,13 +118,10 @@ public class MainActivity extends AppCompatActivity {
 
 			//메뉴 인텐트 실행
 			login_btn.setOnClickListener(view -> {
-
 				if (check_downfail[0] || check_downfail[1])
-
 					//다운로드에 오류가 있는 경우
 					Toast.makeText(this, "다운로드를 실패했습니다. 앱을 재시작해주세요", Toast.LENGTH_SHORT).show();
 				else if (check_down[0] && check_down[1]) {
-
 					//다운로드가 모두 완료된 경우 or 미리 받아져있는 경우
 					startActivity(intent_login);
 					finish();

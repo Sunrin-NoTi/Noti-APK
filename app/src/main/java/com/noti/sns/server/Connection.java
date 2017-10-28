@@ -8,11 +8,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 
 public class Connection {
-	public boolean connecetServer() {
-		return true;
-	}
-
-	public String sendJSON(String url, String data) {
+	public static String sendJSON(String url, String data) {
 		final String[] s = {""};
 		Thread t = new Thread(() -> {
 			try {
@@ -30,7 +26,7 @@ public class Connection {
 			} catch (MalformedURLException e) {
 				s[0] ="MalformedURLException";
 			} catch (IOException e) {
-				s[0] ="IOExceptionn";
+				s[0] ="IOException";
 			}
 		});
 		t.start();
