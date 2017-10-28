@@ -34,7 +34,6 @@ class SettingActivity : AppCompatActivity() {
         //동기화 버튼 클릭
         setting_GetSchool.setOnClickListener {
             check_down = false//다운로드 시작
-            var feb_Days: Int
             Toast.makeText(this, "학사일정을 불러옵니다.", Toast.LENGTH_SHORT).show()//토스트로 다운로드 알림
             //다운로드
             Thread {
@@ -46,46 +45,23 @@ class SettingActivity : AppCompatActivity() {
                     Log.e("ada", "전체가 불러와졌어용")
 
                     var c = 0
-                    val m_31: List<Int> = listOf(3, 5, 7, 8, 10, 12)
-                    val m_30: List<Int> = listOf(4, 6, 9, 11)
-                    for (i in 3..12) {
-                        if (m_31.contains(i))
-                            for (j in 0..30) {
-                                if (!school_Schedule[i - 1][j].schedule.equals("")) {
-                                    edit.putInt("eventm" + c, i)
-                                    edit.putInt("eventd" + c, j)
-                                    c++
-                                }
+                    for (i in 0..11) {  //0 :1월 11:12월
+                        for (j in 0..if (i == 2 || i == 4 || i == 6 || i == 7 || i == 9 || i == 11) {
+                            30
+                        } else {
+                            if (i == 1)
+                                if (checkYunYear(today.year + 1901))
+                                    28
+                                else
+                                    27
+                            else
+                                29
+                        })
+                            if (school_Schedule[i][j].schedule != "") {
+                                edit.putInt("eventm" + c, i)
+                                edit.putInt("eventd" + c, j)
+                                c++
                             }
-                        if (m_30.contains(i))
-                            for (j in 0..29) {
-                                if (!school_Schedule[i - 1][j].schedule.equals("")) {
-                                    edit.putInt("eventm" + c, i)
-                                    edit.putInt("eventd" + c, j)
-                                    c++
-                                }
-                            }
-                    }
-                    for (j in 0..30) {
-                        if (!school_Schedule[0][j].schedule.equals("")) {
-                            edit.putInt("eventm" + c, 1)
-                            edit.putInt("eventd" + c, j)
-                            c++
-                        }
-                    }
-
-
-                    if (checkYunYear(today.year + 1901))
-                        feb_Days = 28
-                    else
-                        feb_Days = 27
-
-                    for (j in 0..feb_Days) {
-                        if (!school_Schedule[1][j].schedule.equals("")) {
-                            edit.putInt("eventm" + c, 2)
-                            edit.putInt("eventd" + c, j)
-                            c++
-                        }
                     }
                     edit.putInt("scnum", c)
                     edit.commit()
@@ -101,12 +77,13 @@ class SettingActivity : AppCompatActivity() {
 
 
     }
+
     //뒤로가기 설정
     override fun onBackPressed() {
         if (check_down)
             super.onBackPressed()
         else
-            //다운로드 완료 전 뒤로가기 불가능
+        //다운로드 완료 전 뒤로가기 불가능
             Toast.makeText(this, "아직 불러오는 중입니다. 잠시만 기다려주세요.", Toast.LENGTH_SHORT).show()
     }
 
