@@ -107,7 +107,6 @@ public class Listsave {
     }
 
     public static class SaveSchool {
-        School api = new School(School.Type.HIGH, School.Region.SEOUL, "B100000658");
         public static ArrayList<List<SchoolSchedule>> get_Hac(){
 
             ArrayList<List<SchoolSchedule>> rtn = new ArrayList<>();

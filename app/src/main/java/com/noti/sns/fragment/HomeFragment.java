@@ -1,5 +1,6 @@
 package com.noti.sns.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,9 +25,11 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment implements HomeViewAdapter.OnStartDragListener {
 
     public static ItemTouchHelper mItemTouchHelper;
-    RecyclerView recyclerView;
-    HomeViewAdapter adapter;
-    ArrayList<HomeCardListItem> contacts;
+    static RecyclerView recyclerView;
+    static HomeViewAdapter adapter;
+    static ArrayList<HomeCardListItem> contacts;
+    static Context homeFragment;
+    static HomeFragment this_home;
 
     @Nullable
     @Override
@@ -34,6 +37,8 @@ public class HomeFragment extends Fragment implements HomeViewAdapter.OnStartDra
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.frg_nemu_home, container, false);
         Intent intent_settitng = new Intent(getActivity(), SettingActivity.class);
+        homeFragment = getActivity();
+        this_home = this;
         recyclerView = rootView.findViewById(R.id.recyclerView);
         contacts = Listsave.HomeCardList.get_Home_List();
         adapter = new HomeViewAdapter(getActivity(), contacts, this);
@@ -50,6 +55,11 @@ public class HomeFragment extends Fragment implements HomeViewAdapter.OnStartDra
         return rootView;
     }
 
+    public static void refresh(){
+        contacts = Listsave.HomeCardList.get_Home_List();
+        adapter = new HomeViewAdapter(homeFragment, contacts, this_home);
+        recyclerView.setAdapter(adapter);
+    }
     @Override
     public void onPause() {
         Listsave.HomeCardList.put_Home_List(contacts);

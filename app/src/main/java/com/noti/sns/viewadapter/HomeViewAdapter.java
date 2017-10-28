@@ -11,7 +11,9 @@ import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.MotionEventCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,6 +24,7 @@ import android.widget.TextView;
 
 import com.noti.sns.R;
 import com.noti.sns.activity.MainActivity;
+import com.noti.sns.fragment.HomeFragment;
 import com.noti.sns.listitem.HomeCardListItem;
 import com.noti.sns.utility.Dday;
 import com.noti.sns.utility.Listsave;
@@ -61,7 +64,6 @@ public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.Holder
     public void onBindViewHolder(final Holder holder, final int position) {
         // 각 위치에 문자열 세팅
         int itemposition = position;
-        Date today = new Date();
         boolean[] seemore_Check = new boolean[list.size()];
 
         for (int i =0;i<list.size();i++)
@@ -74,9 +76,14 @@ public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.Holder
 
         int dday = Dday.caldate(Integer.parseInt(list.get(itemposition).subtitle.substring(0,4)),Integer.parseInt(list.get(itemposition).subtitle.substring(5,7)),Integer.parseInt(list.get(itemposition).subtitle.substring(8,10)));
 
+
+
         holder.titleText.setText(list.get(itemposition).title);
 
-        holder.subTitleText.setText("D"+dday);
+        if(dday == 0)
+            holder.subTitleText.setText("D-day");
+        else
+            holder.subTitleText.setText("D" + dday);
 
         holder.insideText.setText(short_inside);
 
@@ -132,6 +139,11 @@ public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.Holder
             nm.notify(position, builder.build());
 
         });
+        if(dday > 0) {
+            list.remove(position);
+            Listsave.HomeCardList.put_Home_List(list);
+            HomeFragment.refresh();
+        }
 
     }
 
@@ -155,6 +167,7 @@ public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.Holder
         public TextView btn_see_more;
         public LinearLayout bar_noti;
         public ImageView icon;
+        public LinearLayout cardView;
 
         public Holder(View view) {
             super(view);
@@ -165,6 +178,7 @@ public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.Holder
             btn_see_more = view.findViewById(R.id.cd_see_more);
             bar_noti = view.findViewById(R.id.cd_bar);
             icon = view.findViewById(R.id.cd_icon);
+            cardView = view.findViewById(R.id.cv_home);
         }
     }
 }

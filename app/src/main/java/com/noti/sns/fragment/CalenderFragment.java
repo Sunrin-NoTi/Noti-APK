@@ -1,5 +1,6 @@
 package com.noti.sns.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -33,12 +34,13 @@ import static com.noti.sns.activity.MainActivity.pref;
 
 public class CalenderFragment extends Fragment {
 
-    ArrayList<List<SchoolSchedule>> schedule_ForCalender;//학사일정 리스트
-    ArrayList<TimeLineListItem> contacts_t;//타임라인 리스트
-    RecyclerView recyclerView_t;//리사이클러 뷰 객체
-    TimeLineViewAdapter adapter_t;//타임라인 어댑터 객체
-    CompactCalendarView compactCalendarView;//캘린더뷰
-    View rootView;//루트뷰
+    static ArrayList<List<SchoolSchedule>> schedule_ForCalender;//학사일정 리스트
+    static ArrayList<TimeLineListItem> contacts_t;//타임라인 리스트
+    static RecyclerView recyclerView_t;//리사이클러 뷰 객체
+    static TimeLineViewAdapter adapter_t;//타임라인 어댑터 객체
+    static CompactCalendarView compactCalendarView;//캘린더뷰
+    static Context context;
+    static View rootView;//루트뷰
     TextView cal_month;//월 텍스트뷰
 
     //기본선언
@@ -49,10 +51,7 @@ public class CalenderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Date today = new Date();//오늘 날짜
-        Listsave.HomeCardList.add("민나 스테이지에","2017.11.06","아이마스아이도람스터 아이돌마스터 아이돌마스터");
-        Listsave.HomeCardList.add("젠카이노","2017.11.16","러브라이브");
-        Listsave.HomeCardList.add("민나 스테이지에","2017.11.26","유키호 이오리 치하야 타카네");
-
+        context = getActivity();
         rootView = inflater.inflate(R.layout.frg_menu_calender, container, false);//루트뷰 초기화
         cal_month = rootView.findViewById(R.id.cal_month);//월 텍스트뷰 초기화
         compactCalendarView = rootView.findViewById(R.id.compactcalendar_view);//캘린더뷰 초기화
@@ -112,11 +111,37 @@ public class CalenderFragment extends Fragment {
         //세팅 프래그먼트
         goToSetting_Home.setOnClickListener(view -> startActivity(intent_settitng));
 
+
         return rootView;
     }
 
+
+    public static void refresh(){
+        contacts_t = new ArrayList<>();//타임라인 리스트 초기화
+        schedule_ForCalender = Listsave.SaveSchool.get_Hac();//학사일정 초기화
+        if (schedule_ForCalender.size() != 0)
+            //0아닐때만 추가 실행
+            contacts_t = make_contact(new Date().getYear(), new Date().getMonth(), new Date().getDate());
+        adapter_t = new TimeLineViewAdapter(context, contacts_t);//타임라인 어댑터 초기화
+        compactCalendarView.removeAllEvents();
+        for (int i = 0; i < pref.getInt("scnum", 0) + 1; i++) {
+            try {
+                long long1 = 0;
+                if (pref.getInt("eventm" + i, 0) >= 3)
+                    long1 = Long.parseLong(String.valueOf(new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").parse((pref.getInt("eventm" + i, 0)) + "/" + (pref.getInt("eventd" + i, 0) + 1) + "/2017 01:00:00").getTime()), 10);
+                else
+                    long1 = Long.parseLong(String.valueOf(new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").parse((pref.getInt("eventm" + i, 0)) + "/" + (pref.getInt("eventd" + i, 0) + 1) + "/2018 01:00:00").getTime()), 10);
+
+                compactCalendarView.addEvent(new Event(Color.parseColor("#36afff"), long1));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        recyclerView_t.setAdapter(adapter_t);
+    }
     //이벤트 모두 생성
-    ArrayList<TimeLineListItem> make_contact(int year, int month, int dayOfMonth) {
+    static ArrayList<TimeLineListItem> make_contact(int year, int month, int dayOfMonth) {
         ArrayList<TimeLineListItem> contacts_t = new ArrayList<>();
         if (schedule_ForCalender.get(month).get(dayOfMonth - 1).schedule.equals("") || ((month >= 2 && year != new Date().getYear()) || (month < 2 && year != new Date().getYear() + 1)))
             contacts_t.add(new TimeLineListItem(year + 1900 + "년 " + (month + 1) + "월 " + dayOfMonth + "일", "이 날은 학사일정이 없습니다."));
