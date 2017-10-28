@@ -15,7 +15,7 @@ public class FirebaseInstanceIdServiceListener extends com.google.firebase.iid.F
 		Log.d("e", "Refreshed token: " + refreshedToken);
 		SharedPreferences pref;
 		pref = getSharedPreferences("save", 0);
-		Connection.sendJSON(getString(R.string.url), "{\"token\":\"" + pref.getString("token", "") + "\"{\"fcm\":\"" + refreshedToken + "\" }");
+		Connection.sendJSON(getString(R.string.url)+"fcm/", "{\"token\":\"" + pref.getString("token", "") + "\"{\"fcm\":\"" + refreshedToken + "\" }");
 	}
 
 }
