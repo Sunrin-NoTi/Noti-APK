@@ -45,3 +45,4 @@ dependencies {
     compile 'com.github.sundeepk:compact-calendar-view:2.0.2.2'
     compile 'com.android.support:design:26.1.0'
 }
+apply plugin: 'com.google.gms.google-services'
