@@ -45,13 +45,10 @@ public class AlarmViewAdapter extends RecyclerView.Adapter<AlarmViewAdapter.Hold
         String min = list.get(position).minute<10 ? "0"+list.get(position).minute : String.valueOf(list.get(position).minute);
         holder.timeText_a.setText(list.get(position).hour + ":" + min);
 
-        holder.close_a.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                list.remove(position);
-                Listsave.MealAlamList.put_Alam_List((ArrayList<AlarmListItem>) list);
-                LunchFragment.refresh();
-            }
+        holder.close_a.setOnClickListener(view -> {
+            list.remove(position);
+            Listsave.MealAlamList.put_Alam_List((ArrayList<AlarmListItem>) list);
+            LunchFragment.refresh();
         });
 
 

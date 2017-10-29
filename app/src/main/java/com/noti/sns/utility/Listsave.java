@@ -245,11 +245,12 @@ public class Listsave {
                 days = 29;
             for (int j = 0; j < days; j++) {
 
-                SchoolMenu rtn = new SchoolMenu();
-                rtn.breakfast = pref.getString("meal_b" + p0 + "/" + j, "조식이 없습니다");
-                rtn.lunch = pref.getString("meal_l" + p0 + "/" + j, "중식이 없습니다");
-                rtn.dinner = pref.getString("meal_d" + p0 + "/" + j, "석식이 없습니다");
-                rt.add(rtn);
+                SchoolMenu rtn1 = new SchoolMenu();
+
+                rtn1.breakfast = pref.getString("meal_b" + p0 + "/" + j, "조식이 없습니다");
+                rtn1.lunch = pref.getString("meal_l" + p0 + "/" + j, "중식이 없습니다");
+                rtn1.dinner = pref.getString("meal_d" + p0 + "/" + j, "석식이 없습니다");
+                rt.add(rtn1);
             }
             return rt;
 

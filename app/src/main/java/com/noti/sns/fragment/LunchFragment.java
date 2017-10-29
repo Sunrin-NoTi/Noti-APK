@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.noti.sns.listitem.AlarmListItem;
 import com.noti.sns.R;
@@ -128,38 +129,46 @@ public class LunchFragment extends Fragment {
 
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 					switch (radioGroup.getCheckedRadioButtonId() % 3) {
-						case 2:
+						case 0:
 
 							mealw[0] = "조식";
 							break;
-						case 0:
+						case 1:
 
 							mealw[0] = "중식";
 							break;
-						case 1:
+						case 2:
 
 							mealw[0] = "석식";
 							break;
 						default:
 					}
-					Listsave.MealAlamList.add(mealw[0], timePicker.getHour(), timePicker.getMinute());
+					if(Alarm_isNaN(radioGroup.getCheckedRadioButtonId() % 3)) {
+						Listsave.MealAlamList.add(mealw[0], timePicker.getHour(), timePicker.getMinute());
+						refresh();
+					}
+					else
+						Toast.makeText(getActivity(),"이미 " + mealw[0] + " 알람이 있습니다.",Toast.LENGTH_SHORT).show();
 
 				} else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) {
 					switch (radioGroup.getCheckedRadioButtonId() % 3) {
-						case 2:
+						case 0:
 							mealw[0] = "조식";
 							break;
-						case 0:
+						case 1:
 							mealw[0] = "중식";
 							break;
-						case 1:
+						case 2:
 							mealw[0] = "석식";
 
 							break;
 						default:
 					}
-					Listsave.MealAlamList.add(mealw[0], timePicker.getCurrentHour(), timePicker.getCurrentMinute());
-
+					if(Alarm_isNaN(radioGroup.getCheckedRadioButtonId() % 3)) {
+						Listsave.MealAlamList.add(mealw[0], timePicker.getCurrentHour(), timePicker.getCurrentMinute());
+						refresh();
+					}else
+					Toast.makeText(getActivity(),"이미 " + mealw[0] + " 알람이 있습니다.",Toast.LENGTH_SHORT).show();
 				}
 				popup.setVisibility(View.GONE);
 				popup_on_alarm = false;
@@ -168,7 +177,6 @@ public class LunchFragment extends Fragment {
 				tabHost1.getTabWidget().getChildTabViewAt(0).setEnabled(true);
 				tabHost1.getTabWidget().getChildTabViewAt(1).setEnabled(true);
 				tabHost1.getTabWidget().getChildTabViewAt(2).setEnabled(true);
-				refresh();
 			}
 
 		});
@@ -208,6 +216,24 @@ public class LunchFragment extends Fragment {
 		contacts = Listsave.MealAlamList.get_Alam_List();
 		Listsave.MealAlamList.put_Alam_List(contacts);
 		super.onPause();
+	}
+
+	public static boolean Alarm_isNaN(int p0){
+		ArrayList<AlarmListItem> alarmListItems = Listsave.MealAlamList.get_Alam_List();
+		String meal = null;
+		if(p0==0)
+			meal = "조식";
+
+		if(p0==1)
+			meal = "중식";
+
+		if(p0==2)
+			meal = "석식";
+		for (int i = 0;i<alarmListItems.size();i++) {
+			if (alarmListItems.get(i).wmeal.equals(meal))
+				return false;
+		}
+		return true;
 	}
 
 
