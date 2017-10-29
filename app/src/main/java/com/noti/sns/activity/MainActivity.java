@@ -43,6 +43,19 @@ public class MainActivity extends AppCompatActivity {
 		final Boolean[] check_down = {false, false};//초기 다운로드 밑 급식 1월 다운로드 체크
 		final Boolean[] check_downfail = {false, false};//초기 다운로드 실패 확인
 		String school_code = "B100000658";//선린으로 기본값
+		/*
+			 * 반환 실제 값은 각각 response[1] / response[3]으로 접근할 수 있음
+			 * response,failed 학교이름 에러
+			 * response,login_success,code,code // code 보내줌
+		*/
+		String school_name ="";
+		String[] responses = Connection.sendJSON(pref.getString("token", "")+"/school/","{\"type\':\""+school_name+"\"}");
+		if(responses[1].equals("failed")){
+			/* 학교이름 잘못됨 */
+		}else{
+			school_code = responses[3];
+		}
+
 
 		//세어드 프리퍼런스 초기화
 		pref = this.getSharedPreferences("save", 0);
