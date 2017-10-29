@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
 		EditText email_text = findViewById(R.id.email_text);
 		EditText pw_text = findViewById(R.id.pw_text);
 		login_btn.setOnTouchListener((view, motionEvent) -> {
-			String[] response = {};
+			String[] response;
 			/*
 				 * 반환값 실제 값은 각각 response[1] / response[3]으로 접근할 수 있음
 				 * response,login_failed:nonexistent 계정없음

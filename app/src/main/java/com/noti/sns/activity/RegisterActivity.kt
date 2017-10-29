@@ -7,8 +7,11 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import com.noti.sns.R
+import com.noti.sns.activity.MainActivity.edit
+import com.noti.sns.server.Connection
 import com.noti.sns.utility.BtnPress
 import kotlinx.android.synthetic.main.activity_register.*
+import org.json.JSONObject
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -69,6 +72,27 @@ class RegisterActivity : AppCompatActivity() {
             register_confirm.isEnabled = true
         } else {
             super.onBackPressed()
+        }
+    }
+
+    fun register(email: String, password: String, stnumber: String, name: String, room: String) {
+        var response = arrayOf<String>()
+        /*
+         * 반환값 실제 값은 각각 response[1] / response[3]으로 접근할 수 있음
+         * response,register_failed:nonexistent_room 방 없음
+         * response,register_failed:existent_account 이미 있음
+         * response,register_success 회원가입 성공 ==> 이메일 인증하라고 하고, 로그인창 띄어줘야함
+         */
+        val js = JSONObject()
+        js.put("email", email)
+        js.put("password", password)
+        js.put("stnumber", stnumber)
+        js.put("name", name)
+        js.put("room", room)
+        response = Connection.sendJSON(getString(R.string.url) + "/login/", js.toString())
+        if (response[1] == "register_success") {
+        } else if (response[1] == "") {
+
         }
     }
 }
