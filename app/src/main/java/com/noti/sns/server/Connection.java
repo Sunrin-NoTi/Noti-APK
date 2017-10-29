@@ -9,7 +9,7 @@ import java.net.URL;
 
 public class Connection {
 	public static String[] sendJSON(String url, String data) {
-		final String[] s = {};
+		final String[] s = new String[1];
 		Thread t = new Thread(() -> {
 			try {
 				URL url1 = new URL(url);

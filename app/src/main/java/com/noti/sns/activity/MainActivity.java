@@ -39,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
 		//기본 xml로딩
 		setContentView(R.layout.activity_main);
 		super.onCreate(savedInstanceState);
+		//세어드 프리퍼런스 초기화
+		pref = this.getSharedPreferences("save", 0);
+		edit = pref.edit();
 
 		final Boolean[] check_down = {false, false};//초기 다운로드 밑 급식 1월 다운로드 체크
 		final Boolean[] check_downfail = {false, false};//초기 다운로드 실패 확인
@@ -50,16 +53,18 @@ public class MainActivity extends AppCompatActivity {
 		*/
 		String school_name ="";
 		String[] responses = Connection.sendJSON(pref.getString("token", "")+"/school/","{\"type\':\""+school_name+"\"}");
-		if(responses[1].equals("failed")){
+		try {
+			if (responses[1].equals("failed")) {
 			/* 학교이름 잘못됨 */
-		}else{
-			school_code = responses[3];
+			} else {
+				school_code = responses[3];
+			}
+		}catch (Exception e){
+			/* responses가 터짐 */
 		}
 
 
-		//세어드 프리퍼런스 초기화
-		pref = this.getSharedPreferences("save", 0);
-		edit = pref.edit();
+
 
 		api = new School(School.Type.HIGH, School.Region.SEOUL, school_code);//학교 객체 생성
 		Date today = new Date();//지금 시간 받기

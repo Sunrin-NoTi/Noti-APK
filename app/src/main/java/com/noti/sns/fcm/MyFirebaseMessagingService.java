@@ -52,7 +52,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 if (data.get("type").equals("B")) { //아침 알람
 
                     builder.setContentTitle("조식 알림");
-                    meal = ex.get(today.getDate() - 1).lunch.split("\n");
+                    meal = ex.get(today.getDate() - 1).lunch.split("dses\n");
 
                 } else if (data.get("type").equals("L")) { //점심 알람
 
