@@ -21,6 +21,7 @@ import android.widget.TimePicker;
 import com.noti.sns.listitem.AlarmListItem;
 import com.noti.sns.R;
 import com.noti.sns.schoolparsing.SchoolMenu;
+import com.noti.sns.server.Connection;
 import com.noti.sns.utility.BtnPress;
 import com.noti.sns.utility.Listsave;
 import com.noti.sns.viewadapter.AlarmViewAdapter;
@@ -162,7 +163,7 @@ public class LunchFragment extends Fragment {
 				}
 				popup.setVisibility(View.GONE);
 				popup_on_alarm = false;
-
+				Connection.sendJSON(getString(R.string.url) + "/alarm", "{\"type\":\"" + mealw[0] + "\", \"hour\":\"" + timePicker.getCurrentHour() + "\", \"min\":\"" + timePicker.getCurrentMinute() + "\"}");
 				add_btn.setEnabled(true);
 				tabHost1.getTabWidget().getChildTabViewAt(0).setEnabled(true);
 				tabHost1.getTabWidget().getChildTabViewAt(1).setEnabled(true);
