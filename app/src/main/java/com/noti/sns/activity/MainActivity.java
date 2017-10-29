@@ -1,13 +1,21 @@
 package com.noti.sns.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -16,6 +24,7 @@ import android.widget.Toast;
 import com.noti.sns.R;
 import com.noti.sns.schoolparsing.School;
 import com.noti.sns.schoolparsing.SchoolException;
+import com.noti.sns.schoolparsing.SchoolMenu;
 import com.noti.sns.schoolparsing.SchoolSchedule;
 import com.noti.sns.utility.BtnPress;
 import com.noti.sns.utility.Listsave;
@@ -23,6 +32,8 @@ import com.noti.sns.utility.Listsave;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static com.noti.sns.activity.MenuActivity.popup_on_alarm;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,14 +48,53 @@ public class MainActivity extends AppCompatActivity {
 		//기본 xml로딩
 		setContentView(R.layout.activity_main);
 		super.onCreate(savedInstanceState);
+//세어드 프리퍼런스 초기화
+		pref = this.getSharedPreferences("save", 0);
+		edit = pref.edit();
+
+//		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//		Intent intent = new Intent(this, MainActivity.class);
+//		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//		Notification.Builder builder;
+//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//			NotificationChannel notificationChannel = new NotificationChannel("my_notification_channel", "My Notifications", NotificationManager.IMPORTANCE_DEFAULT);
+//			notificationChannel.setDescription("Channel description");
+//			notificationChannel.enableLights(true);
+//			notificationChannel.setLightColor(Color.RED);
+//			notificationManager.createNotificationChannel(notificationChannel);
+//			builder = new Notification.Builder(this,"my_notification_channel");
+//		}
+//		else{
+//			builder = new Notification.Builder(this);
+//		}
+//		builder.setSmallIcon(android.R.drawable.star_on);
+//		builder.setContentTitle("조식 알림");
+//		builder.setContentText("식단");
+//		builder.setWhen(System.currentTimeMillis());
+//		builder.setContentIntent(pendingIntent);
+//		builder.setAutoCancel(true);
+//
+//		Date today = new Date();
+//
+//		List<SchoolMenu> ex = Listsave.SaveSchool.get_meal_month(today.getMonth() + 1);
+//		String meal[];
+//		Notification.InboxStyle inboxStyle = null;
+//		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+//			inboxStyle = new Notification.InboxStyle(builder);
+//			meal = ex.get(today.getDate() - 1).lunch.split("\n");
+//			for(int i = 0 ;i<meal.length;i++)
+//				inboxStyle.addLine(meal[i]);
+//			inboxStyle.setSummaryText("전체 보기");
+//			builder.setStyle(inboxStyle);
+//			notificationManager.notify(0, builder.build());
+//		}
+
 
 		final Boolean[] check_down = {false, false};//초기 다운로드 밑 급식 1월 다운로드 체크
 		final Boolean[] check_downfail = {false, false};//초기 다운로드 실패 확인
 		String school_code = "B100000658";//선린으로 기본값
 
-		//세어드 프리퍼런스 초기화
-		pref = this.getSharedPreferences("save", 0);
-		edit = pref.edit();
+
 
 		api = new School(School.Type.HIGH, School.Region.SEOUL, school_code);//학교 객체 생성
 		Date today = new Date();//지금 시간 받기
