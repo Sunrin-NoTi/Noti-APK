@@ -92,6 +92,11 @@ public class MenuActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (popup_on_alarm) {
             //알람 팝업이 있을때
+            bottomNavigationMenu = findViewById(R.id.bottom_navigation);//바텀 네비게이션 객체 초기화
+            popup_on_alarm = false;//알람 설정용 팝업 초기화
+            tabHost1 = findViewById(R.id.tabHost1);//탭 객체 초기화
+            popup = findViewById(R.id.timepick_popup);//팝업 객체 초기화
+            add_btn = findViewById(R.id.btnAlam);//추가버튼 객체 초기화
             popup.setVisibility(View.GONE);
             popup_on_alarm = false;
             add_btn.setEnabled(true);
