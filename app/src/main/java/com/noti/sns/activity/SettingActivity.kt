@@ -5,8 +5,8 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
 import com.noti.sns.R
-import com.noti.sns.activity.MainActivity.api
 import com.noti.sns.activity.MainActivity.edit
+import com.noti.sns.activity.MainActivity.api
 import com.noti.sns.fragment.CalenderFragment
 import com.noti.sns.schoolparsing.SchoolException
 import com.noti.sns.schoolparsing.SchoolSchedule

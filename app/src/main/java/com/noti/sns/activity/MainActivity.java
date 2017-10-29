@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
 		api = new School(School.Type.HIGH, School.Region.SEOUL, school_code);//학교 객체 생성
 		Date today = new Date();//지금 시간 받기
 
-
 		Intent intent_login = new Intent(this, MenuActivity.class);//메뉴 액티비티 인텐트
 		Intent intent_register = new Intent(this, RegisterActivity.class);//회원가입 액티비티 인텐트
 
