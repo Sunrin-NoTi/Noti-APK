@@ -8,8 +8,8 @@ import java.net.ProtocolException;
 import java.net.URL;
 
 public class Connection {
-	public static String sendJSON(String url, String data) {
-		final String[] s = {""};
+	public static String[] sendJSON(String url, String data) {
+		final String[] s = {};
 		Thread t = new Thread(() -> {
 			try {
 				URL url1 = new URL(url);
@@ -35,7 +35,7 @@ public class Connection {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		return s[0];
+		return s[0].split(",");
 	}
 
 }
