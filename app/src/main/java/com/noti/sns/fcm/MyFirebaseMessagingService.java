@@ -18,11 +18,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 				} else if (data.get("type").equals("D")) { //저녁 알람
 
 				}
-			}else if(data.containsKey("month")){
-				int month =  Integer.valueOf(data.get("month"));
-				int date =  Integer.valueOf(data.get("date"));
-				String title = remoteMessage.getNotification().getTitle();
-				String msg = remoteMessage.getNotification().getBody();
+			}else if(data.containsKey("month")){// 일정알람
+				int month =  Integer.valueOf(data.get("month")); // 월
+				int date =  Integer.valueOf(data.get("date")); // 일
+				String title = remoteMessage.getNotification().getTitle(); //제목
+				String msg = remoteMessage.getNotification().getBody(); //메세지
 			}
 		}
 
