@@ -2,7 +2,9 @@ package com.noti.sns.server;
 
 import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -24,7 +26,16 @@ public class Connection {
 				OutputStreamWriter osw = new OutputStreamWriter(conn.getOutputStream());
 				osw.write(data);
 				osw.flush();
-				s[0] = conn.getContent().toString();
+				BufferedReader in = new BufferedReader(
+					new InputStreamReader(conn.getInputStream()));
+				String inputLine;
+				StringBuffer sb = new StringBuffer();
+
+				while ((inputLine = in.readLine()) != null) {
+					sb.append(inputLine);
+				}
+				in.close();
+				s[0]= sb.toString();
 			} catch (ProtocolException e) {
 				Log.e("1","2");
 				s[0] ="ProtocolException";
