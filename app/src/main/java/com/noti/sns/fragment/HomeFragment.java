@@ -57,6 +57,7 @@ public class HomeFragment extends Fragment implements HomeViewAdapter.OnStartDra
         ImageView goToSetting_Home = rootView.findViewById(R.id.goToSetting_Home);
         goToSetting_Home.setOnClickListener(view -> startActivity(intent_settitng));
 
+
         return rootView;
     }
 
