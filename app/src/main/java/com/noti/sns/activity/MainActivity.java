@@ -22,6 +22,8 @@ import com.noti.sns.server.Connection;
 import com.noti.sns.utility.BtnPress;
 import com.noti.sns.utility.Listsave;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,7 +34,8 @@ public class MainActivity extends AppCompatActivity {
 	public static SharedPreferences pref;
 	public static SharedPreferences.Editor edit;
 	public static School api;
-
+	public static String id;
+	public static String pw;
 	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,21 +54,6 @@ public class MainActivity extends AppCompatActivity {
 			 * response,failed 학교이름 에러
 			 * response,login_success,code,code // code 보내줌
 		*/
-		String school_name ="";
-		String[] responses = Connection.sendJSON(pref.getString("token", "")+"/school/","{\"type\':\""+school_name+"\"}");
-		try {
-			if (responses[1].equals("failed")) {
-			/* 학교이름 잘못됨 */
-			} else {
-				school_code = responses[3];
-			}
-		}catch (Exception e){
-			/* responses가 터짐 */
-		}
-
-
-
-
 		api = new School(School.Type.HIGH, School.Region.SEOUL, school_code);//학교 객체 생성
 		Date today = new Date();//지금 시간 받기
 
@@ -215,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
 				 * response,login_failed:nonexistent 계정없음
 				 * response,login_failed:password 비밀번호기반 로그인 실패
 				 * response,login_failed:token 토큰 로그인 실패 ==> 로그인창 띄어줘야함
-				 * response,login_success,token,token // 토큰은 token 에 저장할 것
+				 * response,login_success,code,schoolcode // 토큰은 token 에 저장할 것
 			*/
 			if (check_downfail[0] || check_downfail[1])
 
@@ -225,15 +213,15 @@ public class MainActivity extends AppCompatActivity {
 
 				//다운로드가 모두 완료된 경우 or 미리 받아져있는 경우
 				try {
-					if (pref.getString("token", "").equals(""))
-						response = Connection.sendJSON(getString(R.string.url) + "/login/", "{\"id\":\"" + email_text.getText().toString() + "\", \"password\":\"" + pw_text.getText().toString() + "\"}");
-					else {
-						response = Connection.sendJSON(getString(R.string.url) + "/login/", "{\"email\":\"" + pref.getString("token", "") + "\"}");
-						startActivity(intent_login);
-					}
-
+					JSONObject jo = new JSONObject();
+					jo.put("id",email_text.getText().toString());
+					jo.put("password",pw_text.getText().toString());
+					response = Connection.sendJSON(getString(R.string.url) + "/login/", jo.toString());
 					if (response[1].equals("login_sucess")) {
-						edit.putString("toekn", response[3]);
+						edit.putString("school_code", response[3]);
+						edit.putString("save_id",email_text.getText().toString());
+						edit.putString("save_pw",pw_text.getText().toString());
+						edit.putBoolean("save_login",true);
 						edit.commit();
 						startActivity(intent_login);
 						finish();
@@ -241,11 +229,11 @@ public class MainActivity extends AppCompatActivity {
 						Toast.makeText(this, "비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
 						pw_text.setText("");
 					}
-				}catch (Exception e){
+				} catch (Exception e) {
 					Log.e("", String.valueOf(email_text.getText()));
-					if(email_text.getText().equals(""))
+					if (email_text.getText().equals(""))
 						Toast.makeText(this, "이메일 칸이 비어있습니다.", Toast.LENGTH_SHORT).show();
-					else if(pw_text.getText().equals(""))
+					else if (pw_text.getText().equals(""))
 						Toast.makeText(this, "비밀번호 칸이 비어있습니다.", Toast.LENGTH_SHORT).show();
 					else
 						Toast.makeText(this, "인터넷 연결이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();

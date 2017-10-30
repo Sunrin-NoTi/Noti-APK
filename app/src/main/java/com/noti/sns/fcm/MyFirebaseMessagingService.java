@@ -77,10 +77,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
             } else if (data.containsKey("month")) {// 일정알람
-                int month = Integer.valueOf(data.get("month")); // 월
-                int date = Integer.valueOf(data.get("date")); // 일
+                String year = data.get("year"); // 김도현년
+                String month = data.get("month").length()<10?"0"+data.get("month"):data.get("month"); // 월
+                String date = data.get("date").length()<10?"0"+data.get("date"):data.get("date"); // 월 // 일
                 String title = remoteMessage.getNotification().getTitle(); //제목
                 String msg = remoteMessage.getNotification().getBody(); //메세지
+                Listsave.HomeCardList.add(title,year+"."+month+"."+date+".",msg);
             }
         }
 

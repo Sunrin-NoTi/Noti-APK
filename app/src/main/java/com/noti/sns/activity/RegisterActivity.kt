@@ -71,7 +71,7 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    fun register(email: String, password: String, stnumber: String, name: String, room: String) {
+    fun register(email: String, password: String, stnumber: String, name: String, room: String, school: String) {
         var response = arrayOf<String>()
         /*
          * 반환값 실제 값은 각각 response[1] / response[3]으로 접근할 수 있음
@@ -85,6 +85,7 @@ class RegisterActivity : AppCompatActivity() {
         js.put("stnumber", stnumber)
         js.put("name", name)
         js.put("room", room)
+        js.put("school", school)
         response = Connection.sendJSON(getString(R.string.url) + "/login/", js.toString())
         if (response[1] == "register_success") {
         } else if (response[1] == "") {

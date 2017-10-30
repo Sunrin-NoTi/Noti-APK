@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.noti.sns.activity.MainActivity;
 import com.noti.sns.listitem.AlarmListItem;
 import com.noti.sns.R;
 import com.noti.sns.schoolparsing.SchoolMenu;
@@ -26,6 +27,8 @@ import com.noti.sns.server.Connection;
 import com.noti.sns.utility.BtnPress;
 import com.noti.sns.utility.Listsave;
 import com.noti.sns.viewadapter.AlarmViewAdapter;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -143,12 +146,11 @@ public class LunchFragment extends Fragment {
 							break;
 						default:
 					}
-					if(Alarm_isNaN(radioGroup.getCheckedRadioButtonId() % 3)) {
+					if (Alarm_isNaN(radioGroup.getCheckedRadioButtonId() % 3)) {
 						Listsave.MealAlamList.add(mealw[0], timePicker.getHour(), timePicker.getMinute());
 						refresh();
-					}
-					else
-						Toast.makeText(getActivity(),"이미 " + mealw[0] + " 알람이 있습니다.",Toast.LENGTH_SHORT).show();
+					} else
+						Toast.makeText(getActivity(), "이미 " + mealw[0] + " 알람이 있습니다.", Toast.LENGTH_SHORT).show();
 
 				} else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) {
 					switch (radioGroup.getCheckedRadioButtonId() % 3) {
@@ -164,15 +166,26 @@ public class LunchFragment extends Fragment {
 							break;
 						default:
 					}
-					if(Alarm_isNaN(radioGroup.getCheckedRadioButtonId() % 3)) {
+					if (Alarm_isNaN(radioGroup.getCheckedRadioButtonId() % 3)) {
 						Listsave.MealAlamList.add(mealw[0], timePicker.getCurrentHour(), timePicker.getCurrentMinute());
 						refresh();
-					}else
-					Toast.makeText(getActivity(),"이미 " + mealw[0] + " 알람이 있습니다.",Toast.LENGTH_SHORT).show();
+					} else
+						Toast.makeText(getActivity(), "이미 " + mealw[0] + " 알람이 있습니다.", Toast.LENGTH_SHORT).show();
 				}
 				popup.setVisibility(View.GONE);
 				popup_on_alarm = false;
-				Connection.sendJSON(getString(R.string.url) + "/alarm", "{\"type\":\"" + mealw[0] + "\", \"hour\":\"" + timePicker.getCurrentHour() + "\", \"min\":\"" + timePicker.getCurrentMinute() + "\"}");
+				JSONObject jo = new JSONObject();
+				try {
+					jo.put("id", MainActivity.id);
+					jo.put("pw", MainActivity.pw);
+					jo.put("type", mealw[0]);
+					jo.put("hour", timePicker.getCurrentHour());
+					jo.put("min", timePicker.getCurrentMinute());
+
+					Connection.sendJSON(getString(R.string.url) + "/alarm/", jo.toString());
+				} catch (Exception e) {
+
+				}
 				add_btn.setEnabled(true);
 				tabHost1.getTabWidget().getChildTabViewAt(0).setEnabled(true);
 				tabHost1.getTabWidget().getChildTabViewAt(1).setEnabled(true);
@@ -218,18 +231,18 @@ public class LunchFragment extends Fragment {
 		super.onPause();
 	}
 
-	public static boolean Alarm_isNaN(int p0){
+	public static boolean Alarm_isNaN(int p0) {
 		ArrayList<AlarmListItem> alarmListItems = Listsave.MealAlamList.get_Alam_List();
 		String meal = null;
-		if(p0==0)
+		if (p0 == 0)
 			meal = "조식";
 
-		if(p0==1)
+		if (p0 == 1)
 			meal = "중식";
 
-		if(p0==2)
+		if (p0 == 2)
 			meal = "석식";
-		for (int i = 0;i<alarmListItems.size();i++) {
+		for (int i = 0; i < alarmListItems.size(); i++) {
 			if (alarmListItems.get(i).wmeal.equals(meal))
 				return false;
 		}

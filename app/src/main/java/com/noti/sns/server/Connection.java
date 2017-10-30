@@ -14,6 +14,7 @@ public class Connection {
 			try {
 				URL url1 = new URL(url);
 				HttpURLConnection conn = (HttpURLConnection) url1.openConnection();
+				conn.setConnectTimeout(3000);
 				conn.setDoOutput(true);
 				conn.setRequestMethod("POST");
 				conn.setRequestProperty("Content-Type", "application/json");
