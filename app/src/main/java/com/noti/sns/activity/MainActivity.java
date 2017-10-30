@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.noti.sns.R;
 import com.noti.sns.schoolparsing.School;
@@ -153,7 +154,8 @@ public class MainActivity extends AppCompatActivity {
 						try {
 							jo1.put("id", pref.getString("save_id", ""));
 							jo1.put("pw", pref.getString("save_pw", ""));
-							jo1.put("fcm", pref.getString("fcm",""));
+							jo1.put("fcm", FirebaseInstanceId.getInstance().getToken());
+							edit.putString("fcm",FirebaseInstanceId.getInstance().getToken());
 							Connection.sendJSON(getString(R.string.url) + "/fcm/", jo1.toString());
 						} catch (Exception e) {
 
