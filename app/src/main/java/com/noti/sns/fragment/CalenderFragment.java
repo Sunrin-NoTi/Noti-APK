@@ -119,9 +119,11 @@ public class CalenderFragment extends Fragment {
     public static void refresh(){
         contacts_t = new ArrayList<>();//타임라인 리스트 초기화
         schedule_ForCalender = Listsave.SaveSchool.get_Hac();//학사일정 초기화
+        Date today = new Date();
+        int c_year = today.getMonth()==0||today.getMonth()==1?today.getYear()-1:today.getYear();
         if (schedule_ForCalender.size() != 0)
             //0아닐때만 추가 실행
-            contacts_t = make_contact(new Date().getYear(), new Date().getMonth(), new Date().getDate());
+            contacts_t = make_contact(c_year, new Date().getMonth(), new Date().getDate());
         adapter_t = new TimeLineViewAdapter(context, contacts_t);//타임라인 어댑터 초기화
         compactCalendarView.removeAllEvents();
         for (int i = 0; i < pref.getInt("scnum", 0) + 1; i++) {
@@ -143,21 +145,23 @@ public class CalenderFragment extends Fragment {
     //이벤트 모두 생성
     static ArrayList<TimeLineListItem> make_contact(int year, int month, int dayOfMonth) {
         ArrayList<TimeLineListItem> contacts_t = new ArrayList<>();
-        if (schedule_ForCalender.get(month).get(dayOfMonth - 1).schedule.equals("") || ((month >= 2 && year != new Date().getYear()) || (month < 2 && year != new Date().getYear() + 1)))
+        Date today = new Date();
+        int c_year = today.getMonth()==0||today.getMonth()==1?today.getYear()-1:today.getYear();
+        if (schedule_ForCalender.get(month).get(dayOfMonth - 1).schedule.equals("") || ((month >= 2 && year != c_year) || (month < 2 && year != c_year + 1)))
             contacts_t.add(new TimeLineListItem(year + 1900 + "년 " + (month + 1) + "월 " + dayOfMonth + "일", "이 날은 학사일정이 없습니다."));
-        if (year < new Date().getYear()) {
-            year = new Date().getYear();
+        if (year < c_year) {
+            year = c_year;
             month = 0;
             dayOfMonth = 1;
         }
         for (int i = 0; i < pref.getInt("scnum", 0) + 1; i++) {
-            if (new Date().getYear() == year) {
+            if (c_year == year) {
                 if (pref.getInt("eventm" + i, 0) > 2 && (pref.getInt("eventm" + i, 0) > month + 1 || (pref.getInt("eventm" + i, 0) == month + 1 && pref.getInt("eventd" + i, 0) >= dayOfMonth - 1))) {
                     contacts_t.add(new TimeLineListItem(year + 1900 + "년 " + pref.getInt("eventm" + i, 0) + "월 " + (pref.getInt("eventd" + i, 0) + 1) + "일", schedule_ForCalender.get(pref.getInt("eventm" + i, 0) - 1).get(pref.getInt("eventd" + i, 0)).schedule));
                 } else if (pref.getInt("eventm" + i, 0) != 0 && pref.getInt("eventm" + i, 0) <= 2) {
                     contacts_t.add(new TimeLineListItem(year + 1901 + "년 " + pref.getInt("eventm" + i, 0) + "월 " + (pref.getInt("eventd" + i, 0) + 1) + "일", schedule_ForCalender.get(pref.getInt("eventm" + i, 0) - 1).get(pref.getInt("eventd" + i, 0)).schedule));
                 }
-            } else if (new Date().getYear() + 1 == year) {
+            } else if (c_year + 1 == year) {
                 if (pref.getInt("eventm" + i, 0) <= 2 && (pref.getInt("eventm" + i, 0) > month + 1 || (pref.getInt("eventm" + i, 0) == month + 1 && pref.getInt("eventd" + i, 0) >= dayOfMonth - 1))) {
                     contacts_t.add(new TimeLineListItem(year + 1900 + "년 " + pref.getInt("eventm" + i, 0) + "월 " + (pref.getInt("eventd" + i, 0) + 1) + "일", schedule_ForCalender.get(pref.getInt("eventm" + i, 0) - 1).get(pref.getInt("eventd" + i, 0)).schedule));
                 }

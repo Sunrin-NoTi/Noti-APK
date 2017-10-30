@@ -86,15 +86,24 @@ public class Listsave {
         }
 
         public static ArrayList<HomeCardListItem> get_Home_List(){
+
             ArrayList<HomeCardListItem> retun = new ArrayList<>();
+            ArrayList<HomeCardListItem> retun_r = new ArrayList<>();
             int add_num = pref.getInt("Home_List_num",0);
             for(int i = 0;i<add_num;i++) {
                 retun.add(new HomeCardListItem(pref.getString("Home_List_title" + i, ""), pref.getString("Home_List_subtitle" + i, ""), pref.getString("Home_List_inside" + i, "")));
+                int dday = Dday.caldate(Integer.parseInt(retun.get(i).subtitle.substring(0,4)),Integer.parseInt(retun.get(i).subtitle.substring(5,7)),Integer.parseInt(retun.get(i).subtitle.substring(8,10)));
+                if(dday<=0)
+                    retun_r.add(new HomeCardListItem(pref.getString("Home_List_title" + i, ""), pref.getString("Home_List_subtitle" + i, ""), pref.getString("Home_List_inside" + i, "")));
+
+
             }
-            return retun;
+            put_Home_List(retun_r);
+            return retun_r;
         }
 
         public static void put_Home_List(ArrayList<HomeCardListItem> p0){
+
             edit.putInt("Home_List_num",p0.size());
             for(int i = 0;i<p0.size();i++) {
                 remove(i);

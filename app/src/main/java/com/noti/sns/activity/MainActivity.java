@@ -47,19 +47,16 @@ public class MainActivity extends AppCompatActivity {
 		pref = this.getSharedPreferences("save", 0);
 		edit = pref.edit();
 		Log.e("sd", String.valueOf(pref.getBoolean("save_login",false)));
-		if(pref.getBoolean("save_login",false))
-			login(pref.getString("save_id",""),pref.getString("save_pw",""));
 
-		final Boolean[] check_down = {false, false};//초기 다운로드 밑 급식 1월 다운로드 체크
-		final Boolean[] check_downfail = {false, false};//초기 다운로드 실패 확인
+
+
 		String school_code = "B100000658";//선린으로 기본값
 		/*
 			 * 반환 실제 값은 각각 response[1] / response[3]으로 접근할 수 있음
 			 * response,failed 학교이름 에러
 			 * response,login_success,code,code // code 보내줌
 		*/
-		api = new School(School.Type.HIGH, School.Region.SEOUL, school_code);//학교 객체 생성
-		Date today = new Date();//지금 시간 받기
+
 
 		Intent intent_register = new Intent(this, RegisterActivity.class);//회원가입 액티비티 인텐트
 
@@ -67,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
 		ImageView register_btn = findViewById(R.id.register_btn);//회원가입 버튼 객체
 		ImageView passwd_btn = findViewById(R.id.passwd_btn);//비밀번호 찾기 버튼 객체
 
-		ArrayList<List<SchoolSchedule>> schedule_ForCalender = new ArrayList();//학사일정 초기 다운로드를 위한 리스트
 
 		//버전에 따른 전체화면 지원
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -76,126 +72,7 @@ public class MainActivity extends AppCompatActivity {
 			w.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 		}
 
-		//그달 급식이 다운로드 되어있는가?
-		if (pref.getInt("mealMonth", 0) != today.getMonth() + 1) {
-			//다운로드 안되있음
-			Toast.makeText(MainActivity.this, "급식을 다운로드 받습니다(매달 1일).", Toast.LENGTH_SHORT).show();//다운로드를 토스트로 알림
-			//파싱을 활용한 다운로드
-			new Thread() {
-				@Override
-				public void run() {
-					try {
-						Listsave.SaveSchool.put_meal_month(api.getMonthlyMenu(today.getYear() + 1900, today.getMonth() + 1), today.getMonth() + 1);//교육청 파싱하여 급식 불러옴
-						//다운받아진 달 저장
-						edit.putInt("mealMonth", today.getMonth() + 1);
-						edit.commit();
-						//다운로드 확인
-						check_down[0] = true;
-					} catch (SchoolException e) {
-						//다운로드 실패
-						check_downfail[0] = true;
-						e.printStackTrace();
-					}
-				}
-			}.start();
-		} else
-			//다운로드 되있음
-			check_down[0] = true;
 
-		//처음 앱을 켰는가?
-		if (pref.getBoolean("first", true)) {
-			//처음 킨것임
-			Toast.makeText(this, "초기 다운로드를 진행하겠습니다.", Toast.LENGTH_SHORT).show();//다운로드를 토스트로 알림
-
-			//파싱을 활용한 다운로드
-			new Thread() {
-				@Override
-				public void run() {
-					try {
-						//3월 ~ 내년 2월까지의 학사일정을 받아옴
-						for (int i = 1; i <= 12; i++)
-							schedule_ForCalender.add(api.getMonthlySchedule(today.getYear() + 1900, i));
-
-						int event_num = 0;//총 일정의 갯수를 구하는 객체
-						int feb_Days = 27;//내년 2월의 날짜 수
-						int next_year = today.getYear() + 1901;//내년의 년도
-
-						//31일인 달 리스트
-						ArrayList<Integer> m_31 = new ArrayList<>();
-						m_31.add(3);
-						m_31.add(5);
-						m_31.add(7);
-						m_31.add(8);
-						m_31.add(10);
-						m_31.add(12);
-
-						//30일인 달 리스트
-						ArrayList<Integer> m_30 = new ArrayList<>();
-						m_30.add(4);
-						m_30.add(6);
-						m_30.add(9);
-						m_30.add(11);
-
-						//내년이 윤년인가?
-						if (((next_year % 4 == 0) && !(next_year % 100 == 0)) || (next_year % 400 == 0))
-							feb_Days = 28;
-
-						//받아온 학사일정을 나눠 캘린더 이벤트로 저장
-						for (int i = 3; i <= 12; i++) {
-							if (m_31.contains(i))
-								for (int j = 0; j <= 30; j++) {
-									if (!schedule_ForCalender.get(i - 1).get(j).schedule.equals("")) {
-										edit.putInt("eventm" + event_num, i);
-										edit.putInt("eventd" + event_num, j);
-										event_num++;
-									}
-								}
-							if (m_30.contains(i))
-								for (int j = 0; j <= 29; j++) {
-									if (!schedule_ForCalender.get(i - 1).get(j).schedule.equals("")) {
-										edit.putInt("eventm" + event_num, i);
-										edit.putInt("eventd" + event_num, j);
-										event_num++;
-									}
-								}
-						}
-						//내년 1월 처리
-						for (int j = 0; j <= 30; j++) {
-							if (!schedule_ForCalender.get(0).get(j).schedule.equals("")) {
-								edit.putInt("eventm" + event_num, 1);
-								edit.putInt("eventd" + event_num, j);
-								event_num++;
-							}
-						}
-						//내년 2월 처리
-						for (int j = 0; j <= feb_Days; j++) {
-							if (!schedule_ForCalender.get(1).get(j).schedule.equals("")) {
-								edit.putInt("eventm" + event_num, 2);
-								edit.putInt("eventd" + event_num, j);
-								event_num++;
-							}
-						}
-						//학사일정 갯수 저장
-						edit.putInt("scnum", event_num);
-						edit.commit();
-
-						Listsave.SaveSchool.push_Hac(schedule_ForCalender);//학사일정 객체를 저장
-
-						//초기 다운로드 완료
-						edit.putBoolean("first", false);
-						edit.commit();
-						check_down[1] = true;
-					} catch (SchoolException e) {
-						//초기 다운로드 실패
-						check_downfail[1] = true;
-						e.printStackTrace();
-					}
-				}
-			}.start();
-		} else {
-			//전에 킨적이 있음
-			check_down[1] = true;
-		}
 		//메뉴 인텐트 실행
 		login_btn.setOnClickListener(view -> {
 			/*
@@ -205,11 +82,7 @@ public class MainActivity extends AppCompatActivity {
 				 * response,login_failed:token 토큰 로그인 실패 ==> 로그인창 띄어줘야함
 				 * response,login_success,code,schoolcode // 토큰은 token 에 저장할 것
 			*/
-			if (check_downfail[0] || check_downfail[1])
 
-				//다운로드에 오류가 있는 경우
-				Toast.makeText(this, "다운로드를 실패했습니다. 앱을 재시작해주세요", Toast.LENGTH_SHORT).show();
-			else if (check_down[0] && check_down[1]) {
 
 				//다운로드가 모두 완료된 경우 or 미리 받아져있는 경우
 				EditText email_text = findViewById(R.id.email_text);
@@ -217,11 +90,10 @@ public class MainActivity extends AppCompatActivity {
 				Log.e("12","이메일:"+email_text.getText().toString());
 				login(email_text.getText().toString(),pw_text.getText().toString());
 
-			} else
-				//아직 다운로드를 받지 않은 경우
-				Toast.makeText(this, "초기 다운로드 중입니다!", Toast.LENGTH_SHORT).show();
-		});
 
+		});
+		if(pref.getBoolean("save_login",false))
+			login(pref.getString("save_id",""),pref.getString("save_pw",""));
 		login_btn.setOnTouchListener((view, motionEvent) -> {
 			BtnPress.bigBTN(motionEvent, login_btn);
 			return false;
@@ -256,8 +128,10 @@ public class MainActivity extends AppCompatActivity {
 			Toast.makeText(this, "비밀번호 칸이 비어있습니다.", Toast.LENGTH_SHORT).show();
 		else {
 			try {
+				final Boolean[] check_down = {false, false};//초기 다운로드 밑 급식 1월 다운로드 체크
+				final Boolean[] check_downfail = {false, false};//초기 다운로드 실패 확인
 				Intent intent_login = new Intent(this, MenuActivity.class);//메뉴 액티비티 인텐트
-
+				ArrayList<List<SchoolSchedule>> schedule_ForCalender = new ArrayList();//학사일정 초기 다운로드를 위한 리스트
 				JSONObject jo = new JSONObject();
 				jo.put("id", p0);
 				jo.put("password", p1);
@@ -268,8 +142,147 @@ public class MainActivity extends AppCompatActivity {
 					edit.putString("save_pw", p1);
 					edit.putBoolean("save_login", true);
 					edit.commit();
-					startActivity(intent_login);
-					finish();
+
+					api = new School(School.Type.HIGH, School.Region.SEOUL, response[3]);//학교 객체 생성
+					Date today = new Date();//지금 시간 받기
+					//그달 급식이 다운로드 되어있는가?
+					//처음 앱을 켰는가?
+					if (pref.getBoolean("first", true)) {
+						//처음 킨것임
+						Toast.makeText(this, "초기 다운로드를 진행하겠습니다.", Toast.LENGTH_SHORT).show();//다운로드를 토스트로 알림
+
+						//파싱을 활용한 다운로드
+						new Thread() {
+							@Override
+							public void run() {
+								try {
+									int current_year = today.getMonth()==0||today.getMonth()==1?today.getYear()+1899:today.getYear()+1900;
+									Listsave.SaveSchool.put_meal_month(api.getMonthlyMenu(current_year, today.getMonth() + 1), today.getMonth() + 1);//교육청 파싱하여 급식 불러옴
+									//다운받아진 달 저장
+									edit.putInt("mealMonth", today.getMonth() + 1);
+									edit.commit();
+									//다운로드 확인
+									check_down[0] = true;
+									//3월 ~ 내년 2월까지의 학사일정을 받아옴
+									for (int i = 1; i <= 12; i++)
+										schedule_ForCalender.add(api.getMonthlySchedule(current_year, i));
+
+									int event_num = 0;//총 일정의 갯수를 구하는 객체
+									int feb_Days = 27;//내년 2월의 날짜 수
+									int next_year = current_year + 1;//내년의 년도
+
+									//31일인 달 리스트
+									ArrayList<Integer> m_31 = new ArrayList<>();
+									m_31.add(3);
+									m_31.add(5);
+									m_31.add(7);
+									m_31.add(8);
+									m_31.add(10);
+									m_31.add(12);
+
+									//30일인 달 리스트
+									ArrayList<Integer> m_30 = new ArrayList<>();
+									m_30.add(4);
+									m_30.add(6);
+									m_30.add(9);
+									m_30.add(11);
+
+									//내년이 윤년인가?
+									if (((next_year % 4 == 0) && !(next_year % 100 == 0)) || (next_year % 400 == 0))
+										feb_Days = 28;
+
+									//받아온 학사일정을 나눠 캘린더 이벤트로 저장
+									for (int i = 3; i <= 12; i++) {
+										if (m_31.contains(i))
+											for (int j = 0; j <= 30; j++) {
+												if (!schedule_ForCalender.get(i - 1).get(j).schedule.equals("")) {
+													edit.putInt("eventm" + event_num, i);
+													edit.putInt("eventd" + event_num, j);
+													event_num++;
+												}
+											}
+										if (m_30.contains(i))
+											for (int j = 0; j <= 29; j++) {
+												if (!schedule_ForCalender.get(i - 1).get(j).schedule.equals("")) {
+													edit.putInt("eventm" + event_num, i);
+													edit.putInt("eventd" + event_num, j);
+													event_num++;
+												}
+											}
+									}
+									//내년 1월 처리
+									for (int j = 0; j <= 30; j++) {
+										if (!schedule_ForCalender.get(0).get(j).schedule.equals("")) {
+											edit.putInt("eventm" + event_num, 1);
+											edit.putInt("eventd" + event_num, j);
+											event_num++;
+										}
+									}
+									//내년 2월 처리
+									for (int j = 0; j <= feb_Days; j++) {
+										if (!schedule_ForCalender.get(1).get(j).schedule.equals("")) {
+											edit.putInt("eventm" + event_num, 2);
+											edit.putInt("eventd" + event_num, j);
+											event_num++;
+										}
+									}
+									//학사일정 갯수 저장
+									edit.putInt("scnum", event_num);
+									edit.commit();
+
+									Listsave.SaveSchool.push_Hac(schedule_ForCalender);//학사일정 객체를 저장
+
+									//초기 다운로드 완료
+									edit.putBoolean("first", false);
+									edit.commit();
+									check_down[1] = true;
+								} catch (SchoolException e) {
+									//초기 다운로드 실패
+									check_downfail[1] = true;
+									e.printStackTrace();
+								}
+							}
+						}.start();
+					} else {
+						//전에 킨적이 있음
+						check_down[1] = true;
+					}
+
+
+					if (check_downfail[1])
+
+						//다운로드에 오류가 있는 경우
+						Toast.makeText(this, "다운로드를 실패했습니다. 앱을 재시작해주세요", Toast.LENGTH_SHORT).show();
+					else if (check_down[1]) {
+						if ((pref.getInt("mealMonth", 0) != today.getMonth() + 1)) {
+							//다운로드 안되있음
+							Toast.makeText(MainActivity.this, "급식을 다운로드 받습니다(매달 최초 로그인).", Toast.LENGTH_SHORT).show();//다운로드를 토스트로 알림
+							//파싱을 활용한 다운로드
+							new Thread() {
+								@Override
+								public void run() {
+									try {
+										Listsave.SaveSchool.put_meal_month(api.getMonthlyMenu(today.getYear() + 1900, today.getMonth() + 1), today.getMonth() + 1);//교육청 파싱하여 급식 불러옴
+										//다운받아진 달 저장
+										edit.putInt("mealMonth", today.getMonth() + 1);
+										edit.commit();
+										//다운로드 확인
+										check_down[0] = true;
+									} catch (SchoolException e) {
+										//다운로드 실패
+										check_downfail[0] = true;
+										e.printStackTrace();
+									}
+								}
+							}.start();
+						}
+						startActivity(intent_login);
+						finish();
+					} else
+						//아직 다운로드를 받지 않은 경우
+						Toast.makeText(this, "잠시후 한번 더 로그인을 눌러주세요!", Toast.LENGTH_SHORT).show();
+
+
 				} else if (response[1].equals("login_failed:password")) {
 					Toast.makeText(this, "비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
 					pw_text.setText("");

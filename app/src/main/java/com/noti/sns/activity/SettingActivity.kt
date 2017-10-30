@@ -36,6 +36,7 @@ class SettingActivity : AppCompatActivity() {
 
         setting_logout.setOnClickListener {
             edit.putBoolean("save_login",false);
+            edit.putBoolean("first",true);
             edit.commit()
             finish()
             startActivity(Intent(this,MainActivity::class.java))

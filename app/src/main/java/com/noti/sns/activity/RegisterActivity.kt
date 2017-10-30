@@ -3,12 +3,12 @@ package com.noti.sns.activity
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.text.Editable
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
 import com.noti.sns.R
-import com.noti.sns.activity.MainActivity.edit
 import com.noti.sns.server.Connection
 import com.noti.sns.utility.BtnPress
 import kotlinx.android.synthetic.main.activity_register.*
@@ -35,6 +35,7 @@ class RegisterActivity : AppCompatActivity() {
             reg_name.isEnabled = false
             reg_password.isEnabled = false
             reg_school.isEnabled = false
+            reg_schnum.isEnabled = false
             sign_up_back.isEnabled = false
             register_confirm.isEnabled = false
 
@@ -50,6 +51,9 @@ class RegisterActivity : AppCompatActivity() {
         pin_btn.setOnClickListener {
             if(roomNameEdit.text.equals(""))
                 Toast.makeText(this,"방 이름이 빈칸입니다.",Toast.LENGTH_SHORT).show()
+            else {
+                register(reg_email.text, reg_password.text, reg_schnum.text, reg_name.text, roomNameEdit.text, reg_school.text)
+            }
         }
 
         //버튼 클릭 애니메이션
@@ -69,13 +73,14 @@ class RegisterActivity : AppCompatActivity() {
             reg_name.isEnabled = true
             reg_password.isEnabled = true
             reg_school.isEnabled = true
+            reg_schnum.isEnabled = true
             register_confirm.isEnabled = true
         } else {
             super.onBackPressed()
         }
     }
 
-    fun register(email: String, password: String, stnumber: String, name: String, room: String, school: String) {
+    fun register(email: Editable, password: Editable, stnumber: Editable, name: Editable, room: Editable, school: Editable) {
         var response: Array<String>
         /*
          * 반환값 실제 값은 각각 response[1] / response[3]으로 접근할 수 있음
@@ -90,10 +95,20 @@ class RegisterActivity : AppCompatActivity() {
         js.put("name", name)
         js.put("room", room)
         js.put("school", school)
-        response = Connection.sendJSON(getString(R.string.url) + "/login/", js.toString())
+        response = Connection.sendJSON(getString(R.string.url) + "/reg/", js.toString())
         if (response[1] == "register_success") {
-        } else if (response[1] == "") {
+            Toast.makeText(this,"회원가입 성공. 이메일 인증을 진행해주세요.",Toast.LENGTH_SHORT).show()
 
+            finish()
+        }else if(response[1] == "register_failed:existent_account") {
+
+            Toast.makeText(this,"이미 계정이 있습니다.",Toast.LENGTH_SHORT).show()
+        }else if(response[1] == "register_failed:nonexistent_room") {
+
+            Toast.makeText(this,"방이 없습니다.",Toast.LENGTH_SHORT).show()
+        }
+        else if (response[1] == "") {
+            Toast.makeText(this,"오류입니다. 다시 시도해주세요.",Toast.LENGTH_SHORT).show()
         }
     }
 }

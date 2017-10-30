@@ -76,8 +76,6 @@ public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.Holder
         Log.e("12",list.get(itemposition).subtitle);
         int dday = Dday.caldate(Integer.parseInt(list.get(itemposition).subtitle.substring(0,4)),Integer.parseInt(list.get(itemposition).subtitle.substring(5,7)),Integer.parseInt(list.get(itemposition).subtitle.substring(8,10)));
 
-
-
         holder.titleText.setText(list.get(itemposition).title);
 
         if(dday == 0)
@@ -139,11 +137,7 @@ public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.Holder
             nm.notify(position, builder.build());
 
         });
-        if(dday > 0) {
-            list.remove(position);
-            Listsave.HomeCardList.put_Home_List(list);
-            HomeFragment.refresh();
-        }
+
 
     }
 

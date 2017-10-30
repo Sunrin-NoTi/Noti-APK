@@ -3,6 +3,7 @@ package com.noti.sns.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
@@ -105,6 +106,6 @@ public class MenuActivity extends AppCompatActivity {
             tabHost1.getTabWidget().getChildTabViewAt(2).setEnabled(true);
         } else
             //팝업이 없을때
-            super.onBackPressed();
+            ActivityCompat.finishAffinity(this);
     }
 }
