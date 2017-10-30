@@ -48,7 +48,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 builder.setSmallIcon(android.R.drawable.star_on);
                 builder.setContentText("식단");
                 builder.setWhen(System.currentTimeMillis());
-                builder.setSmallIcon(R.mipmap.ic_launcher);
+                builder.setSmallIcon(R.drawable.bellxxxhdpi);
                 builder.setContentIntent(pendingIntent);
                 builder.setAutoCancel(true);
                 if (data.get("type").equals("B")) { //아침 알람

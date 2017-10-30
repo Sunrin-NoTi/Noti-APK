@@ -129,7 +129,7 @@ public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.Holder
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context,"my_notification_channel");
             builder.setContentTitle(list.get(itemposition).title)
                     .setContentText(list.get(itemposition).subtitle+"까지")
-                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setSmallIcon(R.drawable.bellxxxhdpi)
                     .setContentIntent(contentIntent)
                     .setAutoCancel(true)
                     .setDefaults(Notification.DEFAULT_ALL)
