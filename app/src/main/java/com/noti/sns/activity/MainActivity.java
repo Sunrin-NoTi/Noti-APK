@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 	public static School api;
 	public static String id;
 	public static String pw;
+	boolean btn_once;
 	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,14 +66,18 @@ public class MainActivity extends AppCompatActivity {
 		ImageView passwd_btn = findViewById(R.id.passwd_btn);//비밀번호 찾기 버튼 객체
 
 
-		//버전에 따른 전체화면 지원
-//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//			Window w = getWindow();
-//			w.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-//			w.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-//		}
+		//버전에 따른 버튼
+		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+			register_btn.setBackgroundResource(R.drawable.btn_design2_pressed);
+			register_btn.setPadding(30,30,30,30);
+            register_btn.setImageResource(R.drawable.ic_person_add_blue_24dp);
+            passwd_btn.setBackgroundResource(R.drawable.btn_design2_pressed);
+            passwd_btn.setImageResource(R.drawable.ic_help_black_24dp);
+            passwd_btn.setPadding(30,30,30,30);
 
+		}
 
+        btn_once = false;
 		//메뉴 인텐트 실행
 		login_btn.setOnClickListener(view -> {
 			/*
@@ -147,8 +152,9 @@ public class MainActivity extends AppCompatActivity {
 					Date today = new Date();//지금 시간 받기
 					//그달 급식이 다운로드 되어있는가?
 					//처음 앱을 켰는가?
-					if (pref.getBoolean("first", true)) {
+					if (pref.getBoolean("first", true)&&!btn_once) {
 						//처음 킨것임
+                        btn_once =true;
 						Toast.makeText(this, "초기 다운로드를 진행하겠습니다.", Toast.LENGTH_SHORT).show();//다운로드를 토스트로 알림
 
 						//파싱을 활용한 다운로드
@@ -157,15 +163,17 @@ public class MainActivity extends AppCompatActivity {
 							public void run() {
 								try {
 									int current_year = today.getMonth()==0||today.getMonth()==1?today.getYear()+1899:today.getYear()+1900;
-									Listsave.SaveSchool.put_meal_month(api.getMonthlyMenu(current_year, today.getMonth() + 1), today.getMonth() + 1);//교육청 파싱하여 급식 불러옴
+									Listsave.SaveSchool.put_meal_month(api.getMonthlyMenu(today.getYear()+1900, today.getMonth() + 1), today.getMonth() + 1);//교육청 파싱하여 급식 불러옴
 									//다운받아진 달 저장
 									edit.putInt("mealMonth", today.getMonth() + 1);
 									edit.commit();
 									//다운로드 확인
 									check_down[0] = true;
 									//3월 ~ 내년 2월까지의 학사일정을 받아옴
-									for (int i = 1; i <= 12; i++)
-										schedule_ForCalender.add(api.getMonthlySchedule(current_year, i));
+									for (int i = 1; i <= 12; i++) {
+                                        schedule_ForCalender.add(api.getMonthlySchedule(current_year, i));
+                                        Log.e("1",i+"일번 불러옴");
+                                    }
 
 									int event_num = 0;//총 일정의 갯수를 구하는 객체
 									int feb_Days = 27;//내년 2월의 날짜 수
@@ -236,6 +244,7 @@ public class MainActivity extends AppCompatActivity {
 									edit.putBoolean("first", false);
 									edit.commit();
 									check_down[1] = true;
+									btn_once = false;
 								} catch (SchoolException e) {
 									//초기 다운로드 실패
 									check_downfail[1] = true;
@@ -250,7 +259,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 					if (check_downfail[1])
-
 						//다운로드에 오류가 있는 경우
 						Toast.makeText(this, "다운로드를 실패했습니다. 앱을 재시작해주세요", Toast.LENGTH_SHORT).show();
 					else if (check_down[1]) {
@@ -267,17 +275,20 @@ public class MainActivity extends AppCompatActivity {
 										edit.putInt("mealMonth", today.getMonth() + 1);
 										edit.commit();
 										//다운로드 확인
-										check_down[0] = true;
 									} catch (SchoolException e) {
 										//다운로드 실패
-										check_downfail[0] = true;
 										e.printStackTrace();
 									}
 								}
 							}.start();
 						}
-						startActivity(intent_login);
-						finish();
+						if(!btn_once) {
+                            startActivity(intent_login);
+                            finish();
+                        }else{
+
+                            Toast.makeText(this, "잠시 기다려주세요", Toast.LENGTH_SHORT).show();
+                        }
 					} else
 						//아직 다운로드를 받지 않은 경우
 						Toast.makeText(this, "잠시후 한번 더 로그인을 눌러주세요!", Toast.LENGTH_SHORT).show();

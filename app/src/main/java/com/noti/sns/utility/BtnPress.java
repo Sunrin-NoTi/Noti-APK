@@ -90,7 +90,7 @@ public class BtnPress extends Activity {
                             btn.setImageResource(R.drawable.ic_person_add_blue_24dp);
                             break;
                         case R.id.passwd_btn:
-                            btn.setImageResource(R.drawable.ic_lock_blue_24dp);
+                            btn.setImageResource(R.drawable.ic_help_black_24dp);
                             break;
                     }
                     break;
@@ -101,7 +101,7 @@ public class BtnPress extends Activity {
                             btn.setImageResource(R.drawable.ic_person_add_black_24dp);
                             break;
                         case R.id.passwd_btn:
-                            btn.setImageResource(R.drawable.ic_lock_black_24dp);
+                            btn.setImageResource(R.drawable.ic_help_white_24dp);
                             break;
                     }
 
