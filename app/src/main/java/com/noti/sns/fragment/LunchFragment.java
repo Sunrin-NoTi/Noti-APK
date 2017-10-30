@@ -38,6 +38,7 @@ import java.util.Date;
 import java.util.List;
 
 import static android.content.Context.ALARM_SERVICE;
+import static com.noti.sns.activity.MainActivity.pref;
 import static com.noti.sns.activity.MenuActivity.popup_on_alarm;
 
 public class LunchFragment extends Fragment {
@@ -145,6 +146,17 @@ public class LunchFragment extends Fragment {
 					}
 					if (Alarm_isNaN(radioGroup.getCheckedRadioButtonId())) {
 						Listsave.MealAlamList.add(mealw[0], timePicker.getHour(), timePicker.getMinute());
+						JSONObject jo = new JSONObject();
+						try {
+							jo.put("pw", pref.getString("save_pw",""));
+							jo.put("type", mealw[0]);
+							jo.put("hour", timePicker.getHour());
+							jo.put("min", timePicker.getMinute());
+							jo.put("id", pref.getString("save_id",""));
+							Connection.sendJSON(getString(R.string.url) + "/alarm/", jo.toString());
+						} catch (Exception e) {
+
+						}
 						refresh();
 					} else
 						Toast.makeText(getActivity(), "이미 " + mealw[0] + " 알람이 있습니다.", Toast.LENGTH_SHORT).show();
@@ -165,27 +177,23 @@ public class LunchFragment extends Fragment {
 					}
 					if (Alarm_isNaN(radioGroup.getCheckedRadioButtonId())) {
 						Listsave.MealAlamList.add(mealw[0], timePicker.getCurrentHour(), timePicker.getCurrentMinute());
+						JSONObject jo = new JSONObject();
+						try {
+							jo.put("pw", pref.getString("save_pw",""));
+							jo.put("type", mealw[0]);
+							jo.put("hour", timePicker.getCurrentHour());
+							jo.put("min", timePicker.getCurrentMinute());
+							jo.put("id", pref.getString("save_id",""));
+							Connection.sendJSON(getString(R.string.url) + "/alarm/", jo.toString());
+						} catch (Exception e) {
+
+						}
 						refresh();
 					} else
 						Toast.makeText(getActivity(), "이미 " + mealw[0] + " 알람이 있습니다.", Toast.LENGTH_SHORT).show();
 				}
 				popup.setVisibility(View.GONE);
 				popup_on_alarm = false;
-				Thread t = new Thread(() -> {
-					JSONObject jo = new JSONObject();
-					try {
-						jo.put("id", MainActivity.id);
-						jo.put("pw", MainActivity.pw);
-						jo.put("type", mealw[0]);
-						jo.put("hour", timePicker.getCurrentHour());
-						jo.put("min", timePicker.getCurrentMinute());
-
-						Connection.sendJSON(getString(R.string.url) + "/alarm/", jo.toString());
-					} catch (Exception e) {
-
-					}
-				});
-				t.start();
 				add_btn.setEnabled(true);
 				if (Listsave.MealAlamList.get_Alam_List().size() == 3)
 					add_btn.setVisibility(View.GONE);

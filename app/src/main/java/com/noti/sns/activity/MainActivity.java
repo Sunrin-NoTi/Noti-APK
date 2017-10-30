@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 		Log.e("sd", String.valueOf(pref.getBoolean("save_login",false)));
 
 
-
+		FirebaseMessaging.getInstance().subscribeToTopic("ST");
 		String school_code = "B100000658";//선린으로 기본값
 		/*
 			 * 반환 실제 값은 각각 response[1] / response[3]으로 접근할 수 있음
@@ -148,15 +148,17 @@ public class MainActivity extends AppCompatActivity {
 					edit.putString("save_pw", p1);
 					edit.putBoolean("save_login", true);
 					edit.commit();
-					jo = new JSONObject();
-					try {
-						jo.put("id", pref.getString("save_id", ""));
-						jo.put("pw", pref.getString("save_pw", ""));
-						jo.put("fcm",pref.getString("fcm",""));
-						Connection.sendJSON(getString(R.string.url) + "fcm/", jo.toString());
-					} catch (Exception e) {
+					new Thread(() -> {
+						JSONObject jo1 = new JSONObject();
+						try {
+							jo1.put("id", pref.getString("save_id", ""));
+							jo1.put("pw", pref.getString("save_pw", ""));
+							jo1.put("fcm", pref.getString("fcm",""));
+							Connection.sendJSON(getString(R.string.url) + "/fcm/", jo1.toString());
+						} catch (Exception e) {
 
-					}
+						}
+					}).start();
 					api = new School(School.Type.HIGH, School.Region.SEOUL, response[3]);//학교 객체 생성
 					Date today = new Date();//지금 시간 받기
 					//그달 급식이 다운로드 되어있는가?

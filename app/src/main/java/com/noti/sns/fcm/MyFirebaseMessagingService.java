@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
+import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -28,6 +29,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Map<String, String> data = remoteMessage.getData();
         if (data.size() > 0) {
             if (data.containsKey("type")) {
+                Log.e("e", data.get("type"));
                 NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 Intent intent = new Intent(this, MainActivity.class);
                 PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -51,17 +53,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 builder.setSmallIcon(R.mipmap.ic_launcher);
                 builder.setContentIntent(pendingIntent);
                 builder.setAutoCancel(true);
-                if (data.get("type").equals("B")) { //아침 알람
+                if (data.get("type").equals("조식")) { //아침 알람
 
                     builder.setContentTitle("조식 알림");
                     meal = ex.get(today.getDate() - 1).lunch.split("dses\n");
 
-                } else if (data.get("type").equals("L")) { //점심 알람
+                } else if (data.get("type").equals("중식")) { //점심 알람
 
                     builder.setContentTitle("중식 알림");
                     meal = ex.get(today.getDate() - 1).lunch.split("\n");
 
-                } else if (data.get("type").equals("D")) { //저녁 알람
+                } else if (data.get("type").equals("석식")) { //저녁 알람
                     builder.setContentTitle("석식 알림");
                     meal = ex.get(today.getDate() - 1).lunch.split("\n");
 

@@ -14,11 +14,12 @@ public class FirebaseInstanceIdServiceListener extends com.google.firebase.iid.F
 	public void onTokenRefresh() {
 		// Get updated InstanceID token.
 		String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-		Log.d("e", "Refreshed token: " + refreshedToken);
+		Log.e("e", "Refreshed token: " + refreshedToken);
 		SharedPreferences pref;
 		pref = getSharedPreferences("save", 0);
 		SharedPreferences.Editor ed = pref.edit();
 		ed.putString("fcm",refreshedToken);
+		ed.apply();
 	}
 
 }
