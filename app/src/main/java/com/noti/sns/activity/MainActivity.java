@@ -46,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
 		pref = this.getSharedPreferences("save", 0);
 		edit = pref.edit();
 
+		if(pref.getBoolean("save_login",false))
+			login(pref.getString("save_id",""),pref.getString("save_pw",""));
+
 		final Boolean[] check_down = {false, false};//초기 다운로드 밑 급식 1월 다운로드 체크
 		final Boolean[] check_downfail = {false, false};//초기 다운로드 실패 확인
 		String school_code = "B100000658";//선린으로 기본값
@@ -57,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
 		api = new School(School.Type.HIGH, School.Region.SEOUL, school_code);//학교 객체 생성
 		Date today = new Date();//지금 시간 받기
 
-		Intent intent_login = new Intent(this, MenuActivity.class);//메뉴 액티비티 인텐트
 		Intent intent_register = new Intent(this, RegisterActivity.class);//회원가입 액티비티 인텐트
 
 		ImageView login_btn = findViewById(R.id.login_btn);//로그인 버튼 객체
@@ -193,11 +195,8 @@ public class MainActivity extends AppCompatActivity {
 			//전에 킨적이 있음
 			check_down[1] = true;
 		}
-		EditText email_text = findViewById(R.id.email_text);
-		EditText pw_text = findViewById(R.id.pw_text);
 		//메뉴 인텐트 실행
 		login_btn.setOnClickListener(view -> {
-			String[] response;
 			/*
 				 * 반환값 실제 값은 각각 response[1] / response[3]으로 접근할 수 있음
 				 * response,login_failed:nonexistent 계정없음
@@ -212,32 +211,10 @@ public class MainActivity extends AppCompatActivity {
 			else if (check_down[0] && check_down[1]) {
 
 				//다운로드가 모두 완료된 경우 or 미리 받아져있는 경우
-				try {
-					JSONObject jo = new JSONObject();
-					jo.put("id",email_text.getText().toString());
-					jo.put("password",pw_text.getText().toString());
-					response = Connection.sendJSON(getString(R.string.url) + "/login/", jo.toString());
-					if (response[1].equals("login_sucess")) {
-						edit.putString("school_code", response[3]);
-						edit.putString("save_id",email_text.getText().toString());
-						edit.putString("save_pw",pw_text.getText().toString());
-						edit.putBoolean("save_login",true);
-						edit.commit();
-						startActivity(intent_login);
-						finish();
-					} else if (response[1].equals("login_failed:password")) {
-						Toast.makeText(this, "비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
-						pw_text.setText("");
-					}
-				} catch (Exception e) {
-					Log.e("", String.valueOf(email_text.getText()));
-					if (email_text.getText().equals(""))
-						Toast.makeText(this, "이메일 칸이 비어있습니다.", Toast.LENGTH_SHORT).show();
-					else if (pw_text.getText().equals(""))
-						Toast.makeText(this, "비밀번호 칸이 비어있습니다.", Toast.LENGTH_SHORT).show();
-					else
-						Toast.makeText(this, "인터넷 연결이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
-				}
+				EditText email_text = findViewById(R.id.email_text);
+				EditText pw_text = findViewById(R.id.pw_text);
+				Log.e("12","이메일:"+email_text.getText().toString());
+				login(email_text.getText().toString(),pw_text.getText().toString());
 
 			} else
 				//아직 다운로드를 받지 않은 경우
@@ -261,5 +238,41 @@ public class MainActivity extends AppCompatActivity {
 		//비밀번호 찾기 인텐트 실행
 		passwd_btn.setOnClickListener(view -> Log.e("미구현", "ㅇㄹㅇ"));
 		passwd_btn.setOnTouchListener((view, motionEvent) -> BtnPress.smallBTN(motionEvent, passwd_btn));//버튼 눌리는 처리
+	}
+	public void login(String p0,String p1){
+		String[] response;
+		EditText email_text = findViewById(R.id.email_text);
+		EditText pw_text = findViewById(R.id.pw_text);
+		if (p0.equals(""))
+			Toast.makeText(this, "이메일 칸이 비어있습니다.", Toast.LENGTH_SHORT).show();
+		else if (p1.equals(""))
+			Toast.makeText(this, "비밀번호 칸이 비어있습니다.", Toast.LENGTH_SHORT).show();
+		else {
+			try {
+				Intent intent_login = new Intent(this, MenuActivity.class);//메뉴 액티비티 인텐트
+
+				JSONObject jo = new JSONObject();
+				jo.put("id", email_text.getText().toString());
+				jo.put("password", pw_text.getText().toString());
+				response = Connection.sendJSON(getString(R.string.url) + "/login/", jo.toString());
+				if (response[1].equals("login_sucess")) {
+					edit.putString("school_code", response[3]);
+					edit.putString("save_id", p0);
+					edit.putString("save_pw", p1);
+					edit.putBoolean("save_login", true);
+					edit.commit();
+					startActivity(intent_login);
+					finish();
+				} else if (response[1].equals("login_failed:password")) {
+					Toast.makeText(this, "비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
+					pw_text.setText("");
+				}
+			} catch (Exception e) {
+				Log.e("1", String.valueOf(e));
+				Log.e("1", String.valueOf(email_text.getText()));
+
+				Toast.makeText(this, "인터넷 연결이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+			}
+		}
 	}
 }
