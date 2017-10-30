@@ -45,7 +45,6 @@ public class LunchFragment extends Fragment {
 	public static ArrayList<AlarmListItem> contacts;
 	public static Context context;
 	static RecyclerView recyclerView;
-	AlarmViewAdapter adapter;
 	public static View rootView;
 
 	public void onCreate(Bundle savedInstanceState) {
