@@ -3,10 +3,13 @@ package com.noti.sns.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.preference.Preference
+import android.preference.PreferenceActivity
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
 import com.noti.sns.R
+import com.noti.sns.R.id.setting_logout
 import com.noti.sns.activity.MainActivity.edit
 import com.noti.sns.activity.MainActivity.api
 import com.noti.sns.fragment.CalenderFragment
@@ -19,30 +22,34 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class SettingActivity : AppCompatActivity() {
-
+class SettingActivity : PreferenceActivity(), Preference.OnPreferenceClickListener {
+    val today = Date()//오늘 날짜 객체
+    var school_Schedule: ArrayList<List<SchoolSchedule>> = ArrayList()//학사일정 받아오기
     var check_down: Boolean = false
     var check_downfail: Boolean = false
+
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //기본선언
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_setting)
+        addPreferencesFromResource(R.xml.setting_activity)
+        check_down = true
+        val setting_activity_up : Preference = findPreference("setting_activity_up")
+        setting_activity_up.setOnPreferenceClickListener (this)
+        val setting_activity_roomname : Preference = findPreference("setting_activity_roomname")
+        setting_activity_roomname.setOnPreferenceClickListener (this)
+        val setting_activity_logout : Preference = findPreference("setting_activity_logout")
+        setting_activity_logout.setOnPreferenceClickListener (this)
 
-        val today = Date()//오늘 날짜 객체
-        var school_Schedule: ArrayList<List<SchoolSchedule>> = ArrayList()//학사일정 받아오기
-
+    }
+    override fun onPreferenceClick(p0: Preference?): Boolean {
+        Log.e(" ","2")
         check_down = true//초기상태는 다운로드 되어있음
-
-        setting_logout.setOnClickListener {
-            edit.putBoolean("save_login",false);
-            edit.putBoolean("first",true);
-            edit.commit()
-            finish()
-            startActivity(Intent(this,MainActivity::class.java))
-        }
-        //동기화 버튼 클릭
-        setting_GetSchool.setOnClickListener {
+        if (p0!!.getKey().equals("setting_activity_up")) {
+            Log.e(" ","1")
             check_down = false//다운로드 시작
             var feb_Days: Int
             Toast.makeText(this, "학사일정을 불러옵니다.", Toast.LENGTH_SHORT).show()//토스트로 다운로드 알림
@@ -106,20 +113,30 @@ class SettingActivity : AppCompatActivity() {
                 } catch (e: SchoolException) {
                 }
             }.start()
+        } else if (p0.getKey().equals("setting_activity_roomname")) {
+        } else if (p0.getKey().equals("setting_activity_logout")) {
+            edit.putBoolean("save_login",false);
+            edit.putBoolean("first",true);
+            edit.commit()
+            finish()
+            startActivity(Intent(this,MainActivity::class.java))
         }
-
+        return false
 
     }
     //뒤로가기 설정
     override fun onBackPressed() {
         if (check_down) {
             super.onBackPressed()
-            CalenderFragment.refresh()
+            if(MenuActivity.where == 1)
+                CalenderFragment.refresh()
         }
         else
         //다운로드 완료 전 뒤로가기 불가능
             Toast.makeText(this, "아직 불러오는 중입니다. 잠시만 기다려주세요.", Toast.LENGTH_SHORT).show()
     }
 
-
 }
+
+
+

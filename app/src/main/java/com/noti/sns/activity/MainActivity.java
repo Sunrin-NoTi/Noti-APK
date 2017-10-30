@@ -297,7 +297,11 @@ public class MainActivity extends AppCompatActivity {
 				} else if (response[1].equals("login_failed:password")) {
 					Toast.makeText(this, "비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
 					pw_text.setText("");
-				}
+				}else if (response[1].equals("login_failed:nonexistent")) {
+                    Toast.makeText(this, "존재하지 않는 계정입니다.", Toast.LENGTH_SHORT).show();
+                    email_text.setText("");
+                    pw_text.setText("");
+                }
 			} catch (Exception e) {
 				Log.e("1", String.valueOf(e));
 				Log.e("1", String.valueOf(email_text.getText()));
