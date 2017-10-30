@@ -27,12 +27,12 @@ public class Connection {
 				s[0] ="MalformedURLException";
 			} catch (IOException e) {
 				s[0] ="IOException";
-			}
+			}catch (Exception e){}
 		});
 		t.start();
 		try {
 			t.join();
-		} catch (InterruptedException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return s[0].split(",");

@@ -205,26 +205,10 @@ public class MainActivity extends AppCompatActivity {
 			//전에 킨적이 있음
 			check_down[1] = true;
 		}
-
-		//메뉴 인텐트 실행
-		login_btn.setOnClickListener(view -> {
-
-			if (check_downfail[0] || check_downfail[1])
-
-				//다운로드에 오류가 있는 경우
-				Toast.makeText(this, "다운로드를 실패했습니다. 앱을 재시작해주세요", Toast.LENGTH_SHORT).show();
-			else if (check_down[0] && check_down[1]) {
-
-				//다운로드가 모두 완료된 경우 or 미리 받아져있는 경우
-				startActivity(intent_login);
-				finish();
-			} else
-				//아직 다운로드를 받지 않은 경우
-				Toast.makeText(this, "초기 다운로드 중입니다!", Toast.LENGTH_SHORT).show();
-		});
 		EditText email_text = findViewById(R.id.email_text);
 		EditText pw_text = findViewById(R.id.pw_text);
-		login_btn.setOnTouchListener((view, motionEvent) -> {
+		//메뉴 인텐트 실행
+		login_btn.setOnClickListener(view -> {
 			String[] response;
 			/*
 				 * 반환값 실제 값은 각각 response[1] / response[3]으로 접근할 수 있음
@@ -233,23 +217,56 @@ public class MainActivity extends AppCompatActivity {
 				 * response,login_failed:token 토큰 로그인 실패 ==> 로그인창 띄어줘야함
 				 * response,login_success,token,token // 토큰은 token 에 저장할 것
 			*/
-			if (pref.getString("token", "").equals(""))
-				response = Connection.sendJSON(getString(R.string.url) + "/login/", "{\"id\":\"" + email_text.getText().toString() + "\", \"password\":\"" + pw_text.getText().toString() + "\"}");
-			else
-				response = Connection.sendJSON(getString(R.string.url) + "/login/", "{\"email\":\"" + pref.getString("token", "") + "\"}");
-			if (response[1].equals("login_sucess")) {
-				edit.putString("toekn", response[3]);
-				edit.commit();
-			} else if (response[1].equals("login_failed:password")) {
+			if (check_downfail[0] || check_downfail[1])
 
-			}
+				//다운로드에 오류가 있는 경우
+				Toast.makeText(this, "다운로드를 실패했습니다. 앱을 재시작해주세요", Toast.LENGTH_SHORT).show();
+			else if (check_down[0] && check_down[1]) {
+
+				//다운로드가 모두 완료된 경우 or 미리 받아져있는 경우
+				try {
+					if (pref.getString("token", "").equals(""))
+						response = Connection.sendJSON(getString(R.string.url) + "/login/", "{\"id\":\"" + email_text.getText().toString() + "\", \"password\":\"" + pw_text.getText().toString() + "\"}");
+					else {
+						response = Connection.sendJSON(getString(R.string.url) + "/login/", "{\"email\":\"" + pref.getString("token", "") + "\"}");
+						startActivity(intent_login);
+					}
+
+					if (response[1].equals("login_sucess")) {
+						edit.putString("toekn", response[3]);
+						edit.commit();
+						startActivity(intent_login);
+						finish();
+					} else if (response[1].equals("login_failed:password")) {
+						Toast.makeText(this, "비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
+						pw_text.setText("");
+					}
+				}catch (Exception e){
+					Log.e("", String.valueOf(email_text.getText()));
+					if(email_text.getText().equals(""))
+						Toast.makeText(this, "이메일 칸이 비어있습니다.", Toast.LENGTH_SHORT).show();
+					else if(pw_text.getText().equals(""))
+						Toast.makeText(this, "비밀번호 칸이 비어있습니다.", Toast.LENGTH_SHORT).show();
+					else
+						Toast.makeText(this, "인터넷 연결이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+				}
+
+			} else
+				//아직 다운로드를 받지 않은 경우
+				Toast.makeText(this, "초기 다운로드 중입니다!", Toast.LENGTH_SHORT).show();
+		});
+
+		login_btn.setOnTouchListener((view, motionEvent) -> {
 			BtnPress.bigBTN(motionEvent, login_btn);
 			return false;
 		});//버튼 눌리는 처리
 
 		//회원가입 인텐트 실행
 		register_btn.setOnClickListener(view -> {
+
+
 			startActivity(intent_register);
+
 		});
 		register_btn.setOnTouchListener((view, motionEvent) -> BtnPress.smallBTN(motionEvent, register_btn));//버튼 눌리는 처리
 

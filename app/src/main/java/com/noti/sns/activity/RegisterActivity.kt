@@ -30,9 +30,7 @@ class RegisterActivity : AppCompatActivity() {
         //확인 버튼 클릭시 팝업 뒤쪽 못건드리게
         register_confirm.setOnClickListener {
             pin_popup.visibility = View.VISIBLE
-            reg_class.isEnabled = false
             reg_email.isEnabled = false
-            reg_grade.isEnabled = false
             reg_name.isEnabled = false
             reg_password.isEnabled = false
             reg_school.isEnabled = false
@@ -63,9 +61,7 @@ class RegisterActivity : AppCompatActivity() {
         if (pin_popup.visibility == View.VISIBLE) {
             //팝업이 있을때 처리
             pin_popup.visibility = View.GONE
-            reg_class.isEnabled = true
             reg_email.isEnabled = true
-            reg_grade.isEnabled = true
             reg_name.isEnabled = true
             reg_password.isEnabled = true
             reg_school.isEnabled = true
