@@ -171,20 +171,23 @@ public class LunchFragment extends Fragment {
 				}
 				popup.setVisibility(View.GONE);
 				popup_on_alarm = false;
-				JSONObject jo = new JSONObject();
-				try {
-					jo.put("id", MainActivity.id);
-					jo.put("pw", MainActivity.pw);
-					jo.put("type", mealw[0]);
-					jo.put("hour", timePicker.getCurrentHour());
-					jo.put("min", timePicker.getCurrentMinute());
+				Thread t = new Thread(() -> {
+					JSONObject jo = new JSONObject();
+					try {
+						jo.put("id", MainActivity.id);
+						jo.put("pw", MainActivity.pw);
+						jo.put("type", mealw[0]);
+						jo.put("hour", timePicker.getCurrentHour());
+						jo.put("min", timePicker.getCurrentMinute());
 
-					Connection.sendJSON(getString(R.string.url) + "/alarm/", jo.toString());
-				} catch (Exception e) {
+						Connection.sendJSON(getString(R.string.url) + "/alarm/", jo.toString());
+					} catch (Exception e) {
 
-				}
+					}
+				});
+				t.start();
 				add_btn.setEnabled(true);
-				if(Listsave.MealAlamList.get_Alam_List().size() == 3)
+				if (Listsave.MealAlamList.get_Alam_List().size() == 3)
 					add_btn.setVisibility(View.GONE);
 				tabHost1.getTabWidget().getChildTabViewAt(0).setEnabled(true);
 				tabHost1.getTabWidget().getChildTabViewAt(1).setEnabled(true);
@@ -222,7 +225,7 @@ public class LunchFragment extends Fragment {
 		AlarmViewAdapter adapter;
 		ArrayList<AlarmListItem> contacts;
 		contacts = Listsave.MealAlamList.get_Alam_List();
-		if(contacts.size() == 3)
+		if (contacts.size() == 3)
 			add_btn.setVisibility(View.GONE);
 		else
 			add_btn.setVisibility(View.VISIBLE);
