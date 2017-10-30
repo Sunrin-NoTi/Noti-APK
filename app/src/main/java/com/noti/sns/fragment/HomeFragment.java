@@ -61,7 +61,6 @@ public class HomeFragment extends Fragment implements HomeViewAdapter.OnStartDra
     }
     @Override
     public void onPause() {
-        Listsave.HomeCardList.put_Home_List(contacts);
         super.onPause();
     }
 

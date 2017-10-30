@@ -55,8 +55,6 @@ public class LunchFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
 
-
-		Listsave.HomeCardList.remove_all();
 		rootView = inflater.inflate(R.layout.frg_menu_lunch, container, false);
 		TabHost tabHost1 = rootView.findViewById(R.id.tabHost1);
 		RelativeLayout popup = rootView.findViewById(R.id.timepick_popup);

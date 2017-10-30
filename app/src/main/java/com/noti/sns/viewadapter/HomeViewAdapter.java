@@ -150,7 +150,7 @@ public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.Holder
     public void onItemMove(int fromPosition, int toPosition) {
         Collections.swap(list, fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
-        list = Listsave.HomeCardList.get_Home_List();
+        Listsave.HomeCardList.put_Home_List(list);
     }
 
     public class Holder extends RecyclerView.ViewHolder {

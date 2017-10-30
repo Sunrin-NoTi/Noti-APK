@@ -154,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
 					//처음 앱을 켰는가?
 					if (pref.getBoolean("first", true)&&!btn_once) {
 						//처음 킨것임
+                        Listsave.HomeCardList.remove_all();
                         btn_once =true;
 						Toast.makeText(this, "초기 다운로드를 진행하겠습니다.", Toast.LENGTH_SHORT).show();//다운로드를 토스트로 알림
 
