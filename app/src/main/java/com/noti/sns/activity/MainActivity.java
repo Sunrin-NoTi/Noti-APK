@@ -234,9 +234,9 @@ public class MainActivity extends AppCompatActivity {
 				 * response,login_success,token,token // 토큰은 token 에 저장할 것
 			*/
 			if (pref.getString("token", "").equals(""))
-				response = Connection.sendJSON(getString(R.string.url) + "/login/", "{\"id\":\"" + email_text.getText().toString() + "\", \"password\":\"" + pw_text.getText().toString() + "\"");
+				response = Connection.sendJSON(getString(R.string.url) + "/login/", "{\"id\":\"" + email_text.getText().toString() + "\", \"password\":\"" + pw_text.getText().toString() + "\"}");
 			else
-				response = Connection.sendJSON(getString(R.string.url) + "/login/", "{\"email\":\"" + pref.getString("token", "") + "\"");
+				response = Connection.sendJSON(getString(R.string.url) + "/login/", "{\"email\":\"" + pref.getString("token", "") + "\"}");
 			if (response[1].equals("login_sucess")) {
 				edit.putString("toekn", response[3]);
 				edit.commit();
