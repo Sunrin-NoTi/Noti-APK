@@ -34,14 +34,6 @@ public class HomeFragment extends Fragment implements HomeViewAdapter.OnStartDra
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Listsave.HomeCardList.remove_all();
-
-        Listsave.HomeCardList.add("아이돌마스터","2017.11.03","스텔라 스테이지 스텔라 스테이지 스텔라 스테이지 스텔라 스테이지 스텔라 스테이지 스텔라 스테이지 스텔라 스테이지스텔라 스테이지");
-
-
-        Listsave.HomeCardList.add("아이돌마스터","2017.11.13","스텔라 스테이지 스텔라 스테이지 스텔라 스테이지 스텔라 스테이지 스텔라 스테이지 스텔라 스테이지 스텔라 스테이지스텔라 스테이지");
-
-        Listsave.HomeCardList.add("아이돌마스터","2017.11.23","스텔라 스테이지 스텔라 스테이지 스텔라 스테이지 스텔라 스테이지 스텔라 스테이지 스텔라 스테이지 스텔라 스테이지스텔라 스테이지");
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.frg_nemu_home, container, false);
         Intent intent_settitng = new Intent(getActivity(), SettingActivity.class);
         homeFragment = getActivity();
