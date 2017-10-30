@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.noti.sns.R;
 import com.noti.sns.activity.SettingActivity;
@@ -40,6 +41,11 @@ public class HomeFragment extends Fragment implements HomeViewAdapter.OnStartDra
         this_home = this;
         recyclerView = rootView.findViewById(R.id.recyclerView);
         contacts = Listsave.HomeCardList.get_Home_List();
+        TextView non = rootView.findViewById(R.id.non_home);
+        if(contacts.size()==0)
+            non.setVisibility(View.VISIBLE);
+        else
+            non.setVisibility(View.GONE);
         adapter = new HomeViewAdapter(getActivity(), contacts, this);
         HomeItemTouchHelperView mCallback = new HomeItemTouchHelperView(adapter);
         mItemTouchHelper = new ItemTouchHelper(mCallback);
