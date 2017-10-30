@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.noti.sns.R;
 import com.noti.sns.schoolparsing.School;
 import com.noti.sns.schoolparsing.SchoolException;
@@ -147,7 +148,15 @@ public class MainActivity extends AppCompatActivity {
 					edit.putString("save_pw", p1);
 					edit.putBoolean("save_login", true);
 					edit.commit();
+					jo = new JSONObject();
+					try {
+						jo.put("id", pref.getString("save_id", ""));
+						jo.put("pw", pref.getString("save_pw", ""));
+						jo.put("fcm",pref.getString("fcm",""));
+						Connection.sendJSON(getString(R.string.url) + "fcm/", jo.toString());
+					} catch (Exception e) {
 
+					}
 					api = new School(School.Type.HIGH, School.Region.SEOUL, response[3]);//학교 객체 생성
 					Date today = new Date();//지금 시간 받기
 					//그달 급식이 다운로드 되어있는가?
