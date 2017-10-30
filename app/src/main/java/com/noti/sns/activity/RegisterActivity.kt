@@ -22,11 +22,11 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_register)
 
         //일정 버전에서 전체화면 지원
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            val w: Window = window
-            w.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-            w.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            val w: Window = window
+//            w.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+//            w.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+//        }
 
         //확인 버튼 클릭시 팝업 뒤쪽 못건드리게
         register_confirm.setOnClickListener {

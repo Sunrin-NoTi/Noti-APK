@@ -66,11 +66,11 @@ public class MainActivity extends AppCompatActivity {
 
 
 		//버전에 따른 전체화면 지원
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-			Window w = getWindow();
-			w.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-			w.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-		}
+//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//			Window w = getWindow();
+//			w.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+//			w.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+//		}
 
 
 		//메뉴 인텐트 실행
