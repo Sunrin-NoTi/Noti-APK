@@ -154,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
 					//처음 앱을 켰는가?
 					if (pref.getBoolean("first", true)&&!btn_once) {
 						//처음 킨것임
+                        Listsave.HomeCardList.remove_all();
                         btn_once =true;
 						Toast.makeText(this, "초기 다운로드를 진행하겠습니다.", Toast.LENGTH_SHORT).show();//다운로드를 토스트로 알림
 
@@ -297,7 +298,11 @@ public class MainActivity extends AppCompatActivity {
 				} else if (response[1].equals("login_failed:password")) {
 					Toast.makeText(this, "비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
 					pw_text.setText("");
-				}
+				}else if (response[1].equals("login_failed:nonexistent")) {
+                    Toast.makeText(this, "존재하지 않는 계정입니다.", Toast.LENGTH_SHORT).show();
+                    email_text.setText("");
+                    pw_text.setText("");
+                }
 			} catch (Exception e) {
 				Log.e("1", String.valueOf(e));
 				Log.e("1", String.valueOf(email_text.getText()));

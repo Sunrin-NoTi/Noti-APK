@@ -22,6 +22,7 @@ public class MenuActivity extends AppCompatActivity {
     TabHost tabHost1;//급식 프래그먼트의 탭 객체
     RelativeLayout popup;//급식 프래그먼트의 팝업 객체
     ImageView add_btn;//급식 프래그먼트의 추가버튼 객체
+    public static int where;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class MenuActivity extends AppCompatActivity {
         add_btn = findViewById(R.id.btnAlam);//추가버튼 객체 초기화
 
         switch_Fragment(0);//메뉴 액티비티 실행시 초기 프래그먼트 설정
+        where = 0;
         //바텀 네비게이션의 아이템이 클릭됬을때
         bottomNavigationMenu.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
@@ -56,7 +58,7 @@ public class MenuActivity extends AppCompatActivity {
     //프래그먼트를 바꾸는 함수
     void switch_Fragment(int p0) {
         //p0 : 선택된 프래그먼트 번호
-
+        where = p0;
         //선택된 번호 아이템 이중클릭 방지 밑 애니메이션
         for (int i = 0; i < 3; i++) {
             if (i == p0)
