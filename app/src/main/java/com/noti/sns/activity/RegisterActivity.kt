@@ -97,7 +97,7 @@ class RegisterActivity : AppCompatActivity() {
         js.put("school", school)
         response = Connection.sendJSON(getString(R.string.url) + "/reg/", js.toString())
         if (response[1] == "register_success") {
-            Toast.makeText(this,"회원가입 성공. 이메일 인증을 진행해주세요.",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"회원가입 성공.",Toast.LENGTH_SHORT).show()
 
             finish()
         }else if(response[1] == "register_failed:existent_account") {
