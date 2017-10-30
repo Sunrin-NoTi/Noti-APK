@@ -46,7 +46,7 @@ public class LunchFragment extends Fragment {
 	public static Context context;
 	static RecyclerView recyclerView;
 	AlarmViewAdapter adapter;
-	View rootView;
+	public static View rootView;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -106,11 +106,9 @@ public class LunchFragment extends Fragment {
 
 
 		recyclerView = rootView.findViewById(R.id.recyclerView_m);
-		contacts = Listsave.MealAlamList.get_Alam_List();
-		adapter = new AlarmViewAdapter(getActivity(), contacts);
 		recyclerView.setHasFixedSize(true);
 		recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		recyclerView.setAdapter(adapter);
+		refresh();
 
 		final String[] mealw = {""};
 
@@ -131,45 +129,44 @@ public class LunchFragment extends Fragment {
 		ok.setOnClickListener((View view) -> {
 			if (popup_on_alarm) {
 				mealw[0] = "";
-				Log.e("12", String.valueOf(radioGroup.getCheckedRadioButtonId() % 3));
 
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-					switch (radioGroup.getCheckedRadioButtonId() % 3) {
-						case 0:
+					switch (radioGroup.getCheckedRadioButtonId()) {
+						case R.id.rad1:
 
 							mealw[0] = "조식";
 							break;
-						case 1:
+						case R.id.rad2:
 
 							mealw[0] = "중식";
 							break;
-						case 2:
+						case R.id.rad3:
 
 							mealw[0] = "석식";
 							break;
 						default:
 					}
-					if (Alarm_isNaN(radioGroup.getCheckedRadioButtonId() % 3)) {
+					if (Alarm_isNaN(radioGroup.getCheckedRadioButtonId())) {
 						Listsave.MealAlamList.add(mealw[0], timePicker.getHour(), timePicker.getMinute());
 						refresh();
 					} else
 						Toast.makeText(getActivity(), "이미 " + mealw[0] + " 알람이 있습니다.", Toast.LENGTH_SHORT).show();
 
 				} else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) {
-					switch (radioGroup.getCheckedRadioButtonId() % 3) {
-						case 0:
+					switch (radioGroup.getCheckedRadioButtonId()) {
+						case R.id.rad1:
 							mealw[0] = "조식";
 							break;
-						case 1:
+						case R.id.rad2:
 							mealw[0] = "중식";
 							break;
-						case 2:
+						case R.id.rad3:
 							mealw[0] = "석식";
 
 							break;
 						default:
 					}
-					if (Alarm_isNaN(radioGroup.getCheckedRadioButtonId() % 3)) {
+					if (Alarm_isNaN(radioGroup.getCheckedRadioButtonId())) {
 						Listsave.MealAlamList.add(mealw[0], timePicker.getCurrentHour(), timePicker.getCurrentMinute());
 						refresh();
 					} else
@@ -190,6 +187,8 @@ public class LunchFragment extends Fragment {
 
 				}
 				add_btn.setEnabled(true);
+				if(Listsave.MealAlamList.get_Alam_List().size() == 3)
+					add_btn.setVisibility(View.GONE);
 				tabHost1.getTabWidget().getChildTabViewAt(0).setEnabled(true);
 				tabHost1.getTabWidget().getChildTabViewAt(1).setEnabled(true);
 				tabHost1.getTabWidget().getChildTabViewAt(2).setEnabled(true);
@@ -222,9 +221,14 @@ public class LunchFragment extends Fragment {
 	}
 
 	public static void refresh() {
+		ImageView add_btn = rootView.findViewById(R.id.btnAlam);
 		AlarmViewAdapter adapter;
 		ArrayList<AlarmListItem> contacts;
 		contacts = Listsave.MealAlamList.get_Alam_List();
+		if(contacts.size() == 3)
+			add_btn.setVisibility(View.GONE);
+		else
+			add_btn.setVisibility(View.VISIBLE);
 		adapter = new AlarmViewAdapter(context, contacts);
 		recyclerView.setAdapter(adapter);
 	}
@@ -239,13 +243,13 @@ public class LunchFragment extends Fragment {
 	public static boolean Alarm_isNaN(int p0) {
 		ArrayList<AlarmListItem> alarmListItems = Listsave.MealAlamList.get_Alam_List();
 		String meal = null;
-		if (p0 == 0)
+		if (p0 == R.id.rad1)
 			meal = "조식";
 
-		if (p0 == 1)
+		if (p0 == R.id.rad2)
 			meal = "중식";
 
-		if (p0 == 2)
+		if (p0 == R.id.rad3)
 			meal = "석식";
 		for (int i = 0; i < alarmListItems.size(); i++) {
 			if (alarmListItems.get(i).wmeal.equals(meal))
