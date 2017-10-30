@@ -87,9 +87,26 @@
             android:layout_marginTop="13dp"
             android:background="@drawable/input_design"
             android:fontFamily="@font/roboto_light"
+            android:hint="학교"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:textColor="#fff"
+            android:textColorHint="#fff"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/reg_schnum"
+            android:layout_width="228dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="13dp"
+            android:background="@drawable/input_design"
+            android:fontFamily="@font/roboto_light"
             android:hint="학번"
             android:paddingLeft="18dp"
             android:paddingRight="18dp"
+            android:inputType="number"
             android:textColor="#fff"
             android:textColorHint="#fff"
             android:textSize="15sp" />

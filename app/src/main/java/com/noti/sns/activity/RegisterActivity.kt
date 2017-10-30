@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.widget.Toast
 import com.noti.sns.R
 import com.noti.sns.activity.MainActivity.edit
 import com.noti.sns.server.Connection
@@ -36,6 +37,8 @@ class RegisterActivity : AppCompatActivity() {
             reg_school.isEnabled = false
             sign_up_back.isEnabled = false
             register_confirm.isEnabled = false
+
+
         }
 
         //버튼 클릭 애니메이션
@@ -45,7 +48,8 @@ class RegisterActivity : AppCompatActivity() {
 
         //방 이름 확인 누를때
         pin_btn.setOnClickListener {
-
+            if(roomNameEdit.text.equals(""))
+                Toast.makeText(this,"방 이름이 빈칸입니다.",Toast.LENGTH_SHORT).show()
         }
 
         //버튼 클릭 애니메이션
@@ -72,7 +76,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     fun register(email: String, password: String, stnumber: String, name: String, room: String, school: String) {
-        var response = arrayOf<String>()
+        var response: Array<String>
         /*
          * 반환값 실제 값은 각각 response[1] / response[3]으로 접근할 수 있음
          * response,register_failed:nonexistent_room 방 없음

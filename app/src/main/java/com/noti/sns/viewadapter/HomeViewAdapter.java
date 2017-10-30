@@ -73,7 +73,7 @@ public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.Holder
         String short_inside = list.get(itemposition).inside.length()<=12?list.get(itemposition).inside:list.get(itemposition).inside.substring(0,12)+"...";
         if(list.get(itemposition).inside.length()<=12)
             holder.btn_see_more.setText("");
-
+        Log.e("12",list.get(itemposition).subtitle);
         int dday = Dday.caldate(Integer.parseInt(list.get(itemposition).subtitle.substring(0,4)),Integer.parseInt(list.get(itemposition).subtitle.substring(5,7)),Integer.parseInt(list.get(itemposition).subtitle.substring(8,10)));
 
 

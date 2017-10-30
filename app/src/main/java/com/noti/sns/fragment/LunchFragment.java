@@ -1,6 +1,7 @@
 package com.noti.sns.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.noti.sns.activity.MainActivity;
+import com.noti.sns.activity.SettingActivity;
 import com.noti.sns.listitem.AlarmListItem;
 import com.noti.sns.R;
 import com.noti.sns.schoolparsing.SchoolMenu;
@@ -53,6 +55,7 @@ public class LunchFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
+
 
 		Listsave.HomeCardList.remove_all();
 		rootView = inflater.inflate(R.layout.frg_menu_lunch, container, false);
@@ -211,7 +214,9 @@ public class LunchFragment extends Fragment {
 
 		int id = rg.getCheckedRadioButtonId();
 		RadioButton rb = rootView.findViewById(id);
-
+		ImageView goToSetting_Lunch = rootView.findViewById(R.id.goToSetting_Lunch);
+		Intent intent_settitng = new Intent(getActivity(), SettingActivity.class);
+		goToSetting_Lunch.setOnClickListener(view -> startActivity(intent_settitng));
 
 		return rootView;
 	}

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Window;
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 		//세어드 프리퍼런스 초기화
 		pref = this.getSharedPreferences("save", 0);
 		edit = pref.edit();
-
+		Log.e("sd", String.valueOf(pref.getBoolean("save_login",false)));
 		if(pref.getBoolean("save_login",false))
 			login(pref.getString("save_id",""),pref.getString("save_pw",""));
 
@@ -239,7 +240,13 @@ public class MainActivity extends AppCompatActivity {
 		passwd_btn.setOnClickListener(view -> Log.e("미구현", "ㅇㄹㅇ"));
 		passwd_btn.setOnTouchListener((view, motionEvent) -> BtnPress.smallBTN(motionEvent, passwd_btn));//버튼 눌리는 처리
 	}
-	public void login(String p0,String p1){
+
+	@Override
+	public void onBackPressed() {
+		ActivityCompat.finishAffinity(this);
+	}
+
+	public void login(String p0, String p1){
 		String[] response;
 		EditText email_text = findViewById(R.id.email_text);
 		EditText pw_text = findViewById(R.id.pw_text);
@@ -252,10 +259,10 @@ public class MainActivity extends AppCompatActivity {
 				Intent intent_login = new Intent(this, MenuActivity.class);//메뉴 액티비티 인텐트
 
 				JSONObject jo = new JSONObject();
-				jo.put("id", email_text.getText().toString());
-				jo.put("password", pw_text.getText().toString());
+				jo.put("id", p0);
+				jo.put("password", p1);
 				response = Connection.sendJSON(getString(R.string.url) + "/login/", jo.toString());
-				if (response[1].equals("login_sucess")) {
+				if (response[1].equals("login_success")) {
 					edit.putString("school_code", response[3]);
 					edit.putString("save_id", p0);
 					edit.putString("save_pw", p1);

@@ -12,6 +12,7 @@ import android.os.Build;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.noti.sns.R;
 import com.noti.sns.activity.MainActivity;
 import com.noti.sns.schoolparsing.SchoolMenu;
 import com.noti.sns.utility.Listsave;
@@ -47,6 +48,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 builder.setSmallIcon(android.R.drawable.star_on);
                 builder.setContentText("식단");
                 builder.setWhen(System.currentTimeMillis());
+                builder.setSmallIcon(R.mipmap.ic_launcher);
                 builder.setContentIntent(pendingIntent);
                 builder.setAutoCancel(true);
                 if (data.get("type").equals("B")) { //아침 알람

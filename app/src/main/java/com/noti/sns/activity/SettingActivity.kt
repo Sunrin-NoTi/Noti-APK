@@ -1,5 +1,7 @@
 package com.noti.sns.activity
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -32,6 +34,12 @@ class SettingActivity : AppCompatActivity() {
 
         check_down = true//초기상태는 다운로드 되어있음
 
+        setting_logout.setOnClickListener {
+            edit.putBoolean("save_login",false);
+            edit.commit()
+            finish()
+            startActivity(Intent(this,MainActivity::class.java))
+        }
         //동기화 버튼 클릭
         setting_GetSchool.setOnClickListener {
             check_down = false//다운로드 시작
