@@ -91,7 +91,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 			}
 		}
 	}
-	private void sendNotification(String title, String body){
+	private void sendNotification(){
 
 	}
 }
