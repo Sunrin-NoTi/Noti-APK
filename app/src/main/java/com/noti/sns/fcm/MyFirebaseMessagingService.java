@@ -6,7 +6,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
@@ -91,35 +90,5 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 				Listsave.HomeCardList.add(title, year + "." + month + "." + date + ".", msg);
 			}
 		}
-/*
-	private void sendNotification() {
-		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-		Intent intent = new Intent(this, MainActivity.class);
-		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-		Notification.Builder builder;
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-			NotificationChannel notificationChannel = new NotificationChannel("my_notification_channel", "My Notifications", NotificationManager.IMPORTANCE_DEFAULT);
-			notificationChannel.setDescription("Channel description");
-			notificationChannel.enableLights(true);
-			notificationChannel.setLightColor(Color.RED);
-			notificationManager.createNotificationChannel(notificationChannel);
-			builder = new Notification.Builder(this, "my_notification_channel");
-		} else {
-			builder = new Notification.Builder(this);
-		}
-		builder.setSmallIcon(android.R.drawable.star_on);
-		builder.setContentText(content);
-		builder.setWhen(System.currentTimeMillis());
-		builder.setSmallIcon(R.mipmap.ic_launcher);
-		builder.setContentIntent(pendingIntent);
-		builder.setAutoCancel(true);
-		Notification.InboxStyle inboxStyle = null;
-		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-			inboxStyle = new Notification.InboxStyle(builder);
-inbox.A
-			inboxStyle.setSummaryText("전체 보기");
-			builder.setStyle(inboxStyle);
-			notificationManager.notify(0, builder.build());
-		}*/
 	}
 }
