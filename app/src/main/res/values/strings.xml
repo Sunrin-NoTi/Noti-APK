@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">SNS</string>
-    <string name="url">http://jaeheon.com:8000</string>
+    <string name="url">http://jaeheon.com</string>
 </resources>

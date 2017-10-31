@@ -62,7 +62,7 @@ public class AlarmViewAdapter extends RecyclerView.Adapter<AlarmViewAdapter.Hold
 				jo.put("pw", pref.getString("save_pw", ""));
 				jo.put("type", list.get(position).wmeal);
 				jo.put("id", pref.getString("save_id", ""));
-				String[] response = Connection.sendJSON("jaeheon.com:8000/alarmr/", jo.toString());
+				String[] response = Connection.sendJSON("jaeheon.com/alarmr/", jo.toString());
 				if (response[1].equals("alarm_remove_success")) {
 					// 이런식으로
 					list.remove(position);
