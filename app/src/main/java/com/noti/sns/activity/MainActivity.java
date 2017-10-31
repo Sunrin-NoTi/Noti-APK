@@ -163,6 +163,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }).start();
                     api = new School(School.Type.HIGH, School.Region.SEOUL, response[3]);//학교 객체 생성
+                    edit.putString("school_use",response[3]);
+                    edit.commit();
                     Date today = new Date();//지금 시간 받기
                     //그달 급식이 다운로드 되어있는가?
                     //처음 앱을 켰는가?

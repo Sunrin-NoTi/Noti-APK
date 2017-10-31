@@ -6,14 +6,19 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
+import android.preference.Preference;
 import android.support.v4.app.NotificationCompat;
+import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.noti.sns.R;
 import com.noti.sns.activity.MainActivity;
+import com.noti.sns.schoolparsing.School;
+import com.noti.sns.schoolparsing.SchoolException;
 import com.noti.sns.schoolparsing.SchoolMenu;
 import com.noti.sns.utility.Listsave;
 
@@ -27,6 +32,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Date today = new Date();
         Map<String, String> data = remoteMessage.getData();
 
+        SharedPreferences pref = this.getSharedPreferences("save", 0);
+        SharedPreferences.Editor edit = pref.edit();
         if (data.size() > 0) {
             if (data.containsKey("type")) {
                 NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -44,6 +51,34 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 } else {
                     builder = new Notification.Builder(this);
                 }
+
+                if ((pref.getInt("mealMonth", 0) != today.getMonth() + 1)) {
+                    //다운로드 안되있음
+                    //파싱을 활용한 다운로드
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            try {
+                                School api = new School(School.Type.HIGH, School.Region.SEOUL, pref.getString("school_use",""));
+                                if(pref.getString("school_use","").equals("")){
+
+                                }else{
+                                    Listsave.SaveSchool.put_meal_month(api.getMonthlyMenu(today.getYear() + 1900, today.getMonth() + 1), today.getMonth() + 1);//교육청 파싱하여 급식 불러옴
+                                    //다운받아진 달 저장
+                                    edit.putInt("mealMonth", today.getMonth() + 1);
+                                    edit.commit();
+                                }
+                                //다운로드 확인
+                            } catch (SchoolException e) {
+                                //다운로드 실패
+                                e.printStackTrace();
+                            }
+                        }
+                    }.start();
+                }
+
+
+
                 List<SchoolMenu> ex = Listsave.SaveSchool.get_meal_month(today.getMonth() + 1);
 
                 builder.setSmallIcon(android.R.drawable.star_on);
