@@ -26,72 +26,74 @@ import static com.noti.sns.activity.MainActivity.pref;
 
 public class AlarmViewAdapter extends RecyclerView.Adapter<AlarmViewAdapter.Holder> {
 
-    private Context context;
-    private List<AlarmListItem> list = new ArrayList<>();
+	private Context context;
+	private List<AlarmListItem> list = new ArrayList<>();
 
-    public AlarmViewAdapter(Context context, List<AlarmListItem> list) {
-        this.context = context;
-        this.list = list;
-    }
+	public AlarmViewAdapter(Context context, List<AlarmListItem> list) {
+		this.context = context;
+		this.list = list;
+	}
 
-    @Override
-    public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_alarm, parent, false);
-        Holder holder = new Holder(view);
-        return holder;
-    }
+	@Override
+	public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
+		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_alarm, parent, false);
+		Holder holder = new Holder(view);
+		return holder;
+	}
 
-    @Override
-    public void onBindViewHolder(final Holder holder, final int position) {
-        //여기에 세부설정
+	@Override
+	public void onBindViewHolder(final Holder holder, final int position) {
+		//여기에 세부설정
 
-        Log.e(String.valueOf(position), list.get(position).wmeal);
-        holder.titleText_a.setText(list.get(position).wmeal);
-        String min = list.get(position).minute<10 ? "0"+list.get(position).minute : String.valueOf(list.get(position).minute);
-        holder.timeText_a.setText(list.get(position).hour + ":" + min);
+		Log.e(String.valueOf(position), list.get(position).wmeal);
+		holder.titleText_a.setText(list.get(position).wmeal);
+		String min = list.get(position).minute < 10 ? "0" + list.get(position).minute : String.valueOf(list.get(position).minute);
+		holder.timeText_a.setText(list.get(position).hour + ":" + min);
 
-        holder.close_a.setOnClickListener(view -> {
-        	/*
+		holder.close_a.setOnClickListener(view -> {
+	    	/*
         	    alarm_remove_failed:nonexistent //계정없음
 				alarm_remove_failed:password
 				alarm_remove_success
         	 */
-            JSONObject jo = new JSONObject();
-            try {
-                jo.put("pw", pref.getString("save_pw",""));
-                jo.put("type",list.get(position).wmeal);
-                jo.put("id", pref.getString("save_id",""));
-                Connection.sendJSON("jaeheon.com:8000/alarmr/", jo.toString());
-            } catch (Exception e) {
+			JSONObject jo = new JSONObject();
+			try {
+				jo.put("pw", pref.getString("save_pw", ""));
+				jo.put("type", list.get(position).wmeal);
+				jo.put("id", pref.getString("save_id", ""));
+				String[] response = Connection.sendJSON("jaeheon.com:8000/alarmr/", jo.toString());
+				if (response[1].equals("alarm_failed:nonexistent")) {
+					// 이런식으로
+				}
+			} catch (Exception e) {
 
-            }
-            list.remove(position);
-            Listsave.MealAlamList.put_Alam_List((ArrayList<AlarmListItem>) list);
-            LunchFragment.refresh();
-        });
-
-
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return list.size();
-    }
-
-    public class Holder extends RecyclerView.ViewHolder {
-        public TextView titleText_a;
-        public TextView timeText_a;
-        public ImageView close_a;
-        public RelativeLayout bac;
+			}
+			list.remove(position);
+			Listsave.MealAlamList.put_Alam_List((ArrayList<AlarmListItem>) list);
+			LunchFragment.refresh();
+		});
 
 
-        public Holder(View view) {
-            super(view);
-            titleText_a = (TextView) view.findViewById(R.id.title_meal);
-            timeText_a = (TextView) view.findViewById(R.id.time_meal);
-            close_a = (ImageView) view.findViewById(R.id.close_al);
-            bac = (RelativeLayout) view.findViewById(R.id.cv_alam);
-        }
-    }
+	}
+
+	@Override
+	public int getItemCount() {
+		return list.size();
+	}
+
+	public class Holder extends RecyclerView.ViewHolder {
+		public TextView titleText_a;
+		public TextView timeText_a;
+		public ImageView close_a;
+		public RelativeLayout bac;
+
+
+		public Holder(View view) {
+			super(view);
+			titleText_a = (TextView) view.findViewById(R.id.title_meal);
+			timeText_a = (TextView) view.findViewById(R.id.time_meal);
+			close_a = (ImageView) view.findViewById(R.id.close_al);
+			bac = (RelativeLayout) view.findViewById(R.id.cv_alam);
+		}
+	}
 }

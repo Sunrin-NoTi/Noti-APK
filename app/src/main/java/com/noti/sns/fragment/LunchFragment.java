@@ -189,7 +189,10 @@ public class LunchFragment extends Fragment {
 							jo.put("hour", timePicker.getCurrentHour());
 							jo.put("min", timePicker.getCurrentMinute());
 							jo.put("id", pref.getString("save_id",""));
-							Connection.sendJSON(getString(R.string.url) + "/alarm/", jo.toString());
+							String[] response = Connection.sendJSON(getString(R.string.url) + "/alarm/", jo.toString());
+							if(response[1].equals("alarm_failed:nonexistent")){
+								// 이런식으로
+							}
 						} catch (Exception e) {
 
 						}
