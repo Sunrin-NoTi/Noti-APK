@@ -34,6 +34,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         SharedPreferences pref = this.getSharedPreferences("save", 0);
         SharedPreferences.Editor edit = pref.edit();
+        final boolean[] new_month = {false};
         if (data.size() > 0) {
             if (data.containsKey("type")) {
                 NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -51,7 +52,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 } else {
                     builder = new Notification.Builder(this);
                 }
-                final boolean[] new_month = {false};
+
 
                 if ((pref.getInt("mealMonth", 0) != today.getMonth() + 1)) {
                     new_month[0] = true;
@@ -82,7 +83,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 }
 
 
-                builder.setSmallIcon(android.R.drawable.star_on);
+                builder.setSmallIcon(R.drawable.bellxxxhdpi);
                 builder.setContentText("식단");
                 builder.setWhen(System.currentTimeMillis());
                 builder.setSmallIcon(R.mipmap.ic_launcher);
