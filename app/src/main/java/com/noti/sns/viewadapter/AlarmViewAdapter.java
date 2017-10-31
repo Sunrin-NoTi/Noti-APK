@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.noti.sns.fragment.LunchFragment;
 import com.noti.sns.listitem.AlarmListItem;
@@ -62,15 +63,18 @@ public class AlarmViewAdapter extends RecyclerView.Adapter<AlarmViewAdapter.Hold
 				jo.put("type", list.get(position).wmeal);
 				jo.put("id", pref.getString("save_id", ""));
 				String[] response = Connection.sendJSON("jaeheon.com:8000/alarmr/", jo.toString());
-				if (response[1].equals("alarm_failed:nonexistent")) {
+				if (response[1].equals("alarm_remove_success")) {
 					// 이런식으로
+					list.remove(position);
+					Listsave.MealAlamList.put_Alam_List((ArrayList<AlarmListItem>) list);
+					LunchFragment.refresh();
+				}else{
+					Toast.makeText(context, "일시적인 오류입니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
 				}
 			} catch (Exception e) {
-
+				Toast.makeText(context, "인터넷 연결이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
 			}
-			list.remove(position);
-			Listsave.MealAlamList.put_Alam_List((ArrayList<AlarmListItem>) list);
-			LunchFragment.refresh();
+
 		});
 
 

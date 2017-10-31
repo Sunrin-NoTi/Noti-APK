@@ -176,7 +176,6 @@ public class LunchFragment extends Fragment {
 						default:
 					}
 					if (Alarm_isNaN(radioGroup.getCheckedRadioButtonId())) {
-						Listsave.MealAlamList.add(mealw[0], timePicker.getCurrentHour(), timePicker.getCurrentMinute());
 						JSONObject jo = new JSONObject();
 						/*
 			                alarm_failed:nonexistent //계정없음
@@ -190,11 +189,13 @@ public class LunchFragment extends Fragment {
 							jo.put("min", timePicker.getCurrentMinute());
 							jo.put("id", pref.getString("save_id",""));
 							String[] response = Connection.sendJSON(getString(R.string.url) + "/alarm/", jo.toString());
-							if(response[1].equals("alarm_failed:nonexistent")){
-								// 이런식으로
+							if(response[1].equals("alarm_success")){
+								Listsave.MealAlamList.add(mealw[0], timePicker.getCurrentHour(), timePicker.getCurrentMinute());
+							}else{
+								Toast.makeText(getActivity(), "일시적인 오류입니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
 							}
 						} catch (Exception e) {
-
+							Toast.makeText(getActivity(), "인터넷 연결이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
 						}
 						refresh();
 					} else
