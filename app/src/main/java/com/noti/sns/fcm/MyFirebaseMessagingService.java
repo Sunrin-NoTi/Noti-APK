@@ -51,19 +51,23 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 } else {
                     builder = new Notification.Builder(this);
                 }
+                final boolean[] new_month = {false};
 
                 if ((pref.getInt("mealMonth", 0) != today.getMonth() + 1)) {
+                    new_month[0] = true;
                     //다운로드 안되있음
                     //파싱을 활용한 다운로드
                     new Thread() {
                         @Override
                         public void run() {
                             try {
-                                School api = new School(School.Type.HIGH, School.Region.SEOUL, pref.getString("school_use",""));
-                                if(pref.getString("school_use","").equals("")){
+                                School api = new School(School.Type.HIGH, School.Region.SEOUL, pref.getString("school_use", ""));
 
-                                }else{
+                                if (pref.getString("school_use", "").equals("")) {
+
+                                } else {
                                     Listsave.SaveSchool.put_meal_month(api.getMonthlyMenu(today.getYear() + 1900, today.getMonth() + 1), today.getMonth() + 1);//교육청 파싱하여 급식 불러옴
+                                    new_month[0] = false;
                                     //다운받아진 달 저장
                                     edit.putInt("mealMonth", today.getMonth() + 1);
                                     edit.commit();
@@ -78,28 +82,35 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 }
 
 
-
-                List<SchoolMenu> ex = Listsave.SaveSchool.get_meal_month(today.getMonth() + 1);
-
                 builder.setSmallIcon(android.R.drawable.star_on);
                 builder.setContentText("식단");
                 builder.setWhen(System.currentTimeMillis());
                 builder.setSmallIcon(R.mipmap.ic_launcher);
                 builder.setContentIntent(pendingIntent);
                 builder.setAutoCancel(true);
+                List<SchoolMenu> ex = Listsave.SaveSchool.get_meal_month(today.getMonth() + 1);
                 if (data.get("type").equals("조식")) { //아침 알람
 
                     builder.setContentTitle("조식 알림");
-                    meal = ex.get(today.getDate() - 1).lunch.split("dses\n");
+                    if (new_month[0])
+                        meal = new String[]{"급식 다운로드 오류입니다!"};
+                    else
+                        meal = ex.get(today.getDate() - 1).breakfast.split("\n");
 
                 } else if (data.get("type").equals("중식")) { //점심 알람
 
                     builder.setContentTitle("중식 알림");
-                    meal = ex.get(today.getDate() - 1).lunch.split("\n");
+                    if (new_month[0])
+                        meal = new String[]{"급식 다운로드 오류입니다!"};
+                    else
+                        meal = ex.get(today.getDate() - 1).lunch.split("\n");
 
                 } else if (data.get("type").equals("석식")) { //저녁 알람
                     builder.setContentTitle("석식 알림");
-                    meal = ex.get(today.getDate() - 1).lunch.split("\n");
+                    if (new_month[0])
+                        meal = new String[]{"급식 다운로드 오류입니다!"};
+                    else
+                        meal = ex.get(today.getDate() - 1).dinner.split("\n");
 
                 }
                 Notification.InboxStyle inboxStyle = null;
