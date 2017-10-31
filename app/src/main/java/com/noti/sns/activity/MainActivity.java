@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 		Intent intent_register = new Intent(this, RegisterActivity.class);//회원가입 액티비티 인텐트
+        Intent intent_help = new Intent(this, HelpActivity.class);//회원가입 액티비티 인텐트
 
 		ImageView login_btn = findViewById(R.id.login_btn);//로그인 버튼 객체
 		ImageView register_btn = findViewById(R.id.register_btn);//회원가입 버튼 객체
@@ -116,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
 		register_btn.setOnTouchListener((view, motionEvent) -> BtnPress.smallBTN(motionEvent, register_btn));//버튼 눌리는 처리
 
 		//비밀번호 찾기 인텐트 실행
-		passwd_btn.setOnClickListener(view -> Log.e("미구현", "ㅇㄹㅇ"));
+		passwd_btn.setOnClickListener(view -> startActivity(intent_help));
 		passwd_btn.setOnTouchListener((view, motionEvent) -> BtnPress.smallBTN(motionEvent, passwd_btn));//버튼 눌리는 처리
 	}
 

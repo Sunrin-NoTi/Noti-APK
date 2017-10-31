@@ -89,6 +89,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 				String title = remoteMessage.getNotification().getTitle(); //제목
 				String msg = remoteMessage.getNotification().getBody(); //메세지
 				Listsave.HomeCardList.add(title, year + "." + month + "." + date + ".", msg);
+				sendNotification();
 			}
 		}
 	}
@@ -96,7 +97,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		Intent go_main = new Intent(this, MainActivity.class);
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, go_main, PendingIntent.FLAG_UPDATE_CURRENT);
-
+		Log.e("send","noti");
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 			NotificationChannel notificationChannel = new NotificationChannel("my_notification_channel", "My Notifications", NotificationManager.IMPORTANCE_DEFAULT);
 

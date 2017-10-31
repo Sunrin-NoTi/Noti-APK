@@ -23,6 +23,9 @@
         <activity android:name=".activity.RegisterActivity">
 
         </activity>
+        <activity android:name=".activity.HelpActivity">
+
+        </activity>
         <activity android:name=".activity.MenuActivity">
 
         </activity>
