@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -91,7 +92,27 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 			}
 		}
 	}
-	private void sendNotification(String title, String body){
+	private void sendNotification(){
+		NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		Intent go_main = new Intent(this, MainActivity.class);
+		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, go_main, PendingIntent.FLAG_UPDATE_CURRENT);
 
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			NotificationChannel notificationChannel = new NotificationChannel("my_notification_channel", "My Notifications", NotificationManager.IMPORTANCE_DEFAULT);
+
+			notificationChannel.setDescription("Channel description");
+			notificationChannel.enableLights(true);
+			notificationChannel.setLightColor(Color.RED);
+			nm.createNotificationChannel(notificationChannel);
+		}
+		NotificationCompat.Builder builder = new NotificationCompat.Builder(this,"my_notification_channel");
+		builder.setContentTitle("SNS 알림")
+				.setContentText("새로운 공지가 추가되었습니다.")
+				.setSmallIcon(R.drawable.bellxxxhdpi)
+				.setContentIntent(contentIntent)
+				.setAutoCancel(true)
+				.setDefaults(Notification.DEFAULT_ALL)
+				.setOngoing(true);
+		nm.notify(0, builder.build());
 	}
 }
