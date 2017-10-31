@@ -51,6 +51,11 @@ public class AlarmViewAdapter extends RecyclerView.Adapter<AlarmViewAdapter.Hold
         holder.timeText_a.setText(list.get(position).hour + ":" + min);
 
         holder.close_a.setOnClickListener(view -> {
+        	/*
+        	    alarm_remove_failed:nonexistent //계정없음
+				alarm_remove_failed:password
+				alarm_remove_success
+        	 */
             JSONObject jo = new JSONObject();
             try {
                 jo.put("pw", pref.getString("save_pw",""));

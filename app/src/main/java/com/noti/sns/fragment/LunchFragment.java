@@ -178,6 +178,11 @@ public class LunchFragment extends Fragment {
 					if (Alarm_isNaN(radioGroup.getCheckedRadioButtonId())) {
 						Listsave.MealAlamList.add(mealw[0], timePicker.getCurrentHour(), timePicker.getCurrentMinute());
 						JSONObject jo = new JSONObject();
+						/*
+			                alarm_failed:nonexistent //계정없음
+							alarm_failed:password
+							alarm_success
+			             */
 						try {
 							jo.put("pw", pref.getString("save_pw",""));
 							jo.put("type", mealw[0]);
