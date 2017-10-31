@@ -90,18 +90,23 @@ class RegisterActivity : AppCompatActivity() {
         js.put("room", room)
         js.put("school", school)
         response = Connection.sendJSON(getString(R.string.url) + "/reg/", js.toString())
-        if (response[1] == "register_success") {
-            Toast.makeText(this, "회원가입 성공. 이메일 인증을 진행해주세요.", Toast.LENGTH_SHORT).show()
+        try {
+            if (response[1] == "register_success") {
+                Toast.makeText(this, "회원가입 성공. 이메일 인증을 진행해주세요.", Toast.LENGTH_SHORT).show()
 
-            finish()
-        } else if (response[1] == "register_failed:existent_account") {
+                finish()
+            } else if (response[1] == "register_failed:existent_account") {
 
-            Toast.makeText(this, "이미 계정이 있습니다.", Toast.LENGTH_SHORT).show()
-        } else if (response[1] == "register_failed:nonexistent_room") {
+                Toast.makeText(this, "이미 계정이 있습니다.", Toast.LENGTH_SHORT).show()
+            } else if (response[1] == "register_failed:nonexistent_room") {
 
-            Toast.makeText(this, "방이 없습니다.", Toast.LENGTH_SHORT).show()
-        } else if (response[1] == "") {
-            Toast.makeText(this, "오류입니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "방이 없습니다.", Toast.LENGTH_SHORT).show()
+            } else if (response[1] == "") {
+                Toast.makeText(this, "오류입니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+            }
+        }catch (e:Exception){
+            Toast.makeText(this, "인터넷 연결이 원활하지 않습니다.", Toast.LENGTH_SHORT).show()
         }
+
     }
 }
