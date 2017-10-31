@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
 	public static SharedPreferences.Editor edit;
 	public static School api;
 	public static String id;
-	public static String pw;
 	boolean btn_once;
 	@SuppressLint("ClickableViewAccessibility")
 	@Override
@@ -49,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
 		//세어드 프리퍼런스 초기화
 		pref = this.getSharedPreferences("save", 0);
 		edit = pref.edit();
+		if(!pref.getBoolean("see_tu",false))
+		    startActivity(new Intent(this,HelpActivity.class));
+
 		Log.e("sd", String.valueOf(pref.getBoolean("save_login",false)));
 
 

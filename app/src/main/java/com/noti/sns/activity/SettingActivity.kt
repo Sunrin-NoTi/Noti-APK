@@ -39,8 +39,8 @@ class SettingActivity : PreferenceActivity(), Preference.OnPreferenceClickListen
         check_down = true
         val setting_activity_up : Preference = findPreference("setting_activity_up")
         setting_activity_up.setOnPreferenceClickListener (this)
-        val setting_activity_roomname : Preference = findPreference("setting_activity_roomname")
-        setting_activity_roomname.setOnPreferenceClickListener (this)
+        val setting_activity_help : Preference = findPreference("setting_activity_help")
+        setting_activity_help.setOnPreferenceClickListener (this)
         val setting_activity_logout : Preference = findPreference("setting_activity_logout")
         setting_activity_logout.setOnPreferenceClickListener (this)
 
@@ -113,7 +113,8 @@ class SettingActivity : PreferenceActivity(), Preference.OnPreferenceClickListen
                 } catch (e: SchoolException) {
                 }
             }.start()
-        } else if (p0.getKey().equals("setting_activity_roomname")) {
+        } else if (p0.getKey().equals("setting_activity_help")) {
+            startActivity(Intent(this,HelpActivity::class.java))
         } else if (p0.getKey().equals("setting_activity_logout")) {
             edit.putBoolean("save_login",false);
             edit.putBoolean("first",true);

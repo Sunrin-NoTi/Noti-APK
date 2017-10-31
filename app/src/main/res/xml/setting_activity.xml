@@ -28,8 +28,8 @@
             android:summary="바뀐 학사일정을 동기화 시킵니다."
             android:selectable="true"/>
         <EditTextPreference
-            android:key="setting_activity_roomname"
-            android:title="방 이름 재설정"
+            android:key="setting_activity_help"
+            android:title="도움말 보기"
             android:inputType="text"/>
         <Preference
             android:key="setting_activity_logout"

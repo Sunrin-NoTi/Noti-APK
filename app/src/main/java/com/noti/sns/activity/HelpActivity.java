@@ -1,9 +1,12 @@
 package com.noti.sns.activity;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import com.noti.sns.R;
@@ -18,9 +21,12 @@ import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.GestureDetector.OnGestureListener;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class HelpActivity extends Activity implements OnGestureListener {
 
@@ -32,15 +38,18 @@ public class HelpActivity extends Activity implements OnGestureListener {
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
 
     private GestureDetector gestureScanner;
+    static SharedPreferences pref;
+    static SharedPreferences.Editor edit;
     static int positon;
-    static int image[];
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        pref = this.getSharedPreferences("save", 0);
+        edit = pref.edit();
         super.onCreate(savedInstanceState);
         gestureScanner = new GestureDetector(this);
         setContentView(R.layout.activity_help);
         positon = 0;
-        image = {R.drawable.}
+        change(positon);
     }
 
     @Override
@@ -59,21 +68,62 @@ public class HelpActivity extends Activity implements OnGestureListener {
 
             // right to left swipe
             if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                Toast.makeText(getApplicationContext(), "Left Swipe", Toast.LENGTH_SHORT).show();
+                positon++;
+                if(positon > 4)
+                    positon = 4;
+                change(positon);
             }
             // left to right swipe
             else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                Toast.makeText(getApplicationContext(), "Right Swipe", Toast.LENGTH_SHORT).show();
+
+                positon--;
+                if(positon < 0)
+                    positon = 0;
+                change(positon);
             }
         } catch (Exception e) {
 
         }
         return true;
     }
+    void change(int p0){
+
+        ImageView img = findViewById(R.id.help_image);
+        ImageView dot[] = new ImageView[5];
+        dot[0] = findViewById(R.id.dot_0);
+        dot[1] = findViewById(R.id.dot_1);
+        dot[2] = findViewById(R.id.dot_2);
+        dot[3] = findViewById(R.id.dot_3);
+        dot[4] = findViewById(R.id.dot_4);
+        for(int i = 0;i<5;i++)
+            dot[i].setImageResource(R.drawable.non_action);
+        dot[p0].setImageResource(R.drawable.btn_design);
+        TextView tex = findViewById(R.id.help_info);
+        switch (p0){
+            case 0:
+                img.setImageResource(R.drawable.ic_supervisor_account_black_24dp);
+                tex.setText("먼저 선생님께 방 이름을 받고\n회원가입 할 때 방 이름을 넣으세요");
+                break;
+            case 1:
+                img.setImageResource(R.drawable.ic_network_wifi_black_24dp);
+                tex.setText("SNS는 인터넷 연결이 필요합니다.");
+                break;
+            case 2:
+                img.setImageResource(R.drawable.ic_timeline_black_24dp);
+                tex.setText("홈에는 선생님들이 보낸 공지들이\n카드뷰로 보여집니다.");
+                break;
+            case 3:
+                img.setImageResource(R.drawable.ic_access_alarm_black_24dp);
+                tex.setText("급식을 원하는 시간에\n알림을 받으세요");
+                break;
+            case 4:
+                img.setImageResource(R.drawable.ic_check_black_24dp);
+                tex.setText("화면을 터치히여 앱을 시작하세요!");
+                break;
+        }
+    }
 
     public void onLongPress(MotionEvent e) {
-        Toast mToast = Toast.makeText(getApplicationContext(), "Long Press", Toast.LENGTH_SHORT);
-        mToast.show();
     }
 
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
@@ -83,9 +133,21 @@ public class HelpActivity extends Activity implements OnGestureListener {
     public void onShowPress(MotionEvent e) {
     }
 
+    @Override
+    public void onBackPressed() {
+        if (!pref.getBoolean("see_tu",false))
+            ActivityCompat.finishAffinity(this);
+        else
+            super.onBackPressed();
+    }
+
     public boolean onSingleTapUp(MotionEvent e) {
-        Toast mToast = Toast.makeText(getApplicationContext(), "Single Tap", Toast.LENGTH_SHORT);
-        mToast.show();
+        if(positon == 4) {
+            edit.putBoolean("see_tu",true);
+            edit.commit();
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
         return true;
     }
 
