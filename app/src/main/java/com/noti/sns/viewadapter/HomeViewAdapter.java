@@ -24,19 +24,15 @@ import android.widget.TextView;
 
 import com.noti.sns.R;
 import com.noti.sns.activity.MainActivity;
-import com.noti.sns.fragment.HomeFragment;
 import com.noti.sns.listitem.HomeCardListItem;
 import com.noti.sns.utility.Dday;
 import com.noti.sns.utility.Listsave;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 
 public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.Holder> implements HomeItemTouchHelperView.OnItemMoveListener {
 
-    public static NotificationManager notimanager;
-    public static NotificationCompat.Builder builder;
     private Context context;
     private ArrayList<HomeCardListItem> list = new ArrayList<>();
     public OnStartDragListener mStartDragListener;
@@ -66,19 +62,19 @@ public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.Holder
         int itemposition = position;
         boolean[] seemore_Check = new boolean[list.size()];
 
-        for (int i =0;i<list.size();i++)
+        for (int i = 0; i < list.size(); i++)
             seemore_Check[i] = false;
 
 
-        String short_inside = list.get(itemposition).inside.length()<=12?list.get(itemposition).inside:list.get(itemposition).inside.substring(0,12)+"...";
-        if(list.get(itemposition).inside.length()<=12)
+        String short_inside = list.get(itemposition).inside.length() <= 12 ? list.get(itemposition).inside : list.get(itemposition).inside.substring(0, 12) + "...";
+        if (list.get(itemposition).inside.length() <= 12)
             holder.btn_see_more.setText("");
-        Log.e("12",list.get(itemposition).subtitle);
-        int dday = Dday.caldate(Integer.parseInt(list.get(itemposition).subtitle.substring(0,4)),Integer.parseInt(list.get(itemposition).subtitle.substring(5,7)),Integer.parseInt(list.get(itemposition).subtitle.substring(8,10)));
+        int dday = Dday.caldate(Integer.parseInt(list.get(itemposition).subtitle.split("\\.")[0]), Integer.parseInt(list.get(itemposition).subtitle.split("\\.")[1]), Integer.parseInt(list.get(itemposition).subtitle.split("\\.")[2]));
+
 
         holder.titleText.setText(list.get(itemposition).title);
 
-        if(dday == 0)
+        if (dday == 0)
             holder.subTitleText.setText("D-day");
         else
             holder.subTitleText.setText("D" + dday);
@@ -100,12 +96,11 @@ public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.Holder
         });
 
         holder.btn_see_more.setOnClickListener(view -> {
-            if(seemore_Check[itemposition]){
+            if (seemore_Check[itemposition]) {
                 holder.btn_see_more.setText("See More");
                 seemore_Check[itemposition] = false;
                 holder.insideText.setText(short_inside);
-            }
-            else{
+            } else {
                 holder.btn_see_more.setText("Hide");
                 seemore_Check[itemposition] = true;
                 holder.insideText.setText(list.get(itemposition).inside);
@@ -126,9 +121,9 @@ public class HomeViewAdapter extends RecyclerView.Adapter<HomeViewAdapter.Holder
         }
 
         holder.btn_pin.setOnClickListener(view -> {
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context,"my_notification_channel");
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "my_notification_channel");
             builder.setContentTitle(list.get(itemposition).title)
-                    .setContentText(list.get(itemposition).subtitle+"까지")
+                    .setContentText(list.get(itemposition).subtitle + "까지")
                     .setSmallIcon(R.drawable.bellxxxhdpi)
                     .setContentIntent(contentIntent)
                     .setAutoCancel(true)

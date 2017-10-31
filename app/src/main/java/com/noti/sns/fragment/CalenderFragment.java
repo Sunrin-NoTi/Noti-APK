@@ -116,11 +116,11 @@ public class CalenderFragment extends Fragment {
     }
 
 
-    public static void refresh(){
+    public static void refresh() {
         contacts_t = new ArrayList<>();//타임라인 리스트 초기화
         schedule_ForCalender = Listsave.SaveSchool.get_Hac();//학사일정 초기화
         Date today = new Date();
-        int c_year = today.getMonth()==0||today.getMonth()==1?today.getYear()-1:today.getYear();
+        int c_year = today.getMonth() == 0 || today.getMonth() == 1 ? today.getYear() - 1 : today.getYear();
         if (schedule_ForCalender.size() != 0)
             //0아닐때만 추가 실행
             contacts_t = make_contact(c_year, new Date().getMonth(), new Date().getDate());
@@ -142,11 +142,12 @@ public class CalenderFragment extends Fragment {
 
         recyclerView_t.setAdapter(adapter_t);
     }
+
     //이벤트 모두 생성
     static ArrayList<TimeLineListItem> make_contact(int year, int month, int dayOfMonth) {
         ArrayList<TimeLineListItem> contacts_t = new ArrayList<>();
         Date today = new Date();
-        int c_year = today.getMonth()==0||today.getMonth()==1?today.getYear()-1:today.getYear();
+        int c_year = today.getMonth() == 0 || today.getMonth() == 1 ? today.getYear() - 1 : today.getYear();
         if (schedule_ForCalender.get(month).get(dayOfMonth - 1).schedule.equals("") || ((month >= 2 && year != c_year) || (month < 2 && year != c_year + 1)))
             contacts_t.add(new TimeLineListItem(year + 1900 + "년 " + (month + 1) + "월 " + dayOfMonth + "일", "이 날은 학사일정이 없습니다."));
         if (year < c_year) {

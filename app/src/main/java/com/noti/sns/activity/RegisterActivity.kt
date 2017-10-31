@@ -21,12 +21,6 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        //일정 버전에서 전체화면 지원
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            val w: Window = window
-//            w.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-//            w.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
-//        }
 
         //확인 버튼 클릭시 팝업 뒤쪽 못건드리게
         register_confirm.setOnClickListener {
@@ -49,8 +43,8 @@ class RegisterActivity : AppCompatActivity() {
 
         //방 이름 확인 누를때
         pin_btn.setOnClickListener {
-            if(roomNameEdit.text.equals(""))
-                Toast.makeText(this,"방 이름이 빈칸입니다.",Toast.LENGTH_SHORT).show()
+            if (roomNameEdit.text.equals(""))
+                Toast.makeText(this, "방 이름이 빈칸입니다.", Toast.LENGTH_SHORT).show()
             else {
                 register(reg_email.text, reg_password.text, reg_schnum.text, reg_name.text, roomNameEdit.text, reg_school.text)
             }
@@ -97,18 +91,17 @@ class RegisterActivity : AppCompatActivity() {
         js.put("school", school)
         response = Connection.sendJSON(getString(R.string.url) + "/reg/", js.toString())
         if (response[1] == "register_success") {
-            Toast.makeText(this,"회원가입 성공.",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "회원가입 성공. 이메일 인증을 진행해주세요.", Toast.LENGTH_SHORT).show()
 
             finish()
-        }else if(response[1] == "register_failed:existent_account") {
+        } else if (response[1] == "register_failed:existent_account") {
 
-            Toast.makeText(this,"이미 계정이 있습니다.",Toast.LENGTH_SHORT).show()
-        }else if(response[1] == "register_failed:nonexistent_room") {
+            Toast.makeText(this, "이미 계정이 있습니다.", Toast.LENGTH_SHORT).show()
+        } else if (response[1] == "register_failed:nonexistent_room") {
 
-            Toast.makeText(this,"방이 없습니다.",Toast.LENGTH_SHORT).show()
-        }
-        else if (response[1] == "") {
-            Toast.makeText(this,"오류입니다. 다시 시도해주세요.",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "방이 없습니다.", Toast.LENGTH_SHORT).show()
+        } else if (response[1] == "") {
+            Toast.makeText(this, "오류입니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
         }
     }
 }

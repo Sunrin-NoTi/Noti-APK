@@ -8,6 +8,7 @@ public class HomeItemTouchHelperView extends ItemTouchHelper.Callback {
     public interface OnItemMoveListener {
         void onItemMove(int fromPosition, int toPosition);
     }
+
     private final OnItemMoveListener mItemMoveListener;
 
     public HomeItemTouchHelperView(OnItemMoveListener listener) {
@@ -23,7 +24,7 @@ public class HomeItemTouchHelperView extends ItemTouchHelper.Callback {
 
     @Override
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-        mItemMoveListener.onItemMove(viewHolder.getAdapterPosition(),target.getAdapterPosition());
+        mItemMoveListener.onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
         return true;
     }
 

@@ -41,6 +41,7 @@ public class HelpActivity extends Activity implements OnGestureListener {
     static SharedPreferences pref;
     static SharedPreferences.Editor edit;
     static int positon;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         pref = this.getSharedPreferences("save", 0);
@@ -69,7 +70,7 @@ public class HelpActivity extends Activity implements OnGestureListener {
             // right to left swipe
             if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                 positon++;
-                if(positon > 4)
+                if (positon > 4)
                     positon = 4;
                 change(positon);
             }
@@ -77,7 +78,7 @@ public class HelpActivity extends Activity implements OnGestureListener {
             else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 
                 positon--;
-                if(positon < 0)
+                if (positon < 0)
                     positon = 0;
                 change(positon);
             }
@@ -86,7 +87,8 @@ public class HelpActivity extends Activity implements OnGestureListener {
         }
         return true;
     }
-    void change(int p0){
+
+    void change(int p0) {
 
         ImageView img = findViewById(R.id.help_image);
         ImageView dot[] = new ImageView[5];
@@ -95,11 +97,11 @@ public class HelpActivity extends Activity implements OnGestureListener {
         dot[2] = findViewById(R.id.dot_2);
         dot[3] = findViewById(R.id.dot_3);
         dot[4] = findViewById(R.id.dot_4);
-        for(int i = 0;i<5;i++)
+        for (int i = 0; i < 5; i++)
             dot[i].setImageResource(R.drawable.non_action);
         dot[p0].setImageResource(R.drawable.btn_design);
         TextView tex = findViewById(R.id.help_info);
-        switch (p0){
+        switch (p0) {
             case 0:
                 img.setImageResource(R.drawable.ic_supervisor_account_black_24dp);
                 tex.setText("먼저 선생님께 방 이름을 받고\n회원가입 할 때 방 이름을 넣으세요");
@@ -135,15 +137,15 @@ public class HelpActivity extends Activity implements OnGestureListener {
 
     @Override
     public void onBackPressed() {
-        if (!pref.getBoolean("see_tu",false))
+        if (!pref.getBoolean("see_tu", false))
             ActivityCompat.finishAffinity(this);
         else
             super.onBackPressed();
     }
 
     public boolean onSingleTapUp(MotionEvent e) {
-        if(positon == 4) {
-            edit.putBoolean("see_tu",true);
+        if (positon == 4) {
+            edit.putBoolean("see_tu", true);
             edit.commit();
             startActivity(new Intent(this, MainActivity.class));
             finish();

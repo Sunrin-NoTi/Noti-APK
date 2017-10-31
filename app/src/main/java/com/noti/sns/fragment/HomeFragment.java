@@ -42,7 +42,7 @@ public class HomeFragment extends Fragment implements HomeViewAdapter.OnStartDra
         recyclerView = rootView.findViewById(R.id.recyclerView);
         contacts = Listsave.HomeCardList.get_Home_List();
         TextView non = rootView.findViewById(R.id.non_home);
-        if(contacts.size()==0)
+        if (contacts.size() == 0)
             non.setVisibility(View.VISIBLE);
         else
             non.setVisibility(View.GONE);
@@ -60,11 +60,12 @@ public class HomeFragment extends Fragment implements HomeViewAdapter.OnStartDra
         return rootView;
     }
 
-    public static void refresh(){
+    public static void refresh() {
         contacts = Listsave.HomeCardList.get_Home_List();
         adapter = new HomeViewAdapter(homeFragment, contacts, this_home);
         recyclerView.setAdapter(adapter);
     }
+
     @Override
     public void onPause() {
         super.onPause();
