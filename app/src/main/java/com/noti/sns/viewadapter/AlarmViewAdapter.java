@@ -13,10 +13,15 @@ import android.widget.TextView;
 import com.noti.sns.fragment.LunchFragment;
 import com.noti.sns.listitem.AlarmListItem;
 import com.noti.sns.R;
+import com.noti.sns.server.Connection;
 import com.noti.sns.utility.Listsave;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.noti.sns.activity.MainActivity.pref;
 
 
 public class AlarmViewAdapter extends RecyclerView.Adapter<AlarmViewAdapter.Holder> {
@@ -46,6 +51,15 @@ public class AlarmViewAdapter extends RecyclerView.Adapter<AlarmViewAdapter.Hold
         holder.timeText_a.setText(list.get(position).hour + ":" + min);
 
         holder.close_a.setOnClickListener(view -> {
+            JSONObject jo = new JSONObject();
+            try {
+                jo.put("pw", pref.getString("save_pw",""));
+                jo.put("type",list.get(position).wmeal);
+                jo.put("id", pref.getString("save_id",""));
+                Connection.sendJSON("jaeheon.com:8000/alarmr/", jo.toString());
+            } catch (Exception e) {
+
+            }
             list.remove(position);
             Listsave.MealAlamList.put_Alam_List((ArrayList<AlarmListItem>) list);
             LunchFragment.refresh();
